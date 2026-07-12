@@ -8,6 +8,7 @@ import {
   boolean,
   pgEnum,
   index,
+  unique,
 } from "drizzle-orm/pg-core";
 import { categories } from "./categories";
 import { users } from "./users";
@@ -92,11 +93,33 @@ export const rewardRedemptions = pgTable(
 
 
 
+export const userXpTransactions = pgTable(
+  "user_xp",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id").notNull(),
+    amount: integer("amount").notNull(),
+    reason: varchar("reason", { length: 255 }).notNull(),
+    referenceId: varchar("reference_id", { length: 255 }).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    userIdIdx: index("user_xp_user_id_idx").on(table.userId),
+    uniqueReference: unique("unique_user_xp_reference").on(
+      table.userId,
+      table.referenceId
+    ),
+  })
+);
+
 export type Challenge = typeof challenges.$inferSelect;
 export type NewChallenge = typeof challenges.$inferInsert;
 export type ChallengeParticipation = typeof challengeParticipations.$inferSelect;
 export type NewChallengeParticipation = typeof challengeParticipations.$inferInsert;
 export type RewardRedemption = typeof rewardRedemptions.$inferSelect;
 export type NewRewardRedemption = typeof rewardRedemptions.$inferInsert;
+export type UserXpTransaction = typeof userXpTransactions.$inferSelect;
+export type NewUserXpTransaction = typeof userXpTransactions.$inferInsert;
+
 
 

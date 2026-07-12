@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Eye } from "lucide-react";
+import { Plus, Pencil, Trash2, Eye, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { EmptyState } from "@/components/shared/empty-state";
-import { createPolicy, updatePolicy, deletePolicy } from "@/actions/policies";
+import { createPolicy, updatePolicy, deletePolicy, acknowledgePolicy } from "@/actions/policies";
 import type { Policy } from "@/db/schema";
 
 const statusColors: Record<string, string> = {
@@ -21,7 +21,13 @@ const statusColors: Record<string, string> = {
   archived: "bg-muted text-muted-foreground",
 };
 
-export function PoliciesClient({ policies }: { policies: Policy[] }) {
+export function PoliciesClient({
+  policies,
+  initialAcknowledgements,
+}: {
+  policies: Policy[];
+  initialAcknowledgements: any[];
+}) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [viewOpen, setViewOpen] = useState(false);
@@ -29,6 +35,9 @@ export function PoliciesClient({ policies }: { policies: Policy[] }) {
   const [deleting, setDeleting] = useState<Policy | null>(null);
   const [viewing, setViewing] = useState<Policy | null>(null);
   const [loading, setLoading] = useState(false);
+  const [acknowledgements, setAcknowledgements] = useState<string[]>(
+    initialAcknowledgements?.map((a) => a.policyId) || []
+  );
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -54,6 +63,18 @@ export function PoliciesClient({ policies }: { policies: Policy[] }) {
     const result = await deletePolicy(deleting.id);
     setLoading(false);
     if ("success" in result) { toast.success("Deleted"); setDeleteOpen(false); } else { toast.error("Failed"); }
+  }
+
+  async function handleAcknowledge(policyId: string) {
+    setLoading(true);
+    const res = await acknowledgePolicy(policyId);
+    setLoading(false);
+    if ("error" in res) {
+      toast.error(res.error || "Failed to acknowledge");
+    } else {
+      setAcknowledgements((prev) => [...prev, policyId]);
+      toast.success("Policy acknowledged! +5 XP awarded.");
+    }
   }
 
   return (
@@ -94,8 +115,41 @@ export function PoliciesClient({ policies }: { policies: Policy[] }) {
       {/* View Dialog */}
       <Dialog open={viewOpen} onOpenChange={setViewOpen}>
         <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader><DialogTitle>{viewing?.title} <span className="text-muted-foreground font-normal text-sm">v{viewing?.version}</span></DialogTitle></DialogHeader>
-          <div className="prose prose-invert max-w-none text-sm whitespace-pre-wrap">{viewing?.content}</div>
+          <DialogHeader>
+            <DialogTitle>
+              {viewing?.title}{" "}
+              <span className="text-muted-foreground font-normal text-sm">
+                v{viewing?.version}
+              </span>
+            </DialogTitle>
+          </DialogHeader>
+          <div className="prose prose-invert max-w-none text-sm whitespace-pre-wrap mb-6">
+            {viewing?.content}
+          </div>
+          {viewing?.status === "published" && (
+            <div className="flex items-center justify-between border-t border-[#221F2C] pt-4 mt-6">
+              <div>
+                {viewing && acknowledgements.includes(viewing.id) ? (
+                  <span className="text-eco-green flex items-center gap-1.5 text-sm font-semibold">
+                    <CheckCircle2 className="h-4.5 w-4.5 text-[#14b8a6]" /> Acknowledged
+                  </span>
+                ) : (
+                  <span className="text-muted-foreground text-sm">
+                    Please read and acknowledge this policy.
+                  </span>
+                )}
+              </div>
+              {viewing && !acknowledgements.includes(viewing.id) && (
+                <Button
+                  onClick={() => handleAcknowledge(viewing.id)}
+                  disabled={loading}
+                  className="bg-[#9B5CF6] hover:bg-[#8545e0] text-white font-semibold py-1.5 px-4 rounded-md shadow-lg transition duration-200"
+                >
+                  {loading ? "Acknowledging..." : "Acknowledge Policy (+5 XP)"}
+                </Button>
+              )}
+            </div>
+          )}
         </DialogContent>
       </Dialog>
 

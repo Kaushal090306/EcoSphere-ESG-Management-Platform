@@ -1,12 +1,13 @@
 "use server";
 
 import { db } from "@/db";
-import { policies } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { policies, policyAcknowledgements } from "@/db/schema";
+import { eq, and } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { policySchema, type PolicyFormData } from "@/lib/validations";
 
-import { checkRole } from "@/lib/auth-utils";
+import { checkRole, getSessionUser } from "@/lib/auth-utils";
+import { awardXp } from "@/actions/gamification";
 
 export async function getPolicies() {
   return db.select().from(policies).orderBy(policies.title);
@@ -65,3 +66,55 @@ export async function deletePolicy(id: string) {
     return { error: "Failed to delete policy" };
   }
 }
+
+export async function getPolicyAcknowledgements() {
+  const user = await getSessionUser();
+  if (!user?.id) return [];
+  return db
+    .select()
+    .from(policyAcknowledgements)
+    .where(eq(policyAcknowledgements.employeeId, user.id));
+}
+
+export async function acknowledgePolicy(policyId: string) {
+  const user = await getSessionUser();
+  if (!user?.id) return { error: "Please sign in to acknowledge policies." };
+
+  try {
+    const [existing] = await db
+      .select()
+      .from(policyAcknowledgements)
+      .where(
+        and(
+          eq(policyAcknowledgements.employeeId, user.id),
+          eq(policyAcknowledgements.policyId, policyId)
+        )
+      )
+      .limit(1);
+
+    if (existing) {
+      return { success: true, alreadyAcknowledged: true };
+    }
+
+    const [inserted] = await db
+      .insert(policyAcknowledgements)
+      .values({
+        employeeId: user.id,
+        policyId,
+        ipAddress: "127.0.0.1",
+      })
+      .returning();
+
+    // Award +5 XP for policy acknowledgement (referenceId is the acknowledgement record ID)
+    if (inserted) {
+      await awardXp(user.id, 5, "policy_acknowledgement", inserted.id);
+    }
+
+    revalidatePath("/governance/policies");
+    return { success: true };
+  } catch (error: any) {
+    console.error("Error acknowledging policy:", error);
+    return { error: error.message || "Failed to acknowledge policy." };
+  }
+}
+

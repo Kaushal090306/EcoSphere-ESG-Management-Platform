@@ -29,8 +29,8 @@ export type {
 export { policies, policyStatusEnum } from "./policies";
 export type { Policy, NewPolicy } from "./policies";
 
-export { badges } from "./badges";
-export type { Badge, NewBadge } from "./badges";
+export { badges, userBadges } from "./badges";
+export type { Badge, NewBadge, UserBadge, NewUserBadge } from "./badges";
 
 export { rewards, rewardStatusEnum } from "./rewards";
 export type { Reward, NewReward } from "./rewards";

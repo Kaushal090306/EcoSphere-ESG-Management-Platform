@@ -1,20 +1,12 @@
-import { db } from "@/db";
-import { users } from "@/db/schema";
-import { getDepartments } from "@/actions/departments";
-import { desc } from "drizzle-orm";
+import { getLeaderboards } from "@/actions/gamification";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Trophy, Medal, Crown } from "lucide-react";
+import { Trophy, Medal, Crown, Building2, Users } from "lucide-react";
+import { PageHeader } from "@/components/shared/page-header";
 
 export default async function LeaderboardPage() {
-  const [leaderboardUsers, departments] = await Promise.all([
-    db.select().from(users).orderBy(desc(users.xp)).limit(10),
-    getDepartments(),
-  ]);
-
-  const deptName = (id: string | null) =>
-    id ? departments.find((d) => d.id === id)?.name || "General" : "General";
+  const { employees, departments } = await getLeaderboards();
 
   const renderRankIcon = (rank: number) => {
     if (rank === 1) return <Crown className="h-5 w-5 text-amber-400 fill-amber-400" />;
@@ -25,64 +17,101 @@ export default async function LeaderboardPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight text-white">Sustainability Leaderboard</h1>
-        <p className="text-muted-foreground">
-          Celebrate top contributing employees and team champions
-        </p>
-      </div>
+      <PageHeader
+        title="Leaderboard & Standings"
+        description="Celebrate top individual contributors and watch departments compete for sustainability supremacy"
+        icon={Trophy}
+      />
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base">
-            <Trophy className="h-4 w-4 text-[#f59e0b]" />
-            Top 10 ESG Contributors
-          </CardTitle>
-          <CardDescription>
-            Rankings of users based on completed challenges, events, and training programs.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="p-0">
-          {leaderboardUsers.length === 0 ? (
-            <div className="p-8 text-center text-muted-foreground">
-              Leaderboard is empty. Be the first to earn points!
-            </div>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-16">Rank</TableHead>
-                  <TableHead>User Name</TableHead>
-                  <TableHead>Department</TableHead>
-                  <TableHead>Title/Role</TableHead>
-                  <TableHead className="text-right">Accumulated XP</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {leaderboardUsers.map((user, idx) => (
-                  <TableRow key={user.id} className={idx < 3 ? "bg-primary/5 hover:bg-primary/10" : ""}>
-                    <TableCell className="align-middle">
-                      {renderRankIcon(idx + 1)}
-                    </TableCell>
-                    <TableCell className="font-medium text-white align-middle">
-                      {user.name}
-                    </TableCell>
-                    <TableCell className="align-middle">{deptName(user.departmentId)}</TableCell>
-                    <TableCell className="align-middle">
-                      <Badge variant="outline" className="capitalize text-[10px]">
-                        {user.role.replace("_", " ")}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-right font-bold font-mono text-[#f59e0b] align-middle">
-                      {user.xp.toLocaleString()} XP
-                    </TableCell>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Employee Leaderboard */}
+        <Card className="border border-[#221F2C]">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base text-white">
+              <Trophy className="h-4 w-4 text-[#f59e0b]" /> Top Individual Contributors
+            </CardTitle>
+            <CardDescription>
+              Rankings of employees based on their overall sustainability contributions.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-0">
+            {employees.length === 0 ? (
+              <div className="p-8 text-center text-muted-foreground">
+                No XP has been earned yet. Start contributing to claim the top spot!
+              </div>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-b border-[#221F2C]">
+                    <TableHead className="w-16 text-muted-foreground">Rank</TableHead>
+                    <TableHead className="text-muted-foreground">Name</TableHead>
+                    <TableHead className="text-muted-foreground">Department</TableHead>
+                    <TableHead className="text-right text-muted-foreground">Total XP</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
+                </TableHeader>
+                <TableBody>
+                  {employees.map((user, idx) => (
+                    <TableRow key={user.id} className={`border-b border-[#221F2C] hover:bg-slate-900/30 ${idx < 3 ? "bg-purple-950/10 hover:bg-purple-950/20" : ""}`}>
+                      <TableCell className="align-middle">{renderRankIcon(idx + 1)}</TableCell>
+                      <TableCell className="font-medium text-white align-middle">{user.name}</TableCell>
+                      <TableCell className="align-middle text-muted-foreground">{user.departmentName || "General"}</TableCell>
+                      <TableCell className="text-right font-bold font-mono text-[#f59e0b] align-middle">
+                        {user.xp.toLocaleString()} XP
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Department Leaderboard */}
+        <Card className="border border-[#221F2C]">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base text-white">
+              <Building2 className="h-4 w-4 text-teal-400" /> Department Standings
+            </CardTitle>
+            <CardDescription>
+              Rankings of corporate departments based on the aggregate XP of their members.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-0">
+            {departments.length === 0 ? (
+              <div className="p-8 text-center text-muted-foreground">
+                No department standings recorded.
+              </div>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-b border-[#221F2C]">
+                    <TableHead className="w-16 text-muted-foreground">Rank</TableHead>
+                    <TableHead className="text-muted-foreground">Department Name</TableHead>
+                    <TableHead className="text-muted-foreground">Employees</TableHead>
+                    <TableHead className="text-right text-muted-foreground">Total XP</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {departments.map((dept, idx) => (
+                    <TableRow key={dept.id} className={`border-b border-[#221F2C] hover:bg-slate-900/30 ${idx < 3 ? "bg-teal-950/10 hover:bg-teal-950/20" : ""}`}>
+                      <TableCell className="align-middle">{renderRankIcon(idx + 1)}</TableCell>
+                      <TableCell className="font-medium text-white align-middle">{dept.name}</TableCell>
+                      <TableCell className="align-middle text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Users className="h-3.5 w-3.5" /> {dept.employeeCount}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-right font-bold font-mono text-teal-400 align-middle">
+                        {dept.totalXp.toLocaleString()} XP
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

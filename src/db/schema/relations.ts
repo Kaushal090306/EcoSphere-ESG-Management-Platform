@@ -4,7 +4,7 @@ import { departments } from "./departments";
 import { categories } from "./categories";
 import { emissionFactors } from "./emission-factors";
 import { policies } from "./policies";
-import { badges } from "./badges";
+import { badges, userBadges } from "./badges";
 import { rewards } from "./rewards";
 
 import { carbonTransactions } from "./environmental";
@@ -23,6 +23,7 @@ import {
   challenges,
   challengeParticipations,
   rewardRedemptions,
+  userXpTransactions,
 } from "./gamification";
 import { departmentScores } from "./scoring";
 import { notifications } from "./notifications";
@@ -173,6 +174,30 @@ export const rewardRedemptionsRelations = relations(
     reward: one(rewards, {
       fields: [rewardRedemptions.rewardId],
       references: [rewards.id],
+    }),
+  })
+);
+
+export const userXpTransactionsRelations = relations(
+  userXpTransactions,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [userXpTransactions.userId],
+      references: [users.id],
+    }),
+  })
+);
+
+export const userBadgesRelations = relations(
+  userBadges,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [userBadges.userId],
+      references: [users.id],
+    }),
+    badge: one(badges, {
+      fields: [userBadges.badgeId],
+      references: [badges.id],
     }),
   })
 );

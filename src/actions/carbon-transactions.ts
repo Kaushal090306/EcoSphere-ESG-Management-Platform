@@ -4,6 +4,8 @@ import { db } from "@/db";
 import { carbonTransactions } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { getSessionUser } from "@/lib/auth-utils";
+import { awardXp } from "@/actions/gamification";
 
 export async function getCarbonTransactions() {
   return db.select().from(carbonTransactions).orderBy(desc(carbonTransactions.date));
@@ -23,6 +25,12 @@ export async function createCarbonTransaction(data: {
       ...data,
       date: new Date(data.date),
     }).returning();
+
+    const user = await getSessionUser();
+    if (user?.id && result[0]) {
+      await awardXp(user.id, 10, "emission_entry", result[0].id);
+    }
+
     revalidatePath("/environmental/carbon-transactions");
     return { success: true, transaction: result[0] };
   } catch (error) {
