@@ -111,7 +111,7 @@ export function AppSidebar() {
             { title: "Compliance Issues", href: "/governance/compliance-issues" },
           ],
         },
-        { title: "ESG Scoring", href: "/environmental/goals", icon: ClipboardCheck }, // fallback placeholder
+        { title: "ESG Scoring", href: "/environmental/goals", icon: ClipboardCheck },
         {
           title: "Gamification",
           icon: Trophy,
@@ -124,7 +124,7 @@ export function AppSidebar() {
           ],
         },
         { title: "Reports", href: "/reports", icon: BarChart3 },
-        { title: "Integrations", href: "/settings", icon: Sparkles }, // fallback placeholder
+        { title: "Integrations", href: "/settings", icon: Sparkles },
       ] as NavItem[],
     },
     {
@@ -202,23 +202,22 @@ export function AppSidebar() {
                           </SidebarMenuButton>
 
                           {isExpanded && (
-                            <div className="pl-6 mt-1 mb-2 space-y-1 border-l border-sidebar-border/30 ml-5">
+                            <div className="pl-6 mt-1 mb-2 space-y-1 border-l border-sidebar-border/30 ml-5 flex flex-col">
                               {item.items!.map((subItem) => {
                                 const isSubActive = pathname === subItem.href;
                                 return (
-                                  <SidebarMenuItem key={subItem.href}>
-                                    <SidebarMenuButton
-                                      isActive={isSubActive}
-                                      className="h-8 text-xs justify-start rounded-lg hover:bg-[#22242f] w-full px-3 cursor-pointer"
-                                      render={
-                                        <Link href={subItem.href}>
-                                          <span className={isSubActive ? "text-white font-semibold" : "text-muted-foreground"}>
-                                            {subItem.title}
-                                          </span>
-                                        </Link>
-                                      }
-                                    />
-                                  </SidebarMenuItem>
+                                  <SidebarMenuButton
+                                    key={subItem.href}
+                                    isActive={isSubActive}
+                                    className="h-8 text-xs justify-start rounded-lg hover:bg-[#22242f] w-full px-3 cursor-pointer"
+                                    render={
+                                      <Link href={subItem.href}>
+                                        <span className={isSubActive ? "text-white font-semibold" : "text-muted-foreground"}>
+                                          {subItem.title}
+                                        </span>
+                                      </Link>
+                                    }
+                                  />
                                 );
                               })}
                             </div>
@@ -268,6 +267,7 @@ export function AppSidebar() {
             </h4>
           </div>
           <Button 
+            nativeButton={false}
             className="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs py-1.5 h-8 rounded-xl font-medium shadow-[0_0_15px_rgba(124,58,237,0.3)] transition-all cursor-pointer"
             render={
               <Link href="/settings" />
