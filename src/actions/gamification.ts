@@ -552,3 +552,32 @@ export async function rejectChallengeParticipationAction(participationId: string
     return { error: error.message || "Failed to reject challenge." };
   }
 }
+
+/**
+ * Fetch own gamification profile details.
+ */
+export async function getOwnGamificationProfile() {
+  const sessionUser = await getSessionUser();
+  if (!sessionUser?.id) return null;
+
+  const [dbUser] = await db
+    .select({
+      xp: users.xp,
+      points: users.points,
+    })
+    .from(users)
+    .where(eq(users.id, sessionUser.id))
+    .limit(1);
+
+  if (!dbUser) return null;
+
+  const level = Math.floor(dbUser.xp / 100) + 1;
+  const progressInLevel = dbUser.xp % 100;
+
+  return {
+    xp: dbUser.xp,
+    points: dbUser.points,
+    level,
+    progressInLevel,
+  };
+}
