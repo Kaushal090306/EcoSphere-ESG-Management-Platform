@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { toast } from "sonner";
@@ -35,6 +35,20 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
   const [statusFilter, setStatusFilter] = useState("all");
   const [sortBy, setSortBy] = useState("deadline-asc");
 
+  const [selectedDeptId, setSelectedDeptId] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("active");
+
+  const { useEffect } = require("react");
+  useEffect(() => {
+    if (editing) {
+      setSelectedDeptId(editing.departmentId);
+      setSelectedStatus(editing.status);
+    } else {
+      setSelectedDeptId(departments[0]?.id || "");
+      setSelectedStatus("active");
+    }
+  }, [editing, dialogOpen, departments]);
+
   const deptName = (id: string) => departments.find(d => d.id === id)?.name || "—";
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -43,13 +57,13 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
     const fd = new FormData(e.currentTarget);
     const data = {
       title: fd.get("title") as string,
-      departmentId: fd.get("departmentId") as string,
+      departmentId: selectedDeptId,
       metric: fd.get("metric") as string,
       baselineValue: fd.get("baselineValue") as string,
       targetValue: fd.get("targetValue") as string,
       currentValue: (fd.get("currentValue") as string) || "0",
       deadline: fd.get("deadline") as string,
-      status: fd.get("status") as "active" | "achieved" | "missed" | "cancelled",
+      status: selectedStatus as "active" | "achieved" | "missed" | "cancelled",
     };
     const result = editing ? await updateEnvironmentalGoal(editing.id, data) : await createEnvironmentalGoal(data);
     setLoading(false);
@@ -264,59 +278,59 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
       </Card>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-lg bg-white dark:bg-[#14151f] border border-[#ececee] dark:border-[#2d2f39] text-white rounded-xl p-6">
-          <DialogHeader><DialogTitle className="text-lg font-bold text-[#09090b] dark:text-white">{editing ? "Edit Goal" : "New Goal"}</DialogTitle></DialogHeader>
+        <DialogContent className="max-w-lg bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] text-foreground rounded-xl p-6">
+          <DialogHeader><DialogTitle className="text-lg font-bold text-foreground">{editing ? "Edit Goal" : "New Goal"}</DialogTitle></DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4 mt-2">
             <div className="space-y-1.5">
-              <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Title</Label>
-              <Input name="title" defaultValue={editing?.title || ""} className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-[#09090b] dark:text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+              <Label className="text-[10px] text-muted-foreground font-bold tracking-wider uppercase">Title</Label>
+              <Input name="title" defaultValue={editing?.title || ""} className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
             </div>
             
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Department</Label>
-                <Select name="departmentId" defaultValue={editing?.departmentId || ""}>
-                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-[#09090b] dark:text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:bg-[#181922] transition-all"><SelectValue placeholder="Select department" /></SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white">{departments.map(d => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent>
+                <Label className="text-[10px] text-muted-foreground font-bold tracking-wider uppercase">Department</Label>
+                <Select name="departmentId" value={selectedDeptId} onValueChange={(val) => setSelectedDeptId(val || "")}>
+                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:hover:bg-[#1c1a24] transition-all"><SelectValue placeholder="Select department" /></SelectTrigger>
+                  <SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] text-foreground">{departments.map(d => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Metric</Label>
-                <Input name="metric" defaultValue={editing?.metric || ""} placeholder="CO₂e tonnes" className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-[#09090b] dark:text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+                <Label className="text-[10px] text-muted-foreground font-bold tracking-wider uppercase">Metric</Label>
+                <Input name="metric" defaultValue={editing?.metric || ""} placeholder="CO₂e tonnes" className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
               </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-3">
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Baseline</Label>
-                <Input name="baselineValue" defaultValue={editing?.baselineValue || ""} className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-[#09090b] dark:text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+                <Label className="text-[10px] text-muted-foreground font-bold tracking-wider uppercase">Baseline</Label>
+                <Input name="baselineValue" defaultValue={editing?.baselineValue || ""} className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Target</Label>
-                <Input name="targetValue" defaultValue={editing?.targetValue || ""} className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-[#09090b] dark:text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+                <Label className="text-[10px] text-muted-foreground font-bold tracking-wider uppercase">Target</Label>
+                <Input name="targetValue" defaultValue={editing?.targetValue || ""} className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Current</Label>
-                <Input name="currentValue" defaultValue={editing?.currentValue || "0"} className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-[#09090b] dark:text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" />
+                <Label className="text-[10px] text-muted-foreground font-bold tracking-wider uppercase">Current</Label>
+                <Input name="currentValue" defaultValue={editing?.currentValue || "0"} className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" />
               </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Deadline</Label>
+                <Label className="text-[10px] text-muted-foreground font-bold tracking-wider uppercase">Deadline</Label>
                 <Input 
                   name="deadline" 
                   type="date" 
                   defaultValue={editing?.deadline ? new Date(editing.deadline).toISOString().split("T")[0] : ""} 
-                  className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-[#09090b] dark:text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6]" 
+                  className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus-visible:ring-1 focus-visible:ring-[#9B5CF6]" 
                   required 
                 />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Status</Label>
-                <Select name="status" defaultValue={editing?.status || "active"}>
-                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-[#09090b] dark:text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:bg-[#181922] transition-all"><SelectValue /></SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white">
+                <Label className="text-[10px] text-muted-foreground font-bold tracking-wider uppercase">Status</Label>
+                <Select name="status" value={selectedStatus} onValueChange={(val) => setSelectedStatus(val || "active")}>
+                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:hover:bg-[#1c1a24] transition-all"><SelectValue /></SelectTrigger>
+                  <SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] text-foreground">
                     <SelectItem value="active">Active</SelectItem>
                     <SelectItem value="achieved">Achieved</SelectItem>
                     <SelectItem value="missed">Missed</SelectItem>
@@ -326,20 +340,20 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
               </div>
             </div>
 
-            <DialogFooter className="pt-2">
-              <Button type="button" variant="outline" onClick={() => setDialogOpen(false)} className="rounded-lg bg-[#222430] hover:bg-[#2c2e3c] border-transparent text-white text-xs h-9 px-4 font-semibold">Cancel</Button>
-              <Button type="submit" disabled={loading} className="rounded-lg bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs h-9 px-4 font-semibold shadow-[0_0_10px_rgba(124,58,237,0.2)]">{editing ? "Update" : "Create"}</Button>
+            <DialogFooter className="pt-2 gap-2">
+              <Button type="button" variant="outline" onClick={() => setDialogOpen(false)} className="rounded-lg text-xs h-9 px-4 font-semibold">Cancel</Button>
+              <Button type="submit" disabled={loading} className="rounded-lg bg-purple-600 hover:bg-purple-700 text-white text-xs h-9 px-4 font-semibold shadow-xs">{editing ? "Update" : "Create"}</Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
 
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-white dark:bg-[#14151f] border border-[#ececee] dark:border-[#2d2f39] text-white rounded-xl p-6">
-          <DialogHeader><DialogTitle className="text-lg font-bold text-[#09090b] dark:text-white">Delete Goal</DialogTitle></DialogHeader>
-          <p className="text-sm text-muted-foreground py-2">Delete <span className="font-medium text-[#09090b] dark:text-white">{deleting?.title}</span>?</p>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteOpen(false)} className="rounded-lg bg-[#222430] hover:bg-[#2c2e3c] border-transparent text-white text-xs h-9 px-4 font-semibold">Cancel</Button>
+        <DialogContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] text-foreground rounded-xl p-6">
+          <DialogHeader><DialogTitle className="text-lg font-bold text-foreground">Delete Goal</DialogTitle></DialogHeader>
+          <p className="text-sm text-muted-foreground py-2">Delete <span className="font-medium text-foreground">{deleting?.title}</span>?</p>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setDeleteOpen(false)} className="rounded-lg text-xs h-9 px-4 font-semibold">Cancel</Button>
             <Button variant="destructive" onClick={handleDelete} disabled={loading} className="rounded-lg text-xs h-9 px-4 font-semibold">Delete</Button>
           </DialogFooter>
         </DialogContent>

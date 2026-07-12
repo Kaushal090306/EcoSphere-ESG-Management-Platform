@@ -113,7 +113,6 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
           ],
         },
         { title: "Reports", href: "/reports", icon: BarChart3, roles: ["admin", "esg_manager", "auditor"] },
-        { title: "Integrations", href: "/settings", icon: Sparkles, roles: ["admin"] },
       ] as NavItem[],
     },
   ];

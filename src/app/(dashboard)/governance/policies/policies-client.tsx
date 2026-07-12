@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { toast } from "sonner";
@@ -141,7 +141,7 @@ export function PoliciesClient({
             <SelectTrigger className="w-36 bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-[#09090b] dark:text-white rounded-lg h-9 text-xs">
               <SelectValue placeholder="All Statuses" />
             </SelectTrigger>
-            <SelectContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white">
+            <SelectContent className="bg-white dark:bg-[#121118] border-[#ececee] dark:border-[#221f2c] text-foreground">
               <SelectItem value="all">All Statuses</SelectItem>
               <SelectItem value="draft">Draft</SelectItem>
               <SelectItem value="published">Published</SelectItem>
@@ -152,7 +152,7 @@ export function PoliciesClient({
             <SelectTrigger className="w-40 bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-[#09090b] dark:text-white rounded-lg h-9 text-xs">
               <SelectValue placeholder="All Categories" />
             </SelectTrigger>
-            <SelectContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white">
+            <SelectContent className="bg-white dark:bg-[#121118] border-[#ececee] dark:border-[#221f2c] text-foreground">
               <SelectItem value="all">All Categories</SelectItem>
               {categories.map((c) => (
                 <SelectItem key={c} value={c}>{c}</SelectItem>
@@ -359,7 +359,7 @@ export function PoliciesClient({
                 <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-[#09090b] dark:text-white hover:bg-white dark:bg-[#181922] transition-all">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white">
+                <SelectContent className="bg-white dark:bg-[#121118] border-[#ececee] dark:border-[#221f2c] text-foreground">
                   <SelectItem value="draft">Draft</SelectItem>
                   <SelectItem value="published">Published</SelectItem>
                   <SelectItem value="archived">Archived</SelectItem>
