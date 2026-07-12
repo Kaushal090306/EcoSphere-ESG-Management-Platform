@@ -94,7 +94,7 @@ export function AuditsClient({
           className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs"
         />
         <Select value={statusFilter} onValueChange={(val) => setStatusFilter(val || "")}>
-          <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
+          <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-[#09090b] dark:text-white rounded-lg h-9 text-xs">
             <SelectValue placeholder="All Statuses" />
           </SelectTrigger>
           <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">
@@ -105,7 +105,7 @@ export function AuditsClient({
           </SelectContent>
         </Select>
         <Select value={deptFilter} onValueChange={(val) => setDeptFilter(val || "")}>
-          <SelectTrigger className="w-44 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
+          <SelectTrigger className="w-44 bg-[#181922] border-[#2d2f39] text-[#09090b] dark:text-white rounded-lg h-9 text-xs">
             <SelectValue placeholder="All Departments" />
           </SelectTrigger>
           <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">

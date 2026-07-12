@@ -278,7 +278,7 @@ export function UsersClient({
                 defaultValue={editing?.name || ""}
                 required
                 placeholder="John Doe"
-                className="bg-[#15161D] border-[#ececee] text-[#09090b] dark:text-white"
+                className="bg-[#15161D] border-[#ececee] text-[#09090b] dark:text-[#09090b] dark:text-white"
               />
             </div>
             
@@ -291,7 +291,7 @@ export function UsersClient({
                 defaultValue={editing?.email || ""}
                 required
                 placeholder="john.doe@company.com"
-                className="bg-[#15161D] border-[#ececee] text-[#09090b] dark:text-white"
+                className="bg-[#15161D] border-[#ececee] text-[#09090b] dark:text-[#09090b] dark:text-white"
               />
             </div>
 
@@ -304,7 +304,7 @@ export function UsersClient({
                 name="password"
                 type="password"
                 placeholder={editing ? "••••••••" : "password123"}
-                className="bg-[#15161D] border-[#ececee] text-[#09090b] dark:text-white"
+                className="bg-[#15161D] border-[#ececee] text-[#09090b] dark:text-[#09090b] dark:text-white"
               />
             </div>
 

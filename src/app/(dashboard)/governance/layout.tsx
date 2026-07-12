@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -43,19 +43,15 @@ export default function GovernanceLayout({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#2d2f39] gap-3">
-        <nav className="flex flex-wrap gap-6 -mb-px">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <nav className="flex flex-wrap items-center gap-1.5 p-1 bg-[#e4e4e7]/60 dark:bg-[#121118] border border-[#ececee] dark:border-[#2d2f39] rounded-lg">
           {tabs.map((tab) => {
             const isActive = pathname === tab.href;
             return (
               <Link
                 key={tab.href}
                 href={tab.href}
-                className={`pb-4 text-sm font-medium border-b-2 transition-all duration-200 relative ${
-                  isActive
-                    ? "border-[#9B5CF6] text-[#09090b] dark:text-white font-semibold"
-                    : "border-transparent text-muted-foreground hover:text-[#09090b] dark:text-white"
-                }`}
+                className={`px-3.5 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 border border-transparent ${isActive ? "bg-white dark:bg-[#1c1a24] text-[#09090b] dark:text-white shadow-xs border-[#ececee] dark:border-[#2d2f39]" : "text-muted-foreground hover:text-[#09090b] dark:hover:text-white"}`}
               >
                 {tab.name}
               </Link>
@@ -64,7 +60,7 @@ export default function GovernanceLayout({
         </nav>
 
         {/* Date picker & export action in the switcher row aligned in the middle */}
-        <div className="flex items-center gap-3 pb-4">
+        <div className="flex items-center gap-3">
           <DropdownMenu>
             <DropdownMenuTrigger
               render={

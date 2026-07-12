@@ -20,19 +20,15 @@ export default function GamificationLayout({
 
   return (
     <div className="space-y-6">
-      <div className="border-b border-[#2d2f39]">
-        <nav className="flex gap-6 -mb-px">
+      <div className="">
+        <nav className="flex flex-wrap items-center gap-1.5 p-1 bg-[#e4e4e7]/60 dark:bg-[#121118] border border-[#ececee] dark:border-[#2d2f39] rounded-lg w-fit">
           {tabs.map((tab) => {
             const isActive = pathname === tab.href;
             return (
               <Link
                 key={tab.href}
                 href={tab.href}
-                className={`pb-4 text-sm font-medium border-b-2 transition-all duration-200 ${
-                  isActive
-                    ? "border-[#9B5CF6] text-[#09090b] dark:text-white font-semibold"
-                    : "border-transparent text-muted-foreground hover:text-[#09090b] dark:text-white"
-                }`}
+                className={`px-3.5 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 border border-transparent ${isActive ? "bg-white dark:bg-[#1c1a24] text-[#09090b] dark:text-white shadow-xs border-[#ececee] dark:border-[#2d2f39]" : "text-muted-foreground hover:text-[#09090b] dark:hover:text-white"}`}
               >
                 {tab.name}
               </Link>

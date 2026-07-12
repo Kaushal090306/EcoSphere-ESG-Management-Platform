@@ -103,7 +103,7 @@ export function ComplianceClient({
           className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs"
         />
         <Select value={statusFilter} onValueChange={(val) => setStatusFilter(val || "")}>
-          <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
+          <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-[#09090b] dark:text-white rounded-lg h-9 text-xs">
             <SelectValue placeholder="All Statuses" />
           </SelectTrigger>
           <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">
@@ -115,7 +115,7 @@ export function ComplianceClient({
           </SelectContent>
         </Select>
         <Select value={severityFilter} onValueChange={(val) => setSeverityFilter(val || "")}>
-          <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
+          <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-[#09090b] dark:text-white rounded-lg h-9 text-xs">
             <SelectValue placeholder="All Severities" />
           </SelectTrigger>
           <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">
