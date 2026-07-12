@@ -18,32 +18,32 @@ const colorMap = {
   green: {
     bg: "bg-eco-green/10",
     text: "text-eco-green",
-    glow: "shadow-[0_0_20px_oklch(0.72_0.19_163/10%)]",
+    glow: "shadow-[0_0_20px_rgba(16,185,129,0.1)]",
   },
   teal: {
     bg: "bg-eco-teal/10",
     text: "text-eco-teal",
-    glow: "shadow-[0_0_20px_oklch(0.68_0.16_200/10%)]",
+    glow: "shadow-[0_0_20px_rgba(20,184,166,0.1)]",
   },
   blue: {
     bg: "bg-eco-blue/10",
     text: "text-eco-blue",
-    glow: "shadow-[0_0_20px_oklch(0.62_0.18_245/10%)]",
+    glow: "shadow-[0_0_20px_rgba(59,130,246,0.1)]",
   },
   orange: {
     bg: "bg-eco-orange/10",
     text: "text-eco-orange",
-    glow: "shadow-[0_0_20px_oklch(0.75_0.15_75/10%)]",
+    glow: "shadow-[0_0_20px_rgba(245,158,11,0.1)]",
   },
   purple: {
     bg: "bg-eco-purple/10",
     text: "text-eco-purple",
-    glow: "shadow-[0_0_20px_oklch(0.65_0.18_290/10%)]",
+    glow: "shadow-[0_0_20px_rgba(155,92,246,0.1)]",
   },
   red: {
     bg: "bg-eco-red/10",
     text: "text-eco-red",
-    glow: "shadow-[0_0_20px_oklch(0.65_0.2_25/10%)]",
+    glow: "shadow-[0_0_20px_rgba(239,68,68,0.1)]",
   },
 };
 

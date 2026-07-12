@@ -15,7 +15,16 @@ export async function createProductProfile(data: ProductEsgProfileFormData) {
   if (!parsed.success) return { error: parsed.error.flatten().fieldErrors };
 
   try {
-    await db.insert(productEsgProfiles).values(parsed.data);
+    const dbData = {
+      productName: parsed.data.productName,
+      carbonIntensity: parsed.data.carbonIntensity,
+      recyclability: parsed.data.recyclabilityPercentage,
+      certifications: parsed.data.certifications
+        ? parsed.data.certifications.split(",").map((c) => c.trim()).filter(Boolean)
+        : [],
+      status: parsed.data.status,
+    };
+    await db.insert(productEsgProfiles).values(dbData);
     revalidatePath("/environmental/product-profiles");
     return { success: true };
   } catch {
@@ -28,7 +37,17 @@ export async function updateProductProfile(id: string, data: ProductEsgProfileFo
   if (!parsed.success) return { error: parsed.error.flatten().fieldErrors };
 
   try {
-    await db.update(productEsgProfiles).set({ ...parsed.data, updatedAt: new Date() }).where(eq(productEsgProfiles.id, id));
+    const dbData = {
+      productName: parsed.data.productName,
+      carbonIntensity: parsed.data.carbonIntensity,
+      recyclability: parsed.data.recyclabilityPercentage,
+      certifications: parsed.data.certifications
+        ? parsed.data.certifications.split(",").map((c) => c.trim()).filter(Boolean)
+        : [],
+      status: parsed.data.status,
+      updatedAt: new Date(),
+    };
+    await db.update(productEsgProfiles).set(dbData).where(eq(productEsgProfiles.id, id));
     revalidatePath("/environmental/product-profiles");
     return { success: true };
   } catch {

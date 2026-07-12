@@ -11,10 +11,10 @@ import { updateEsgSettings } from "@/actions/esg-settings";
 import type { EsgSettings } from "@/db/schema";
 
 export function SettingsClient({ settings }: { settings: EsgSettings }) {
-  const [envWeight, setEnvWeight] = useState(settings.environmentalWeight);
-  const [socWeight, setSocWeight] = useState(settings.socialWeight);
-  const [govWeight, setGovWeight] = useState(settings.governanceWeight);
-  const [autoEmission, setAutoEmission] = useState(settings.autoEmissionCalculation);
+  const [envWeight, setEnvWeight] = useState(Math.round(Number(settings.environmentalWeight) * 100));
+  const [socWeight, setSocWeight] = useState(Math.round(Number(settings.socialWeight) * 100));
+  const [govWeight, setGovWeight] = useState(Math.round(Number(settings.governanceWeight) * 100));
+  const [autoEmission, setAutoEmission] = useState(settings.autoEmissionCalc);
   const [evidenceReq, setEvidenceReq] = useState(settings.evidenceRequired);
   const [badgeAuto, setBadgeAuto] = useState(settings.badgeAutoAward);
   const [loading, setLoading] = useState(false);

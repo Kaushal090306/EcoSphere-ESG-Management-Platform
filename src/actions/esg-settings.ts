@@ -33,14 +33,21 @@ export async function updateEsgSettings(data: {
 
   try {
     const existing = await db.select().from(esgSettings).limit(1);
+    const dbData = {
+      environmentalWeight: String(data.environmentalWeight / 100),
+      socialWeight: String(data.socialWeight / 100),
+      governanceWeight: String(data.governanceWeight / 100),
+      autoEmissionCalc: data.autoEmissionCalculation,
+      evidenceRequired: data.evidenceRequired,
+      badgeAutoAward: data.badgeAutoAward,
+    };
+
     if (existing.length === 0) {
-      await db.insert(esgSettings).values({
-        ...data,
-      });
+      await db.insert(esgSettings).values(dbData);
     } else {
       await db
         .update(esgSettings)
-        .set({ ...data, updatedAt: new Date() })
+        .set({ ...dbData, updatedAt: new Date() })
         .where(eq(esgSettings.id, existing[0].id));
     }
     revalidatePath("/settings");

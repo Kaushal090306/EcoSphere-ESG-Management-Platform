@@ -65,8 +65,8 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
                 <TableRow key={p.id}>
                   <TableCell className="font-medium">{p.productName}</TableCell>
                   <TableCell className="font-mono">{p.carbonIntensity} CO₂e</TableCell>
-                  <TableCell>{p.recyclabilityPercentage}%</TableCell>
-                  <TableCell className="text-muted-foreground">{p.certifications || "—"}</TableCell>
+                  <TableCell>{p.recyclability || "0"}%</TableCell>
+                  <TableCell className="text-muted-foreground">{p.certifications?.join(", ") || "—"}</TableCell>
                   <TableCell><Badge variant={p.status === "active" ? "default" : "secondary"} className={p.status === "active" ? "bg-eco-green/10 text-eco-green border-eco-green/20" : ""}>{p.status}</Badge></TableCell>
                   <TableCell>
                     <div className="flex items-center gap-1">
@@ -87,9 +87,9 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
             <div className="space-y-2"><Label>Product Name</Label><Input name="productName" defaultValue={editing?.productName || ""} required /></div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2"><Label>Carbon Intensity (CO₂e/unit)</Label><Input name="carbonIntensity" defaultValue={editing?.carbonIntensity || ""} required /></div>
-              <div className="space-y-2"><Label>Recyclability (%)</Label><Input name="recyclabilityPercentage" defaultValue={editing?.recyclabilityPercentage || ""} required /></div>
+              <div className="space-y-2"><Label>Recyclability (%)</Label><Input name="recyclabilityPercentage" defaultValue={editing?.recyclability || ""} required /></div>
             </div>
-            <div className="space-y-2"><Label>Certifications</Label><Input name="certifications" defaultValue={editing?.certifications || ""} placeholder="ISO 14001, FSC, etc." /></div>
+            <div className="space-y-2"><Label>Certifications</Label><Input name="certifications" defaultValue={editing?.certifications?.join(", ") || ""} placeholder="ISO 14001, FSC, etc." /></div>
             <div className="space-y-2"><Label>Status</Label><Select name="status" defaultValue={editing?.status || "active"}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem></SelectContent></Select></div>
             <DialogFooter><Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button><Button type="submit" disabled={loading}>{editing ? "Update" : "Create"}</Button></DialogFooter>
           </form>

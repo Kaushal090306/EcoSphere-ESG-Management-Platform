@@ -44,11 +44,11 @@ const emissionsData = [
 ];
 
 const departmentScores = [
-  { name: "Engineering", score: 82, color: "oklch(0.72 0.19 163)" },
-  { name: "Operations", score: 71, color: "oklch(0.68 0.16 200)" },
-  { name: "Marketing", score: 88, color: "oklch(0.72 0.19 163)" },
-  { name: "HR", score: 91, color: "oklch(0.72 0.19 163)" },
-  { name: "Finance", score: 67, color: "oklch(0.75 0.15 75)" },
+  { name: "Engineering", score: 82, color: "#10b981" },
+  { name: "Operations", score: 71, color: "#14b8a6" },
+  { name: "Marketing", score: 88, color: "#10b981" },
+  { name: "HR", score: 91, color: "#10b981" },
+  { name: "Finance", score: 67, color: "#f59e0b" },
 ];
 
 const recentActivities = [
@@ -165,24 +165,24 @@ export default function DashboardPage() {
               <AreaChart data={emissionsData}>
                 <defs>
                   <linearGradient id="emissionGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="oklch(0.72 0.19 163)" stopOpacity={0.3} />
-                    <stop offset="100%" stopColor="oklch(0.72 0.19 163)" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#9B5CF6" stopOpacity={0.3} />
+                    <stop offset="100%" stopColor="#9B5CF6" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid
                   strokeDasharray="3 3"
-                  stroke="oklch(0.28 0.008 260)"
+                  stroke="#2A2D38"
                   vertical={false}
                 />
                 <XAxis
                   dataKey="month"
-                  stroke="oklch(0.5 0.01 260)"
+                  stroke="#9ca3af"
                   fontSize={12}
                   tickLine={false}
                   axisLine={false}
                 />
                 <YAxis
-                  stroke="oklch(0.5 0.01 260)"
+                  stroke="#9ca3af"
                   fontSize={12}
                   tickLine={false}
                   axisLine={false}
@@ -190,17 +190,17 @@ export default function DashboardPage() {
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "oklch(0.17 0.005 260)",
-                    border: "1px solid oklch(0.28 0.008 260)",
-                    borderRadius: "8px",
-                    color: "oklch(0.97 0.001 260)",
+                    backgroundColor: "#181922",
+                    border: "1px solid #2A2D38",
+                    borderRadius: "12px",
+                    color: "#ffffff",
                   }}
                   formatter={(value) => [`${Number(value).toLocaleString()} t`, "CO₂e"]}
                 />
                 <Area
                   type="monotone"
                   dataKey="emissions"
-                  stroke="oklch(0.72 0.19 163)"
+                  stroke="#9B5CF6"
                   strokeWidth={2}
                   fill="url(#emissionGradient)"
                 />
@@ -222,13 +222,13 @@ export default function DashboardPage() {
               <BarChart data={departmentScores} layout="vertical">
                 <CartesianGrid
                   strokeDasharray="3 3"
-                  stroke="oklch(0.28 0.008 260)"
+                  stroke="#2A2D38"
                   horizontal={false}
                 />
                 <XAxis
                   type="number"
                   domain={[0, 100]}
-                  stroke="oklch(0.5 0.01 260)"
+                  stroke="#9ca3af"
                   fontSize={12}
                   tickLine={false}
                   axisLine={false}
@@ -236,7 +236,7 @@ export default function DashboardPage() {
                 <YAxis
                   dataKey="name"
                   type="category"
-                  stroke="oklch(0.5 0.01 260)"
+                  stroke="#9ca3af"
                   fontSize={12}
                   tickLine={false}
                   axisLine={false}
@@ -244,10 +244,10 @@ export default function DashboardPage() {
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "oklch(0.17 0.005 260)",
-                    border: "1px solid oklch(0.28 0.008 260)",
-                    borderRadius: "8px",
-                    color: "oklch(0.97 0.001 260)",
+                    backgroundColor: "#181922",
+                    border: "1px solid #2A2D38",
+                    borderRadius: "12px",
+                    color: "#ffffff",
                   }}
                   formatter={(value) => [`${value}/100`, "Score"]}
                 />

@@ -29,7 +29,7 @@ export async function createDepartment(data: DepartmentFormData) {
     await db.insert(departments).values({
       name: parsed.data.name,
       code: parsed.data.code,
-      headId: parsed.data.headId || null,
+      headUserId: parsed.data.headId || null,
       parentDepartmentId: parsed.data.parentDepartmentId || null,
       employeeCount: parsed.data.employeeCount,
       status: parsed.data.status,
@@ -57,7 +57,7 @@ export async function updateDepartment(id: string, data: DepartmentFormData) {
       .set({
         name: parsed.data.name,
         code: parsed.data.code,
-        headId: parsed.data.headId || null,
+        headUserId: parsed.data.headId || null,
         parentDepartmentId: parsed.data.parentDepartmentId || null,
         employeeCount: parsed.data.employeeCount,
         status: parsed.data.status,

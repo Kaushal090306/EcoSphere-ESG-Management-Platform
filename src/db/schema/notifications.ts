@@ -33,7 +33,19 @@ export const notifications = pgTable(
   })
 );
 
+export const notificationSettings = pgTable(
+  "notification_settings",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    eventType: text("event_type").notNull().unique(),
+    inAppEnabled: boolean("in_app_enabled").notNull().default(true),
+    emailEnabled: boolean("email_enabled").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  }
+);
 
+export type Notification = typeof notifications.$inferSelect;
+export type NewNotification = typeof notifications.$inferInsert;
 
 export type NotificationSetting = typeof notificationSettings.$inferSelect;
 export type NewNotificationSetting = typeof notificationSettings.$inferInsert;

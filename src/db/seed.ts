@@ -1,4 +1,5 @@
 import { db } from "@/db";
+import { eq } from "drizzle-orm";
 import {
   users,
   departments,
@@ -19,8 +20,6 @@ import {
   audits,
   complianceIssues,
   challenges,
-  challengeParticipations,
-  rewardRedemptions,
   challengeParticipations,
   rewardRedemptions,
   departmentScores,
@@ -77,7 +76,7 @@ export async function seedDatabase() {
 
   // Update employee department
   if (insertedDepts.length > 0 && employee) {
-    await db.update(users).set({ departmentId: insertedDepts[0].id }).where({ id: employee.id });
+    await db.update(users).set({ departmentId: insertedDepts[0].id }).where(eq(users.id, employee.id));
   }
 
   // 3. Categories
@@ -114,9 +113,9 @@ export async function seedDatabase() {
   // 5. Environmental Goals
   if (insertedDepts.length > 0) {
     const goalData = [
-      { title: "Reduce Scope 2 Emissions by 15%", departmentId: insertedDepts[0].id, metric: "CO₂e tonnes", baselineValue: "500.00", targetValue: "425.00", currentValue: "460.00", deadline: new Date("2026-12-31") },
-      { title: "Zero Waste to Landfill", departmentId: insertedDepts[1].id, metric: "kg waste", baselineValue: "10000.00", targetValue: "0.00", currentValue: "3200.00", deadline: new Date("2027-06-30") },
-      { title: "100% Renewable Energy", departmentId: insertedDepts[0].id, metric: "% renewable", baselineValue: "45.00", targetValue: "100.00", currentValue: "72.00", deadline: new Date("2027-12-31") },
+      { title: "Reduce Scope 2 Emissions by 15%", departmentId: insertedDepts[0].id, metric: "CO₂e tonnes", baselineValue: "500.00", targetValue: "425.00", currentValue: "460.00", deadline: "2026-12-31" },
+      { title: "Zero Waste to Landfill", departmentId: insertedDepts[1].id, metric: "kg waste", baselineValue: "10000.00", targetValue: "0.00", currentValue: "3200.00", deadline: "2027-06-30" },
+      { title: "100% Renewable Energy", departmentId: insertedDepts[0].id, metric: "% renewable", baselineValue: "45.00", targetValue: "100.00", currentValue: "72.00", deadline: "2027-12-31" },
     ];
     await db.insert(environmentalGoals).values(goalData.map((g) => ({ ...g, status: "active" as const }))).onConflictDoNothing();
     console.log("✅ 3 environmental goals created");
@@ -131,16 +130,16 @@ export async function seedDatabase() {
 
   // 7. ESG Policies
   const policyData = [
-    { title: "Environmental Policy", version: "2.1", category: "Environmental", content: "This policy outlines our commitment to environmental stewardship...", effectiveDate: new Date("2026-01-01"), status: "published" as const },
-    { title: "Anti-Bribery & Corruption Policy", version: "1.3", category: "Governance", content: "This policy strictly prohibits all forms of bribery...", effectiveDate: new Date("2025-06-15"), status: "published" as const },
-    { title: "Whistleblower Protection Policy", version: "1.1", category: "Governance", content: "Employees who report misconduct...", effectiveDate: new Date("2025-09-01"), status: "draft" as const },
+    { title: "Environmental Policy", version: "2.1", category: "Environmental", content: "This policy outlines our commitment to environmental stewardship...", effectiveDate: "2026-01-01", status: "published" as const },
+    { title: "Anti-Bribery & Corruption Policy", version: "1.3", category: "Governance", content: "This policy strictly prohibits all forms of bribery...", effectiveDate: "2025-06-15", status: "published" as const },
+    { title: "Whistleblower Protection Policy", version: "1.1", category: "Governance", content: "Employees who report misconduct...", effectiveDate: "2025-09-01", status: "draft" as const },
   ];
   const insertedPolicies = await db.insert(policies).values(policyData).onConflictDoNothing().returning();
 
   // 8. Badges & Rewards
   const badgeData = [
-    { name: "Green Starter", description: "Complete your first sustainability challenge", unlockRule: { type: "challenges", threshold: 1 }, icon: "sprout" },
-    { name: "Eco Warrior", description: "Complete 10 sustainability challenges", unlockRule: { type: "challenges", threshold: 10 }, icon: "shield" },
+    { name: "Green Starter", description: "Complete your first sustainability challenge", unlockRule: { type: "challenges" as const, threshold: 1 }, icon: "sprout" },
+    { name: "Eco Warrior", description: "Complete 10 sustainability challenges", unlockRule: { type: "challenges" as const, threshold: 10 }, icon: "shield" },
   ];
   await db.insert(badges).values(badgeData.map((b) => ({ ...b, status: "active" as const }))).onConflictDoNothing();
 

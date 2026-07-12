@@ -67,7 +67,7 @@ export function Header() {
   const breadcrumbs = getBreadcrumbs(pathname);
 
   return (
-    <header className="flex h-14 items-center gap-4 border-b border-border px-4">
+    <header className="flex h-16 items-center gap-4 border-b border-[#2d2f39] px-8 bg-[#0f1016]/50 backdrop-blur-md sticky top-0 z-50">
       <SidebarTrigger className="-ml-1" />
       <Separator orientation="vertical" className="h-6" />
 
@@ -102,15 +102,17 @@ export function Header() {
 
         {/* User Menu */}
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <Avatar className="h-8 w-8">
-                <AvatarFallback className="bg-primary/20 text-primary text-xs">
-                  AD
-                </AvatarFallback>
-              </Avatar>
-            </Button>
-          </DropdownMenuTrigger>
+          <DropdownMenuTrigger
+            render={
+              <Button variant="ghost" size="icon" className="rounded-full">
+                <Avatar className="h-8 w-8">
+                  <AvatarFallback className="bg-primary/20 text-primary text-xs">
+                    AD
+                  </AvatarFallback>
+                </Avatar>
+              </Button>
+            }
+          />
           <DropdownMenuContent align="end" className="w-48">
             <DropdownMenuItem>
               <User className="mr-2 h-4 w-4" />

@@ -54,54 +54,58 @@
   --color-eco-orange: var(--eco-orange);
   --color-eco-purple: var(--eco-purple);
   --color-eco-red: var(--eco-red);
+
+  /* Shadow glow mapping for tailwind v4 shadow-glow */
+  --shadow-glow: 0 0 35px rgba(155, 92, 246, 0.25);
 }
 
 /* Dark-first theme - EcoSphere branded */
 :root {
-  --background: oklch(0.13 0.004 260);
-  --foreground: oklch(0.97 0.001 260);
-  --card: oklch(0.17 0.005 260);
-  --card-foreground: oklch(0.97 0.001 260);
-  --popover: oklch(0.17 0.005 260);
-  --popover-foreground: oklch(0.97 0.001 260);
-  --primary: oklch(0.72 0.19 163);
-  --primary-foreground: oklch(0.13 0.004 260);
-  --secondary: oklch(0.22 0.008 260);
-  --secondary-foreground: oklch(0.9 0.001 260);
-  --muted: oklch(0.22 0.008 260);
-  --muted-foreground: oklch(0.65 0.01 260);
-  --accent: oklch(0.22 0.012 260);
-  --accent-foreground: oklch(0.97 0.001 260);
-  --destructive: oklch(0.65 0.2 25);
-  --border: oklch(0.28 0.008 260);
-  --input: oklch(0.22 0.008 260);
-  --ring: oklch(0.72 0.19 163);
-  --radius: 0.625rem;
+  --background: #0f1016;
+  --foreground: #ffffff;
+  --card: #181922;
+  --card-foreground: #ffffff;
+  --popover: #181922;
+  --popover-foreground: #ffffff;
+  --primary: #9B5CF6;
+  --primary-foreground: #ffffff;
+  --secondary: #7C3AED;
+  --secondary-foreground: #ffffff;
+  --muted: #1d1e27;
+  --muted-foreground: #9ca3af;
+  --accent: #22242f;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #2A2D38;
+  --input: #2A2D38;
+  --ring: #9B5CF6;
+  --radius: 1.5rem; /* 24px as in target design card */
 
   /* Chart colors */
-  --chart-1: oklch(0.72 0.19 163);
-  --chart-2: oklch(0.68 0.16 200);
-  --chart-3: oklch(0.75 0.15 75);
-  --chart-4: oklch(0.65 0.18 290);
-  --chart-5: oklch(0.7 0.17 30);
+  --chart-1: #9B5CF6;
+  --chart-2: #10b981;
+  --chart-3: #f59e0b;
+  --chart-4: #3b82f6;
+  --chart-5: #7C3AED;
 
-  /* Sidebar */
-  --sidebar: oklch(0.15 0.005 260);
-  --sidebar-foreground: oklch(0.85 0.01 260);
-  --sidebar-primary: oklch(0.72 0.19 163);
-  --sidebar-primary-foreground: oklch(0.13 0.004 260);
-  --sidebar-accent: oklch(0.2 0.01 260);
-  --sidebar-accent-foreground: oklch(0.97 0.001 260);
-  --sidebar-border: oklch(0.25 0.008 260);
-  --sidebar-ring: oklch(0.72 0.19 163);
+  /* Sidebar styling */
+  --sidebar: #15161D;
+  --sidebar-foreground: #9ca3af;
+  --sidebar-primary: #9B5CF6;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #22242f;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #2d2f39;
+  --sidebar-ring: #9B5CF6;
 
   /* EcoSphere brand palette */
-  --eco-green: oklch(0.72 0.19 163);
-  --eco-teal: oklch(0.68 0.16 200);
-  --eco-blue: oklch(0.62 0.18 245);
-  --eco-orange: oklch(0.75 0.15 75);
-  --eco-purple: oklch(0.65 0.18 290);
-  --eco-red: oklch(0.65 0.2 25);
+  --eco-green: #10b981;
+  --eco-teal: #14b8a6;
+  --eco-blue: #3b82f6;
+  --eco-orange: #f59e0b;
+  --eco-purple: #9B5CF6;
+  --eco-red: #ef4444;
 }
 
 @layer base {
@@ -109,6 +113,8 @@
     @apply border-border outline-ring/50;
   }
   body {
+    background: #0f1016;
+    font-family: var(--font-sans), sans-serif;
     @apply bg-background text-foreground;
   }
   html {
@@ -116,37 +122,49 @@
   }
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar matching uitheme.md */
 @layer base {
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 7px;
+    height: 7px;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: oklch(0.35 0.01 260);
-    border-radius: 999px;
+    background: #7C3AED;
+    border-radius: 20px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: oklch(0.45 0.01 260);
+    background: #9B5CF6;
   }
+}
+
+/* Active sidebar item styling matching uitheme.md design */
+[data-sidebar="menu-button"][data-active="true"] {
+  background-color: #9B5CF6 !important;
+  color: #ffffff !important;
+  border-radius: 12px;
+}
+
+[data-sidebar="menu-button"]:hover:not([data-active="true"]) {
+  background-color: #22242f !important;
+  color: #ffffff !important;
 }
 
 /* Glassmorphism utility */
 .glass {
-  background: oklch(0.17 0.005 260 / 60%);
+  background: rgba(24, 25, 34, 0.6);
   backdrop-filter: blur(12px);
-  border: 1px solid oklch(1 0 0 / 8%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Gradient text utility */
 .gradient-text {
   background: linear-gradient(
     135deg,
-    oklch(0.72 0.19 163),
-    oklch(0.68 0.16 200)
+    #9B5CF6,
+    #7C3AED
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -155,6 +173,6 @@
 
 /* Glow effect */
 .glow-green {
-  box-shadow: 0 0 20px oklch(0.72 0.19 163 / 15%),
-    0 0 40px oklch(0.72 0.19 163 / 5%);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.15),
+    0 0 40px rgba(16, 185, 129, 0.05);
 }
