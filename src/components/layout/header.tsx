@@ -10,7 +10,6 @@ import {
   ChevronRight,
   ChevronDown,
   Search,
-  Sun,
   Building2,
 } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -36,16 +35,20 @@ const roleDisplayNames: Record<string, string> = {
 };
 
 const routeLabels: Record<string, string> = {
-  "/": "Dashboard",
+  "/dashboard": "Dashboard",
+  "/environmental": "Environmental Overview",
   "/environmental/emission-factors": "Emission Factors",
   "/environmental/goals": "Environmental Goals",
   "/environmental/product-profiles": "Product ESG Profiles",
   "/environmental/carbon-transactions": "Carbon Transactions",
+  "/social": "Social Overview",
   "/social/csr-activities": "CSR Activities",
   "/social/participation": "Employee Participation",
+  "/governance": "Governance Overview",
   "/governance/policies": "ESG Policies",
   "/governance/audits": "Audits",
   "/governance/compliance-issues": "Compliance Issues",
+  "/gamification": "Gamification Overview",
   "/gamification/challenges": "Challenges",
   "/gamification/badges": "Badges",
   "/gamification/rewards": "Rewards",
@@ -61,8 +64,8 @@ function getBreadcrumbs(pathname: string) {
   const parts = pathname.split("/").filter(Boolean);
   const crumbs: { label: string; href: string }[] = [];
 
-  if (pathname === "/") {
-    return [{ label: "Dashboard", href: "/" }];
+  if (pathname === "/dashboard") {
+    return [{ label: "Dashboard", href: "/dashboard" }];
   }
 
   let currentPath = "";
@@ -82,7 +85,7 @@ function getBreadcrumbs(pathname: string) {
 export function Header({ user }: { user?: { name?: string | null; email?: string | null; role?: string } }) {
   const pathname = usePathname();
   const breadcrumbs = getBreadcrumbs(pathname);
-  const isDashboard = pathname === "/";
+  const isDashboard = pathname === "/dashboard";
 
   // Dynamic session fetch
   const [currentUser, setCurrentUser] = useState({ name: "Michael Smith", role: "Admin" });
@@ -94,10 +97,10 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
         if (data?.user) {
           setCurrentUser({
             name: data.user.name || "Michael Smith",
-            role: data.user.role === "admin" 
-              ? "Admin" 
-              : data.user.role === "esg_manager" 
-              ? "ESG Manager" 
+            role: data.user.role === "admin"
+              ? "Admin"
+              : data.user.role === "esg_manager"
+              ? "ESG Manager"
               : data.user.role === "dept_head"
               ? "Dept Head"
               : "Employee",
@@ -120,9 +123,9 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
     : "U";
 
   return (
-    <header className="flex h-20 items-center gap-4 px-8 bg-[#08070B] border-b border-[#1A1822]/80 sticky top-0 z-50">
-      <SidebarTrigger className="-ml-1 text-muted-foreground hover:text-white" />
-      <Separator orientation="vertical" className="h-6 bg-[#1A1822]" />
+    <header className="flex h-16 items-center gap-4 px-6 bg-white border-b border-[#ececee] sticky top-0 z-50">
+      <SidebarTrigger className="-ml-1 text-[#71717a] hover:text-[#09090b] transition-colors" />
+      <Separator orientation="vertical" className="h-5 bg-[#ececee]" />
 
       {/* Organization switcher on dashboard, breadcrumbs on subpages */}
       {isDashboard ? (
@@ -130,24 +133,24 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
           <DropdownMenu>
             <DropdownMenuTrigger
               render={
-                <Button 
-                  variant="ghost" 
-                  className="flex items-center gap-2 px-3 py-1.5 h-10 rounded-xl bg-[#121016] border border-[#221F2C] text-sm text-gray-300 font-medium hover:bg-[#1A1722] hover:text-white transition-all cursor-pointer"
+                <Button
+                  variant="ghost"
+                  className="flex items-center gap-2 px-3 py-1.5 h-9 rounded-[14px] bg-[#f4f4f5] border border-[#ececee] text-sm text-[#18181b] font-medium hover:bg-white hover:border-[#d4d4d8] transition-all cursor-pointer"
                 >
-                  <Building2 className="h-4 w-4 text-[#9B5CF6]" />
+                  <Building2 className="h-4 w-4 text-[#52525b]" />
                   <span>GreenTech Solutions</span>
-                  <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
+                  <ChevronDown className="h-3.5 w-3.5 text-[#71717a]" />
                 </Button>
               }
             />
-            <DropdownMenuContent align="start" className="w-56 bg-[#121016] border-[#221F2C]">
-              <DropdownMenuItem className="text-sm text-white focus:bg-[#221F2C]">
+            <DropdownMenuContent align="start" className="w-56 bg-white border-[#ececee] shadow-md rounded-[14px]">
+              <DropdownMenuItem className="text-sm text-[#09090b] focus:bg-[#f4f4f5] rounded-lg font-medium">
                 GreenTech Solutions
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-sm text-muted-foreground focus:bg-[#221F2C]">
+              <DropdownMenuItem className="text-sm text-[#52525b] focus:bg-[#f4f4f5] rounded-lg">
                 EcoSphere Corp
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-sm text-muted-foreground focus:bg-[#221F2C]">
+              <DropdownMenuItem className="text-sm text-[#52525b] focus:bg-[#f4f4f5] rounded-lg">
                 Global Industries
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -158,13 +161,13 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
           {breadcrumbs.map((crumb, i) => (
             <div key={crumb.href} className="flex items-center gap-1">
               {i > 0 && (
-                <ChevronRight className="h-3 w-3 text-muted-foreground" />
+                <ChevronRight className="h-3 w-3 text-[#a1a1aa]" />
               )}
               <span
                 className={
                   i === breadcrumbs.length - 1
-                    ? "font-medium text-foreground"
-                    : "text-muted-foreground"
+                    ? "font-semibold text-[#09090b] text-sm"
+                    : "text-[#71717a] text-sm"
                 }
               >
                 {crumb.label}
@@ -174,80 +177,79 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
         </nav>
       )}
 
-      {/* Header controls matching mockup */}
-      <div className="ml-auto flex items-center gap-4">
+      {/* Header right controls */}
+      <div className="ml-auto flex items-center gap-2">
         {/* Search */}
-        <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl text-gray-400 hover:text-white hover:bg-[#121016]">
-          <Search className="h-4.5 w-4.5" />
-        </Button>
-
-        {/* Notifications */}
-        <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-xl text-gray-400 hover:text-white hover:bg-[#121016]">
-          <Bell className="h-4.5 w-4.5" />
-          <span className="absolute right-2.5 top-2.5 flex h-2 w-2 rounded-full bg-[#7C3AED] ring-2 ring-[#08070B]" />
-        </Button>
-
-        {/* Light / Dark Mode Toggle (Mock) */}
-        <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl text-gray-400 hover:text-white hover:bg-[#121016]">
-          <Sun className="h-4.5 w-4.5" />
-        </Button>
-
-        {/* Log Out Button */}
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => signOut({ callbackUrl: "/login" })}
-          title="Sign Out"
-          className="h-10 w-10 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+          className="h-9 w-9 rounded-[12px] text-[#71717a] hover:text-[#09090b] hover:bg-[#f4f4f5] border border-transparent hover:border-[#ececee] transition-all"
         >
-          <LogOut className="h-4.5 w-4.5" />
+          <Search className="h-4 w-4" />
         </Button>
 
-        <Separator orientation="vertical" className="h-8 bg-[#1A1822]" />
+        {/* Notifications */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="relative h-9 w-9 rounded-[12px] text-[#71717a] hover:text-[#09090b] hover:bg-[#f4f4f5] border border-transparent hover:border-[#ececee] transition-all"
+        >
+          <Bell className="h-4 w-4" />
+          <span className="absolute right-2 top-2 flex h-2 w-2 rounded-full bg-[#ff5a00] ring-2 ring-white" />
+        </Button>
+
+        <Separator orientation="vertical" className="h-6 bg-[#ececee]" />
+
         {/* User Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
-              <Button variant="ghost" className="flex items-center gap-3 p-1 pr-3 h-12 rounded-xl hover:bg-[#121016] text-left cursor-pointer">
-                <Avatar className="h-9 w-9 border border-[#9B5CF6]/30">
-                  <AvatarImage src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt={user?.name || currentUser.name} />
-                  <AvatarFallback className="bg-[#9B5CF6]/20 text-[#9B5CF6] text-xs">
+              <Button
+                variant="ghost"
+                className="flex items-center gap-2.5 p-1.5 pr-3 h-10 rounded-[12px] hover:bg-[#f4f4f5] border border-transparent hover:border-[#ececee] text-left cursor-pointer transition-all"
+              >
+                <Avatar className="h-7 w-7 border border-[#ececee]">
+                  <AvatarImage
+                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+                    alt={user?.name || currentUser.name}
+                  />
+                  <AvatarFallback className="bg-[#f4f4f5] text-[#52525b] text-xs font-semibold">
                     {initials}
                   </AvatarFallback>
                 </Avatar>
                 <div className="hidden md:flex flex-col">
-                  <span className="text-sm font-semibold text-white leading-tight">
+                  <span className="text-sm font-semibold text-[#09090b] leading-tight">
                     {currentUser.name}
                   </span>
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-[11px] text-[#71717a]">
                     {currentUser.role}
                   </span>
                 </div>
-                <ChevronDown className="h-3.5 w-3.5 text-muted-foreground hidden md:block" />
+                <ChevronDown className="h-3.5 w-3.5 text-[#a1a1aa] hidden md:block" />
               </Button>
             }
           />
-          <DropdownMenuContent align="end" className="w-56 bg-[#121016] border-[#221F2C]">
+          <DropdownMenuContent align="end" className="w-56 bg-white border-[#ececee] shadow-md rounded-[14px]">
             <DropdownMenuGroup>
-              <DropdownMenuLabel className="font-normal text-white">
+              <DropdownMenuLabel className="font-normal text-[#09090b]">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">{user?.name || currentUser.name}</p>
-                  <p className="text-xs leading-none text-muted-foreground">{user?.email || ""}</p>
-                  <span className="inline-flex items-center rounded-md bg-[#9B5CF6]/15 px-2 py-0.5 mt-1 text-[10px] font-medium text-[#9B5CF6] w-fit uppercase">
+                  <p className="text-sm font-semibold leading-none">{user?.name || currentUser.name}</p>
+                  <p className="text-xs leading-none text-[#71717a]">{user?.email || ""}</p>
+                  <span className="inline-flex items-center rounded-[8px] bg-[#f4f4f5] border border-[#ececee] px-2 py-0.5 mt-1 text-[10px] font-semibold text-[#52525b] w-fit uppercase tracking-wider">
                     {user?.role ? (roleDisplayNames[user.role] || user.role) : currentUser.role}
                   </span>
                 </div>
               </DropdownMenuLabel>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator className="bg-[#221F2C]" />
-            <DropdownMenuItem className="text-sm text-white focus:bg-[#221F2C]">
-              <User className="mr-2 h-4 w-4" />
+            <DropdownMenuSeparator className="bg-[#ececee]" />
+            <DropdownMenuItem className="text-sm text-[#18181b] focus:bg-[#f4f4f5] rounded-lg">
+              <User className="mr-2 h-4 w-4 text-[#52525b]" />
               Profile
             </DropdownMenuItem>
-            <DropdownMenuSeparator className="bg-[#221F2C]" />
+            <DropdownMenuSeparator className="bg-[#ececee]" />
             <DropdownMenuItem
               onClick={() => signOut({ callbackUrl: "/login" })}
-              className="text-destructive focus:bg-destructive/10 focus:text-destructive text-sm"
+              className="text-red-600 focus:bg-red-50 focus:text-red-600 text-sm rounded-lg cursor-pointer"
             >
               <LogOut className="mr-2 h-4 w-4" />
               Sign Out

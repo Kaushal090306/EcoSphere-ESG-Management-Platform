@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Users, HandHeart, Award, BookOpen } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -73,7 +73,7 @@ export default function SocialOverviewPage() {
               <XAxis dataKey="department" stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} />
               <YAxis stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} domain={[0, 100]} />
               <Tooltip
-                contentStyle={{ backgroundColor: "#181922", border: "1px solid #2A2D38", borderRadius: "12px", color: "#ffffff" }}
+                contentStyle={{ backgroundColor: "#181922", border: "1px solid #2A2D38", borderRadius: "12px", color: "#09090b" }}
               />
               <Bar dataKey="participation" radius={[4, 4, 0, 0]} barSize={35}>
                 {socialTrendData.map((entry, index) => (

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { 
@@ -83,12 +83,12 @@ const sourcePieData = [
 
 export default function EnvironmentDashboard() {
   return (
-    <div className="space-y-6 text-white bg-[#0f1016]">
+    <div className="space-y-6 text-white bg-[#f4f4f5]">
       {/* Top Header section */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div className="flex items-center gap-3">
           {/* Green rounded leaf icon box */}
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-400">
+          <div className="flex h-12 w-12 items-center justify-center rounded-[20px] bg-emerald-500/10 text-emerald-400">
             <Leaf className="h-6 w-6" />
           </div>
           <div>
@@ -106,13 +106,13 @@ export default function EnvironmentDashboard() {
 
         {/* Date filter & export action */}
         <div className="flex items-center gap-3 self-end md:self-center">
-          <div className="flex items-center gap-2 bg-[#181922] border border-[#2d2f39] rounded-xl px-3 py-1.5 text-xs text-muted-foreground font-medium">
+          <div className="flex items-center gap-2 bg-white border border-[#ececee] rounded-[14px] px-3 py-1.5 text-xs text-muted-foreground font-medium">
             <Calendar className="h-4 w-4 text-muted-foreground/80" />
             <span>Oct 1 – Oct 31, 2024</span>
           </div>
           <Button 
             onClick={() => window.print()}
-            className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs px-3 py-1.5 h-8.5 rounded-xl font-medium flex items-center gap-2 shadow-[0_0_15px_rgba(124,58,237,0.3)] transition-all cursor-pointer"
+            className="bg-[#09090b] hover:bg-[#18181b] text-white text-xs px-3 py-1.5 h-8.5 rounded-[14px] font-medium flex items-center gap-2 shadow-[0_0_15px_rgba(124,58,237,0.3)] transition-all cursor-pointer"
           >
             <Download className="h-4 w-4" />
             <span>Export Report</span>
@@ -124,7 +124,7 @@ export default function EnvironmentDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* KPI 1: Total Emissions */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-[18px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-white border border-[#ececee] rounded-[28px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               {/* Left circle icon */}
@@ -133,9 +133,9 @@ export default function EnvironmentDashboard() {
               </div>
               {/* Right text stack */}
               <div className="space-y-1">
-                <span className="text-[13px] text-[#8e909a] font-medium block">Total Emissions</span>
+                <span className="text-[13px] text-[#71717a] font-medium block">Total Emissions</span>
                 <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  1,245.6 <span className="text-[11px] text-[#8e909a] font-semibold">tCO₂e</span>
+                  1,245.6 <span className="text-[11px] text-[#71717a] font-semibold">tCO₂e</span>
                 </h3>
                 <div className="flex items-center gap-1 text-[11px] text-emerald-400 font-semibold pt-1">
                   <TrendingDown className="h-3.5 w-3.5" />
@@ -162,16 +162,16 @@ export default function EnvironmentDashboard() {
         </Card>
 
         {/* KPI 2: Energy Consumption */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-[18px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-white border border-[#ececee] rounded-[28px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400">
                 <Zap className="h-5 w-5" />
               </div>
               <div className="space-y-1">
-                <span className="text-[13px] text-[#8e909a] font-medium block">Energy Consumption</span>
+                <span className="text-[13px] text-[#71717a] font-medium block">Energy Consumption</span>
                 <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  2,450.8 <span className="text-[11px] text-[#8e909a] font-semibold">MWh</span>
+                  2,450.8 <span className="text-[11px] text-[#71717a] font-semibold">MWh</span>
                 </h3>
                 <div className="flex items-center gap-1 text-[11px] text-emerald-400 font-semibold pt-1">
                   <TrendingDown className="h-3.5 w-3.5" />
@@ -197,16 +197,16 @@ export default function EnvironmentDashboard() {
         </Card>
 
         {/* KPI 3: Water Usage */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-[18px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-white border border-[#ececee] rounded-[28px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-blue-400">
                 <Droplet className="h-5 w-5" />
               </div>
               <div className="space-y-1">
-                <span className="text-[13px] text-[#8e909a] font-medium block">Water Usage</span>
+                <span className="text-[13px] text-[#71717a] font-medium block">Water Usage</span>
                 <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  8,320.5 <span className="text-[11px] text-[#8e909a] font-semibold">m³</span>
+                  8,320.5 <span className="text-[11px] text-[#71717a] font-semibold">m³</span>
                 </h3>
                 <div className="flex items-center gap-1 text-[11px] text-rose-500 font-semibold pt-1">
                   <TrendingUp className="h-3.5 w-3.5" />
@@ -232,16 +232,16 @@ export default function EnvironmentDashboard() {
         </Card>
 
         {/* KPI 4: Waste Generated */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-[18px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-white border border-[#ececee] rounded-[28px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-500/10 text-purple-400">
                 <Trash2 className="h-5 w-5" />
               </div>
               <div className="space-y-1">
-                <span className="text-[13px] text-[#8e909a] font-medium block">Waste Generated</span>
+                <span className="text-[13px] text-[#71717a] font-medium block">Waste Generated</span>
                 <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  245.6 <span className="text-[11px] text-[#8e909a] font-semibold">tons</span>
+                  245.6 <span className="text-[11px] text-[#71717a] font-semibold">tons</span>
                 </h3>
                 <div className="flex items-center gap-1 text-[11px] text-emerald-400 font-semibold pt-1">
                   <TrendingDown className="h-3.5 w-3.5" />
@@ -271,19 +271,19 @@ export default function EnvironmentDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         
         {/* Plot 1: Emissions Trend */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-[20px] p-5 lg:col-span-6 flex flex-col justify-between">
+        <Card className="bg-white border border-[#ececee] rounded-[20px] p-5 lg:col-span-6 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h4 className="text-sm font-semibold text-white">Emissions Trend</h4>
             </div>
-            <div className="flex items-center gap-2 bg-[#0f1016] border border-[#2d2f39] rounded-lg px-2.5 py-1 text-[11px] text-muted-foreground cursor-pointer">
+            <div className="flex items-center gap-2 bg-[#f4f4f5] border border-[#ececee] rounded-lg px-2.5 py-1 text-[11px] text-muted-foreground cursor-pointer">
               <span>Monthly</span>
               <ChevronDown className="h-3 w-3" />
             </div>
           </div>
           <div className="flex items-center gap-4 text-[10px] text-muted-foreground mb-4">
             <div className="flex items-center gap-1.5">
-              <span className="h-1.5 w-3 rounded-full bg-[#7C3AED]" />
+              <span className="h-1.5 w-3 rounded-full bg-[#09090b]" />
               <span>This Year</span>
             </div>
             <div className="flex items-center gap-1.5">
@@ -302,7 +302,7 @@ export default function EnvironmentDashboard() {
               <CartesianGrid strokeDasharray="3 3" stroke="#252731" vertical={false} />
               <XAxis dataKey="month" stroke="#4b5563" fontSize={10} tickLine={false} axisLine={false} />
               <YAxis stroke="#4b5563" fontSize={10} tickLine={false} axisLine={false} />
-              <Tooltip contentStyle={{ backgroundColor: "#181922", border: "1px solid #2d2f39", borderRadius: "12px" }} />
+              <Tooltip contentStyle={{ backgroundColor: "#181922", border: "1px solid #ececee", borderRadius: "12px" }} />
               
               {/* This Year Area Plot with exact custom styled bullet dots */}
               <Area 
@@ -330,7 +330,7 @@ export default function EnvironmentDashboard() {
         </Card>
 
         {/* Plot 2: Emissions by Scope Donut */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-[20px] p-5 lg:col-span-3 flex flex-col justify-between">
+        <Card className="bg-white border border-[#ececee] rounded-[20px] p-5 lg:col-span-3 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-2">
             <h4 className="text-sm font-semibold text-white">Emissions by Scope</h4>
             <Info className="h-4 w-4 text-muted-foreground/60" />
@@ -379,14 +379,14 @@ export default function EnvironmentDashboard() {
         </Card>
 
         {/* List 1: Recent Activities */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-[20px] p-5 lg:col-span-3 flex flex-col justify-between">
+        <Card className="bg-white border border-[#ececee] rounded-[20px] p-5 lg:col-span-3 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-3">
             <h4 className="text-sm font-semibold text-white">Recent Activities</h4>
             <Button 
               render={<Link href="/social/participation" />}
               nativeButton={false}
               variant="ghost" 
-              className="text-[10px] text-[#7C3AED] hover:text-[#6D28D9] p-0 h-auto cursor-pointer"
+              className="text-[10px] text-[#52525b] hover:text-[#6D28D9] p-0 h-auto cursor-pointer"
             >
               View All
             </Button>
@@ -427,10 +427,10 @@ export default function EnvironmentDashboard() {
             </div>
           </div>
 
-          <div className="mt-3 text-center border-t border-[#2d2f39]/50 pt-2.5">
+          <div className="mt-3 text-center border-t border-[#ececee]/50 pt-2.5">
             <Link 
               href="/social/participation"
-              className="text-[10px] text-[#7C3AED] hover:text-[#6D28D9] h-auto p-0 inline-flex items-center gap-1 cursor-pointer font-medium"
+              className="text-[10px] text-[#52525b] hover:text-[#6D28D9] h-auto p-0 inline-flex items-center gap-1 cursor-pointer font-medium"
             >
               <span>View All Activities</span>
               <ArrowRight className="h-3 w-3" />
@@ -444,7 +444,7 @@ export default function EnvironmentDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         
         {/* Source Pie Chart */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-[20px] p-5 flex flex-col justify-between">
+        <Card className="bg-white border border-[#ececee] rounded-[20px] p-5 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-3">
             <h4 className="text-sm font-semibold text-white">Emissions by Source</h4>
             <Button 
@@ -498,7 +498,7 @@ export default function EnvironmentDashboard() {
         </Card>
 
         {/* Top Emitters Department Table */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-[20px] p-5 flex flex-col justify-between">
+        <Card className="bg-white border border-[#ececee] rounded-[20px] p-5 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-3">
             <h4 className="text-sm font-semibold text-white">Top Emitters (Departments)</h4>
             <Button 
@@ -518,8 +518,8 @@ export default function EnvironmentDashboard() {
                 <span className="font-semibold text-white">Manufacturing</span>
                 <span className="font-semibold">456.2 t <span className="font-normal text-muted-foreground/60">(36.6%)</span></span>
               </div>
-              <div className="h-1.5 w-full bg-[#0f1016] rounded-full overflow-hidden">
-                <div className="h-full bg-[#7C3AED] rounded-full" style={{ width: "36.6%" }} />
+              <div className="h-1.5 w-full bg-[#f4f4f5] rounded-full overflow-hidden">
+                <div className="h-full bg-[#09090b] rounded-full" style={{ width: "36.6%" }} />
               </div>
             </div>
 
@@ -529,8 +529,8 @@ export default function EnvironmentDashboard() {
                 <span className="font-semibold text-white">Operations</span>
                 <span className="font-semibold">324.8 t <span className="font-normal text-muted-foreground/60">(26.1%)</span></span>
               </div>
-              <div className="h-1.5 w-full bg-[#0f1016] rounded-full overflow-hidden">
-                <div className="h-full bg-[#7C3AED] rounded-full" style={{ width: "26.1%" }} />
+              <div className="h-1.5 w-full bg-[#f4f4f5] rounded-full overflow-hidden">
+                <div className="h-full bg-[#09090b] rounded-full" style={{ width: "26.1%" }} />
               </div>
             </div>
 
@@ -540,8 +540,8 @@ export default function EnvironmentDashboard() {
                 <span className="font-semibold text-white">Logistics</span>
                 <span className="font-semibold">248.1 t <span className="font-normal text-muted-foreground/60">(19.9%)</span></span>
               </div>
-              <div className="h-1.5 w-full bg-[#0f1016] rounded-full overflow-hidden">
-                <div className="h-full bg-[#7C3AED] rounded-full" style={{ width: "19.9%" }} />
+              <div className="h-1.5 w-full bg-[#f4f4f5] rounded-full overflow-hidden">
+                <div className="h-full bg-[#09090b] rounded-full" style={{ width: "19.9%" }} />
               </div>
             </div>
 
@@ -551,15 +551,15 @@ export default function EnvironmentDashboard() {
                 <span className="font-semibold text-white">Facilities</span>
                 <span className="font-semibold">142.3 t <span className="font-normal text-muted-foreground/60">(11.4%)</span></span>
               </div>
-              <div className="h-1.5 w-full bg-[#0f1016] rounded-full overflow-hidden">
-                <div className="h-full bg-[#7C3AED] rounded-full" style={{ width: "11.4%" }} />
+              <div className="h-1.5 w-full bg-[#f4f4f5] rounded-full overflow-hidden">
+                <div className="h-full bg-[#09090b] rounded-full" style={{ width: "11.4%" }} />
               </div>
             </div>
           </div>
         </Card>
 
         {/* Quick Actions List */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-[20px] p-5 flex flex-col justify-between">
+        <Card className="bg-white border border-[#ececee] rounded-[20px] p-5 flex flex-col justify-between">
           <div className="mb-3">
             <h4 className="text-sm font-semibold text-white">Quick Actions</h4>
           </div>
@@ -568,7 +568,7 @@ export default function EnvironmentDashboard() {
             {/* Action 1 */}
             <Link 
               href="/environmental/carbon-transactions"
-              className="flex items-center justify-between bg-[#0f1016] hover:bg-[#22242f]/40 border border-[#2d2f39]/50 rounded-xl p-2.5 transition-colors cursor-pointer"
+              className="flex items-center justify-between bg-[#f4f4f5] hover:bg-[#22242f]/40 border border-[#ececee]/50 rounded-[14px] p-2.5 transition-colors cursor-pointer"
             >
               <div className="flex items-center gap-2.5">
                 <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
@@ -585,7 +585,7 @@ export default function EnvironmentDashboard() {
             {/* Action 2 */}
             <Link 
               href="/environmental/carbon-transactions"
-              className="flex items-center justify-between bg-[#0f1016] hover:bg-[#22242f]/40 border border-[#2d2f39]/50 rounded-xl p-2.5 transition-colors cursor-pointer"
+              className="flex items-center justify-between bg-[#f4f4f5] hover:bg-[#22242f]/40 border border-[#ececee]/50 rounded-[14px] p-2.5 transition-colors cursor-pointer"
             >
               <div className="flex items-center gap-2.5">
                 <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400">
@@ -602,7 +602,7 @@ export default function EnvironmentDashboard() {
             {/* Action 3 */}
             <Link 
               href="/environmental/emission-factors"
-              className="flex items-center justify-between bg-[#0f1016] hover:bg-[#22242f]/40 border border-[#2d2f39]/50 rounded-xl p-2.5 transition-colors cursor-pointer"
+              className="flex items-center justify-between bg-[#f4f4f5] hover:bg-[#22242f]/40 border border-[#ececee]/50 rounded-[14px] p-2.5 transition-colors cursor-pointer"
             >
               <div className="flex items-center gap-2.5">
                 <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-purple-500/10 text-purple-400">
@@ -619,7 +619,7 @@ export default function EnvironmentDashboard() {
             {/* Action 4 */}
             <Link 
               href="/reports"
-              className="flex items-center justify-between bg-[#0f1016] hover:bg-[#22242f]/40 border border-[#2d2f39]/50 rounded-xl p-2.5 transition-colors cursor-pointer"
+              className="flex items-center justify-between bg-[#f4f4f5] hover:bg-[#22242f]/40 border border-[#ececee]/50 rounded-[14px] p-2.5 transition-colors cursor-pointer"
             >
               <div className="flex items-center gap-2.5">
                 <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-500/10 text-amber-400">

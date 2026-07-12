@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
@@ -150,10 +150,10 @@ export function TransactionsClient({
             placeholder="Search entries..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs"
+            className="max-w-xs bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs"
           />
           <Select value={deptFilter} onValueChange={(val) => val && setDeptFilter(val)}>
-            <SelectTrigger className="w-44 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
+            <SelectTrigger className="w-44 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="All Departments" />
             </SelectTrigger>
             <SelectContent>
@@ -164,7 +164,7 @@ export function TransactionsClient({
             </SelectContent>
           </Select>
           <Select value={sourceFilter} onValueChange={(val) => val && setSourceFilter(val)}>
-            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
+            <SelectTrigger className="w-36 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="All Sources" />
             </SelectTrigger>
             <SelectContent>
@@ -176,7 +176,7 @@ export function TransactionsClient({
             </SelectContent>
           </Select>
           <Select value={sortBy} onValueChange={(val) => val && setSortBy(val)}>
-            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
+            <SelectTrigger className="w-36 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="Sort By" />
             </SelectTrigger>
             <SelectContent>
@@ -193,7 +193,7 @@ export function TransactionsClient({
         </Button>
       </div>
 
-      <Card className="border-[#2d2f39] bg-[#181922]">
+      <Card className="border-[#ececee] bg-white">
         <CardContent className="p-0">
           {filteredTransactions.length === 0 ? (
             <EmptyState title="No transactions found" description="Adjust search query or filter settings." />
@@ -280,7 +280,7 @@ export function TransactionsClient({
       </Card>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-lg bg-[#181922] border-[#2d2f39] text-white">
+        <DialogContent className="max-w-lg bg-white border-[#ececee] text-white">
           <DialogHeader>
             <DialogTitle>{editing ? "Edit Transaction" : "New Transaction"}</DialogTitle>
           </DialogHeader>
@@ -289,7 +289,7 @@ export function TransactionsClient({
               <div className="space-y-2">
                 <Label>Department</Label>
                 <Select name="departmentId" defaultValue={editing?.departmentId || ""}>
-                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39]">
+                  <SelectTrigger className="bg-[#f4f4f5] border-[#ececee]">
                     <SelectValue placeholder="Select department" />
                   </SelectTrigger>
                   <SelectContent>
@@ -304,7 +304,7 @@ export function TransactionsClient({
               <div className="space-y-2">
                 <Label>Source Type</Label>
                 <Select name="sourceType" defaultValue={editing?.sourceType || "purchase"}>
-                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39]">
+                  <SelectTrigger className="bg-[#f4f4f5] border-[#ececee]">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -320,7 +320,7 @@ export function TransactionsClient({
             <div className="space-y-2">
               <Label>Emission Factor</Label>
               <Select value={selectedFactorId} onValueChange={(val) => setSelectedFactorId(val || "")}>
-                <SelectTrigger className="bg-[#0f1016] border-[#2d2f39]">
+                <SelectTrigger className="bg-[#f4f4f5] border-[#ececee]">
                   <SelectValue placeholder="Select emission factor" />
                 </SelectTrigger>
                 <SelectContent>
@@ -341,7 +341,7 @@ export function TransactionsClient({
                   step="any"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
-                  className="bg-[#0f1016] border-[#2d2f39]"
+                  className="bg-[#f4f4f5] border-[#ececee]"
                   required
                 />
               </div>
@@ -351,13 +351,13 @@ export function TransactionsClient({
                   name="date"
                   type="date"
                   defaultValue={editing?.date ? new Date(editing.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0]}
-                  className="bg-[#0f1016] border-[#2d2f39]"
+                  className="bg-[#f4f4f5] border-[#ececee]"
                   required
                 />
               </div>
             </div>
 
-            <div className="bg-[#0f1016] border border-[#2d2f39] rounded-2xl p-4 space-y-4">
+            <div className="bg-[#f4f4f5] border border-[#ececee] rounded-[20px] p-4 space-y-4">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label className="text-sm font-semibold">Auto-calculate CO₂e</Label>
@@ -372,7 +372,7 @@ export function TransactionsClient({
                     onChange={(e) => setAutoCalc(e.target.checked)}
                     className="sr-only peer"
                   />
-                  <div className="w-9 h-5 bg-[#2d2f39] rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-[#88888b] after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#9B5CF6] peer-checked:after:bg-white"></div>
+                  <div className="w-9 h-5 bg-[#2d2f39] rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-[#88888b] after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#09090b] peer-checked:after:bg-white"></div>
                 </label>
               </div>
 
@@ -384,7 +384,7 @@ export function TransactionsClient({
                   value={currentCo2e}
                   disabled={autoCalc}
                   onChange={(e) => setCustomCo2e(e.target.value)}
-                  className="bg-[#181922] border-[#2d2f39]"
+                  className="bg-white border-[#ececee]"
                 />
               </div>
             </div>
@@ -402,7 +402,7 @@ export function TransactionsClient({
       </Dialog>
 
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-[#181922] border-[#2d2f39] text-white">
+        <DialogContent className="bg-white border-[#ececee] text-white">
           <DialogHeader>
             <DialogTitle>Delete Transaction</DialogTitle>
           </DialogHeader>

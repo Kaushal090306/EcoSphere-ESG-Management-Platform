@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { toast } from "sonner";
@@ -109,10 +109,10 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
             placeholder="Search goals..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs"
+            className="max-w-xs bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs"
           />
           <Select value={deptFilter} onValueChange={(val) => val && setDeptFilter(val)}>
-            <SelectTrigger className="w-44 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
+            <SelectTrigger className="w-44 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="All Departments" />
             </SelectTrigger>
             <SelectContent>
@@ -123,7 +123,7 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
             </SelectContent>
           </Select>
           <Select value={statusFilter} onValueChange={(val) => val && setStatusFilter(val)}>
-            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
+            <SelectTrigger className="w-36 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="All Statuses" />
             </SelectTrigger>
             <SelectContent>
@@ -135,7 +135,7 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
             </SelectContent>
           </Select>
           <Select value={sortBy} onValueChange={(val) => val && setSortBy(val)}>
-            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
+            <SelectTrigger className="w-36 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="Sort By" />
             </SelectTrigger>
             <SelectContent>
@@ -152,7 +152,7 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
         </Button>
       </div>
 
-      <Card className="border-[#2d2f39] bg-[#181922]">
+      <Card className="border-[#ececee] bg-white">
         <CardContent className="p-0">
           {filteredGoals.length === 0 ? (
             <EmptyState title="No goals found" description="Adjust search query or filter settings." />
@@ -205,24 +205,24 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
       </Card>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-lg bg-[#181922] border-[#2d2f39] text-white">
+        <DialogContent className="max-w-lg bg-white border-[#ececee] text-white">
           <DialogHeader><DialogTitle>{editing ? "Edit Goal" : "New Goal"}</DialogTitle></DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2"><Label>Title</Label><Input name="title" defaultValue={editing?.title || ""} className="bg-[#0f1016] border-[#2d2f39]" required /></div>
+            <div className="space-y-2"><Label>Title</Label><Input name="title" defaultValue={editing?.title || ""} className="bg-[#f4f4f5] border-[#ececee]" required /></div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Department</Label>
                 <Select name="departmentId" defaultValue={editing?.departmentId || ""}>
-                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39]"><SelectValue placeholder="Select department" /></SelectTrigger>
+                  <SelectTrigger className="bg-[#f4f4f5] border-[#ececee]"><SelectValue placeholder="Select department" /></SelectTrigger>
                   <SelectContent>{departments.map(d => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
-              <div className="space-y-2"><Label>Metric</Label><Input name="metric" defaultValue={editing?.metric || ""} placeholder="CO₂e tonnes" className="bg-[#0f1016] border-[#2d2f39]" required /></div>
+              <div className="space-y-2"><Label>Metric</Label><Input name="metric" defaultValue={editing?.metric || ""} placeholder="CO₂e tonnes" className="bg-[#f4f4f5] border-[#ececee]" required /></div>
             </div>
             <div className="grid gap-4 sm:grid-cols-3">
-              <div className="space-y-2"><Label>Baseline</Label><Input name="baselineValue" defaultValue={editing?.baselineValue || ""} className="bg-[#0f1016] border-[#2d2f39]" required /></div>
-              <div className="space-y-2"><Label>Target</Label><Input name="targetValue" defaultValue={editing?.targetValue || ""} className="bg-[#0f1016] border-[#2d2f39]" required /></div>
-              <div className="space-y-2"><Label>Current</Label><Input name="currentValue" defaultValue={editing?.currentValue || "0"} className="bg-[#0f1016] border-[#2d2f39]" /></div>
+              <div className="space-y-2"><Label>Baseline</Label><Input name="baselineValue" defaultValue={editing?.baselineValue || ""} className="bg-[#f4f4f5] border-[#ececee]" required /></div>
+              <div className="space-y-2"><Label>Target</Label><Input name="targetValue" defaultValue={editing?.targetValue || ""} className="bg-[#f4f4f5] border-[#ececee]" required /></div>
+              <div className="space-y-2"><Label>Current</Label><Input name="currentValue" defaultValue={editing?.currentValue || "0"} className="bg-[#f4f4f5] border-[#ececee]" /></div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
@@ -231,14 +231,14 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
                   name="deadline" 
                   type="date" 
                   defaultValue={editing?.deadline ? new Date(editing.deadline).toISOString().split("T")[0] : ""} 
-                  className="bg-[#0f1016] border-[#2d2f39]" 
+                  className="bg-[#f4f4f5] border-[#ececee]" 
                   required 
                 />
               </div>
               <div className="space-y-2">
                 <Label>Status</Label>
                 <Select name="status" defaultValue={editing?.status || "active"}>
-                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39]"><SelectValue /></SelectTrigger>
+                  <SelectTrigger className="bg-[#f4f4f5] border-[#ececee]"><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="active">Active</SelectItem>
                     <SelectItem value="achieved">Achieved</SelectItem>
@@ -257,7 +257,7 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
       </Dialog>
 
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-[#181922] border-[#2d2f39] text-white">
+        <DialogContent className="bg-white border-[#ececee] text-white">
           <DialogHeader><DialogTitle>Delete Goal</DialogTitle></DialogHeader>
           <p className="text-sm text-muted-foreground">Delete <span className="font-medium text-white">{deleting?.title}</span>?</p>
           <DialogFooter>

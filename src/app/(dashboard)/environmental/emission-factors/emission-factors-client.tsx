@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { toast } from "sonner";
@@ -110,10 +110,10 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
             placeholder="Search factors..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs"
+            className="max-w-xs bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs"
           />
           <Select value={sourceFilter} onValueChange={(val) => val && setSourceFilter(val)}>
-            <SelectTrigger className="w-40 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
+            <SelectTrigger className="w-40 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="All Sources" />
             </SelectTrigger>
             <SelectContent>
@@ -124,7 +124,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
             </SelectContent>
           </Select>
           <Select value={scopeFilter} onValueChange={(val) => val && setScopeFilter(val)}>
-            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
+            <SelectTrigger className="w-36 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="All Scopes" />
             </SelectTrigger>
             <SelectContent>
@@ -135,7 +135,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
             </SelectContent>
           </Select>
           <Select value={sortBy} onValueChange={(val) => val && setSortBy(val)}>
-            <SelectTrigger className="w-40 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
+            <SelectTrigger className="w-40 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="Sort By" />
             </SelectTrigger>
             <SelectContent>
@@ -153,7 +153,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
         )}
       </div>
 
-      <Card className="border-[#2d2f39] bg-[#181922]">
+      <Card className="border-[#ececee] bg-white">
         <CardContent className="p-0">
           {filteredFactors.length === 0 ? (
             <EmptyState title="No emission factors found" description="Adjust search query or filter settings." />
@@ -196,34 +196,34 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
       </Card>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="bg-[#181922] border-[#2d2f39] text-white">
+        <DialogContent className="bg-white border-[#ececee] text-white">
           <DialogHeader><DialogTitle>{editing ? "Edit Emission Factor" : "New Emission Factor"}</DialogTitle></DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2"><Label>Name</Label><Input name="name" defaultValue={editing?.name || ""} className="bg-[#0f1016] border-[#2d2f39]" required /></div>
+            <div className="space-y-2"><Label>Name</Label><Input name="name" defaultValue={editing?.name || ""} className="bg-[#f4f4f5] border-[#ececee]" required /></div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Source Type</Label>
                 <Select name="sourceType" defaultValue={editing?.sourceType || "fuel"}>
-                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39]"><SelectValue /></SelectTrigger>
+                  <SelectTrigger className="bg-[#f4f4f5] border-[#ececee]"><SelectValue /></SelectTrigger>
                   <SelectContent>{sourceTypes.map(s => <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
                 <Label>Scope</Label>
                 <Select name="scope" defaultValue={editing?.scope || "scope_1"}>
-                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39]"><SelectValue /></SelectTrigger>
+                  <SelectTrigger className="bg-[#f4f4f5] border-[#ececee]"><SelectValue /></SelectTrigger>
                   <SelectContent>{scopes.map(s => <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2"><Label>Unit</Label><Input name="unit" defaultValue={editing?.unit || ""} placeholder="kWh, liters, kg" className="bg-[#0f1016] border-[#2d2f39]" required /></div>
-              <div className="space-y-2"><Label>Factor Value (CO₂e)</Label><Input name="factorValue" defaultValue={editing?.factorValue || ""} placeholder="0.000233" className="bg-[#0f1016] border-[#2d2f39]" required /></div>
+              <div className="space-y-2"><Label>Unit</Label><Input name="unit" defaultValue={editing?.unit || ""} placeholder="kWh, liters, kg" className="bg-[#f4f4f5] border-[#ececee]" required /></div>
+              <div className="space-y-2"><Label>Factor Value (CO₂e)</Label><Input name="factorValue" defaultValue={editing?.factorValue || ""} placeholder="0.000233" className="bg-[#f4f4f5] border-[#ececee]" required /></div>
             </div>
             <div className="space-y-2">
               <Label>Status</Label>
               <Select name="status" defaultValue={editing?.status || "active"}>
-                <SelectTrigger className="bg-[#0f1016] border-[#2d2f39]"><SelectValue /></SelectTrigger>
+                <SelectTrigger className="bg-[#f4f4f5] border-[#ececee]"><SelectValue /></SelectTrigger>
                 <SelectContent><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem></SelectContent>
               </Select>
             </div>
@@ -236,7 +236,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
       </Dialog>
 
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-[#181922] border-[#2d2f39] text-white">
+        <DialogContent className="bg-white border-[#ececee] text-white">
           <DialogHeader><DialogTitle>Delete Emission Factor</DialogTitle></DialogHeader>
           <p className="text-sm text-muted-foreground">Delete <span className="font-medium text-white">{deleting?.name}</span>?</p>
           <DialogFooter>

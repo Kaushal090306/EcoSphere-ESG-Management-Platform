@@ -173,25 +173,26 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
   const toggleGroup = (name: string) => {
     setExpanded((prev) => ({ ...prev, [name]: !prev[name] }));
   };
+
   return (
-    <Sidebar collapsible="icon" className="border-r border-[#1A1822] bg-[#0C0A0E]">
-      <SidebarHeader className="px-6 py-6 group-data-[collapsible=icon]:p-2 bg-[#0C0A0E]">
+    <Sidebar collapsible="icon" className="border-r border-[#ececee] bg-[#fafafa]">
+      <SidebarHeader className="px-6 py-6 group-data-[collapsible=icon]:p-2 bg-[#fafafa]">
         <Link href="/dashboard" className="flex flex-col group-data-[collapsible=icon]:items-center">
           <div className="flex items-center gap-3">
             {/* Custom 4-circle logo arrange in clover style */}
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#121016] border border-[#221F2C]">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white border border-[#ececee]">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="3" y="3" width="7" height="7" rx="2" fill="#9B5CF6" />
-                <rect x="14" y="3" width="7" height="7" rx="2" fill="#9B5CF6" />
-                <rect x="3" y="14" width="7" height="7" rx="2" fill="#9B5CF6" />
-                <rect x="14" y="14" width="7" height="7" rx="2" fill="#7C3AED" />
+                <rect x="3" y="3" width="7" height="7" rx="2" fill="#09090b" />
+                <rect x="14" y="3" width="7" height="7" rx="2" fill="#09090b" />
+                <rect x="3" y="14" width="7" height="7" rx="2" fill="#09090b" />
+                <rect x="14" y="14" width="7" height="7" rx="2" fill="#ff5a00" />
               </svg>
             </div>
             <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-              <span className="text-lg font-extrabold text-white tracking-tight leading-none">
+              <span className="text-lg font-bold text-[#09090b] tracking-tight leading-none">
                 EcoSphere
               </span>
-              <span className="text-[10px] text-muted-foreground font-semibold mt-0.5 tracking-wider uppercase">
+              <span className="text-[10px] text-[#71717a] font-semibold mt-0.5 tracking-wider uppercase">
                 ESG Platform
               </span>
             </div>
@@ -199,10 +200,10 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
         </Link>
       </SidebarHeader>
 
-      <SidebarContent className="bg-[#0C0A0E] px-3 space-y-1">
+      <SidebarContent className="bg-[#fafafa] px-3 space-y-1">
         {navGroups.map((group) => (
           <SidebarGroup key={group.label} className="px-0 py-2">
-            <SidebarGroupLabel className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground/40 px-3 mb-2">
+            <SidebarGroupLabel className="text-[10px] uppercase font-bold tracking-widest text-[#a1a1aa] px-3 mb-2">
               {group.label}
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -211,10 +212,14 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                   const hasSubItems = !!item.items;
                   const isExpanded = expanded[item.title];
                   const isActive = item.href
-                    ? item.href === "/"
-                      ? pathname === "/"
-                      : pathname.startsWith(item.href)
+                    ? pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href))
                     : false;
+
+                  const buttonClasses = `w-full flex items-center justify-between px-3 py-2.5 h-11 rounded-[14px] cursor-pointer transition-all border ${
+                    isActive 
+                      ? "bg-white text-[#09090b] border-[#ececee] shadow-sm font-semibold" 
+                      : "text-[#52525b] border-transparent hover:bg-white hover:text-[#09090b] hover:border-[#ececee] hover:shadow-sm"
+                  }`;
 
                   return (
                     <SidebarMenuItem key={item.title}>
@@ -222,7 +227,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                         <>
                           <SidebarMenuButton
                             isActive={isActive}
-                            className="w-full text-sidebar-foreground hover:bg-[#121016] px-3 py-2.5 h-11 rounded-xl cursor-pointer"
+                            className={buttonClasses}
                             tooltip={item.title}
                             render={
                               <Link href={item.href || "#"}>
@@ -239,7 +244,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                               e.stopPropagation();
                               toggleGroup(item.title);
                             }}
-                            className="right-2 top-1/2 -translate-y-1/2 flex items-center justify-center h-6 w-6 text-muted-foreground/70 hover:text-white rounded-md transition-all cursor-pointer"
+                            className="right-2 top-1/2 -translate-y-1/2 flex items-center justify-center h-6 w-6 text-[#71717a] hover:text-[#09090b] rounded-md transition-all cursor-pointer"
                             render={
                               <button>
                                 {isExpanded ? (
@@ -252,17 +257,21 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                           />
 
                           {isExpanded && (
-                            <div className="pl-6 mt-1 mb-2 space-y-1 border-l border-[#221F2C] ml-5 flex flex-col">
+                            <div className="pl-6 mt-1 mb-2 space-y-1 border-l border-[#ececee] ml-5 flex flex-col">
                               {item.items!.map((subItem) => {
                                 const isSubActive = pathname === subItem.href;
                                 return (
                                   <SidebarMenuButton
                                     key={subItem.href}
                                     isActive={isSubActive}
-                                    className="h-9 text-xs justify-start rounded-lg hover:bg-[#121016] w-full px-3 cursor-pointer"
+                                    className={`h-9 text-xs justify-start rounded-lg w-full px-3 cursor-pointer transition-all border ${
+                                      isSubActive
+                                        ? "bg-white text-[#09090b] border-[#ececee] shadow-sm font-semibold"
+                                        : "text-[#52525b] border-transparent hover:text-[#09090b] hover:bg-white hover:border-[#ececee]"
+                                    }`}
                                     render={
                                       <Link href={subItem.href}>
-                                        <span className={isSubActive ? "text-white font-semibold" : "text-muted-foreground"}>
+                                        <span>
                                           {subItem.title}
                                         </span>
                                       </Link>
@@ -276,7 +285,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                       ) : (
                         <SidebarMenuButton
                           isActive={isActive}
-                          className="w-full flex items-center justify-between px-3 py-2.5 h-11 rounded-xl cursor-pointer hover:bg-[#121016]"
+                          className={buttonClasses}
                           tooltip={item.title}
                           render={
                             <Link href={item.href || "#"}>
@@ -285,7 +294,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                                 <span className="text-sm font-medium">{item.title}</span>
                               </div>
                               {item.badge !== undefined && (
-                                <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#7C3AED] px-1 text-[10px] font-bold text-white shadow-[0_0_10px_rgba(124,58,237,0.4)]">
+                                <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#18181b] px-1 text-[10px] font-bold text-white">
                                   {item.badge}
                                 </span>
                               )}
@@ -302,23 +311,23 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
         ))}
       </SidebarContent>
 
-      <SidebarFooter className="p-4 bg-[#0C0A0E] border-t border-[#1A1822]">
+      <SidebarFooter className="p-4 bg-[#fafafa] border-t border-[#ececee]">
         {/* Current Plan Banner matching mockup */}
-        <div className="bg-[#121016] border border-[#221F2C] rounded-2xl p-4 space-y-3 group-data-[collapsible=icon]:hidden">
+        <div className="bg-white border border-[#ececee] rounded-[20px] p-4 space-y-3 group-data-[collapsible=icon]:hidden">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">
+            <span className="text-[10px] text-[#71717a] uppercase font-bold tracking-widest">
               Current Plan
             </span>
             <Crown className="h-4 w-4 text-amber-500" />
           </div>
           <div>
-            <h4 className="text-base font-extrabold text-white">
+            <h4 className="text-base font-bold text-[#09090b]">
               Enterprise
             </h4>
           </div>
           <Button 
             nativeButton={false}
-            className="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs py-2 h-9 rounded-xl font-bold shadow-[0_0_15px_rgba(124,58,237,0.25)] transition-all cursor-pointer border-none"
+            className="w-full bg-[#09090b] hover:bg-[#18181b] text-white text-xs py-2 h-9 rounded-[14px] font-medium transition-all border-none"
             render={
               <Link href="/settings" />
             }
@@ -335,3 +344,4 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
     </Sidebar>
   );
 }
+
