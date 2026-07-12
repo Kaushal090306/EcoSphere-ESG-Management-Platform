@@ -233,23 +233,20 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                               </Link>
                             }
                           />
-                          <SidebarMenuAction
+                          <button
                             onClick={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
                               toggleGroup(item.title);
                             }}
-                            className="absolute right-2 top-[22px] -translate-y-1/2 flex items-center justify-center h-6 w-6 text-muted-foreground/70 hover:text-white rounded-md transition-all cursor-pointer"
-                            render={
-                              <button>
-                                {isExpanded ? (
-                                  <ChevronUp className="h-3.5 w-3.5" />
-                                ) : (
-                                  <ChevronDown className="h-3.5 w-3.5" />
-                                )}
-                              </button>
-                            }
-                          />
+                            className="absolute right-3 top-[22px] -translate-y-1/2 flex items-center justify-center h-6 w-6 text-muted-foreground/70 hover:text-white rounded-md transition-all cursor-pointer z-10"
+                          >
+                            {isExpanded ? (
+                              <ChevronUp className="h-4 w-4" />
+                            ) : (
+                              <ChevronDown className="h-4 w-4" />
+                            )}
+                          </button>
 
                           {isExpanded && (
                             <div className="pl-6 mt-1 mb-2 space-y-1 border-l border-[#221F2C] ml-5 flex flex-col">
