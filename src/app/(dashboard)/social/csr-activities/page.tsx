@@ -1,4 +1,4 @@
-import { getCsrActivities } from "@/actions/csr-activities";
+﻿import { getCsrActivities } from "@/actions/csr-activities";
 import { getDepartments } from "@/actions/departments";
 import { getCategories } from "@/actions/categories";
 import { CsrActivitiesClient } from "./csr-activities-client";
@@ -14,12 +14,6 @@ export default async function CsrActivitiesPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight text-[#09090b] dark:text-white">CSR Activities</h1>
-        <p className="text-muted-foreground">
-          Corporate Social Responsibility events and volunteer opportunities
-        </p>
-      </div>
 
       <CsrActivitiesClient
         activities={activities}
