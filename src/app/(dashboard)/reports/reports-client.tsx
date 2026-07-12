@@ -15,10 +15,17 @@ import {
   Sparkles, 
   CheckCircle2, 
   AlertTriangle,
-  Clock
+  Clock,
+  ChevronDown
 } from "lucide-react";
 import { getReportData, ReportFilters } from "@/actions/reports";
 import { toast } from "sonner";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 
 interface Option {
   id: string;
@@ -282,25 +289,41 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
         </nav>
 
         {/* Global Export actions */}
-        <div className="flex flex-wrap items-center gap-2">
-          <button
-            onClick={() => handleExport("csv")}
-            className="flex items-center gap-2 px-3 py-1.5 h-8.5 bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] hover:bg-[#f4f4f5] dark:hover:bg-[#1c1a24] text-xs font-semibold text-[#09090b] dark:text-white rounded-lg transition-all cursor-pointer shadow-none"
-          >
-            <Download className="h-3.5 w-3.5" /> CSV
-          </button>
-          <button
-            onClick={() => handleExport("excel")}
-            className="flex items-center gap-2 px-3 py-1.5 h-8.5 bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] hover:bg-[#f4f4f5] dark:hover:bg-[#1c1a24] text-xs font-semibold text-[#09090b] dark:text-white rounded-lg transition-all cursor-pointer shadow-none"
-          >
-            <Download className="h-3.5 w-3.5" /> Excel
-          </button>
-          <button
-            onClick={() => handleExport("pdf")}
-            className="flex items-center gap-2 px-4 py-1.5 h-8.5 bg-purple-600 hover:bg-purple-700 text-xs font-semibold text-white rounded-lg shadow-[0_0_15px_rgba(155,92,246,0.3)] transition-all cursor-pointer"
-          >
-            <FileText className="h-3.5 w-3.5" /> PDF / Print
-          </button>
+        <div className="flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={
+                <button className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-3.5 py-1.5 h-8.5 rounded-lg font-semibold flex items-center gap-2 shadow-[0_0_15px_rgba(155,92,246,0.3)] transition-all cursor-pointer">
+                  <Download className="h-3.5 w-3.5" />
+                  <span>Export</span>
+                  <ChevronDown className="h-3.5 w-3.5 opacity-60" />
+                </button>
+              }
+            />
+            <DropdownMenuContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-lg z-50">
+              <DropdownMenuItem 
+                onClick={() => handleExport("csv")}
+                className="text-xs text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#1c1a24] cursor-pointer"
+              >
+                <Download className="h-3.5 w-3.5 mr-2 text-muted-foreground" />
+                Export as CSV
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => handleExport("excel")}
+                className="text-xs text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#1c1a24] cursor-pointer"
+              >
+                <Download className="h-3.5 w-3.5 mr-2 text-muted-foreground" />
+                Export as Excel
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => handleExport("pdf")}
+                className="text-xs text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#1c1a24] cursor-pointer"
+              >
+                <FileText className="h-3.5 w-3.5 mr-2 text-muted-foreground" />
+                Print / Save as PDF
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
