@@ -1,97 +1,36 @@
-# 🌍 EcoSphere — ESG Management Platform
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-**Track your company's environmental impact, social initiatives, and governance compliance — all in one place.**
+## Getting Started
 
----
+First, run the development server:
 
-## What is this?
-
-EcoSphere helps organizations answer three simple questions:
-
-1. **Environmental** — How much carbon are we producing, and are we reducing it?
-2. **Social** — Are our employees engaged in community and well-being initiatives?
-3. **Governance** — Are we following our own policies and passing audits?
-
-Instead of scattered spreadsheets and manual reports, EcoSphere connects directly to your existing business operations and turns raw data into actionable sustainability scores.
-
----
-
-## How it works
-
-```mermaid
-flowchart TD
-    A["⚙️ Setup\nDepartments · Emission Factors\nPolicies · Goals · Challenges"] --> B["🏭 Daily Operations\nPurchases · Manufacturing\nExpenses · Fleet"]
-
-    B --> C["Carbon Tracking\nAuto-calculate emissions\nfrom business records"]
-
-    A --> D["Employee Activities"]
-    D --> D1["CSR Participation\nSign up · Submit proof · Earn points"]
-    D --> D2["Challenges\nComplete tasks · Earn XP & badges"]
-    D --> D3["Policy Sign-off\nAcknowledge company policies"]
-    D --> D4["Audits\nConduct reviews · Flag issues"]
-
-    C --> E["Score Calculation"]
-    D1 --> E
-    D2 --> E
-    D3 --> E
-    D4 --> E
-
-    E --> F["Environmental Score"]
-    E --> G["Social Score"]
-    E --> H["Governance Score"]
-
-    F --> I["Department Score\n& Organization ESG Score"]
-    G --> I
-    H --> I
-
-    I --> J["Dashboard & Reports"]
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
----
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Key Features
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-| Module | What it does |
-|---|---|
-| **Environmental** | Tracks carbon emissions, sets reduction goals, monitors progress |
-| **Social** | Manages community activities, tracks employee participation and diversity |
-| **Governance** | Handles policies, audits, and compliance issues |
-| **Gamification** | Challenges, XP, badges, rewards, and leaderboards to keep people engaged |
-| **Reports** | Pre-built and custom reports with PDF/Excel/CSV export |
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
----
+## Learn More
 
-## Scoring
+To learn more about Next.js, take a look at the following resources:
 
-Every department gets three scores (Environmental, Social, Governance) that roll up into one **Organization ESG Score**.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-Default weighting:
-- Environmental — **40%**
-- Social — **30%**
-- Governance — **30%**
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-Weights are configurable per organization.
+## Deploy on Vercel
 
----
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-## Project Structure
-
-```
-EcoSphere-ESG-Management-Platform/
-├── docs/
-│   └── PRD.md              # Detailed product requirements
-├── README.md                # You are here
-└── ...                      # Source code (coming soon)
-```
-
----
-
-## Documentation
-
-- [**Product Requirements Document (PRD)**](docs/PRD.md) — Full specification including data models, business rules, workflows, and reporting requirements.
-
----
-
-## License
-
-This project is for educational and evaluation purposes.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
