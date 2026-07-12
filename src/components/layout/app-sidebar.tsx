@@ -176,7 +176,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
   return (
     <Sidebar collapsible="icon" className="border-r border-[#1A1822] bg-[#0C0A0E]">
       <SidebarHeader className="px-6 py-6 group-data-[collapsible=icon]:p-2 bg-[#0C0A0E]">
-        <Link href="/" className="flex flex-col group-data-[collapsible=icon]:items-center">
+        <Link href="/dashboard" className="flex flex-col group-data-[collapsible=icon]:items-center">
           <div className="flex items-center gap-3">
             {/* Custom 4-circle logo arrange in clover style */}
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#121016] border border-[#221F2C]">

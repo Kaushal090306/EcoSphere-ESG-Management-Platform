@@ -31,7 +31,7 @@ export function AccessDenied() {
           </p>
           
           <Link
-            href="/"
+            href="/dashboard"
             className={cn(
               buttonVariants({ variant: "default" }),
               "w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white flex items-center justify-center gap-2"
