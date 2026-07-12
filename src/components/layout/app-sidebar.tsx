@@ -175,24 +175,24 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
   };
 
   return (
-    <Sidebar collapsible="icon" className="border-r border-[#ececee] bg-[#fafafa]">
-      <SidebarHeader className="px-6 py-6 group-data-[collapsible=icon]:p-2 bg-[#fafafa]">
+    <Sidebar collapsible="icon" className="border-r border-[#ececee] dark:border-[#27272a] bg-[#fafafa] dark:bg-[#18181b] transition-colors">
+      <SidebarHeader className="px-6 py-6 group-data-[collapsible=icon]:p-2 bg-[#fafafa] dark:bg-[#18181b]">
         <Link href="/dashboard" className="flex flex-col group-data-[collapsible=icon]:items-center">
           <div className="flex items-center gap-3">
-            {/* Custom 4-circle logo arrange in clover style */}
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white border border-[#ececee]">
+            {/* Custom 4-circle logo */}
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white dark:bg-[#27272a] border border-[#ececee] dark:border-[#3f3f46]">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="3" y="3" width="7" height="7" rx="2" fill="#09090b" />
-                <rect x="14" y="3" width="7" height="7" rx="2" fill="#09090b" />
-                <rect x="3" y="14" width="7" height="7" rx="2" fill="#09090b" />
+                <rect x="3" y="3" width="7" height="7" rx="2" fill="#fafafa" className="dark:fill-[#fafafa]" />
+                <rect x="14" y="3" width="7" height="7" rx="2" fill="#fafafa" className="dark:fill-[#fafafa]" />
+                <rect x="3" y="14" width="7" height="7" rx="2" fill="#fafafa" className="dark:fill-[#fafafa]" />
                 <rect x="14" y="14" width="7" height="7" rx="2" fill="#ff5a00" />
               </svg>
             </div>
             <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-              <span className="text-lg font-bold text-[#09090b] tracking-tight leading-none">
+              <span className="text-lg font-bold text-[#09090b] dark:text-[#fafafa] tracking-tight leading-none">
                 EcoSphere
               </span>
-              <span className="text-[10px] text-[#71717a] font-semibold mt-0.5 tracking-wider uppercase">
+              <span className="text-[10px] text-[#71717a] dark:text-[#71717a] font-semibold mt-0.5 tracking-wider uppercase">
                 ESG Platform
               </span>
             </div>
@@ -200,10 +200,10 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
         </Link>
       </SidebarHeader>
 
-      <SidebarContent className="bg-[#fafafa] px-3 space-y-1">
+      <SidebarContent className="bg-[#fafafa] dark:bg-[#18181b] px-3 space-y-1">
         {navGroups.map((group) => (
           <SidebarGroup key={group.label} className="px-0 py-2">
-            <SidebarGroupLabel className="text-[10px] uppercase font-bold tracking-widest text-[#a1a1aa] px-3 mb-2">
+            <SidebarGroupLabel className="text-[10px] uppercase font-bold tracking-widest text-[#a1a1aa] dark:text-[#52525b] px-3 mb-2">
               {group.label}
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -311,9 +311,9 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
         ))}
       </SidebarContent>
 
-      <SidebarFooter className="p-4 bg-[#fafafa] border-t border-[#ececee]">
-        {/* Current Plan Banner matching mockup */}
-        <div className="bg-white border border-[#ececee] rounded-[20px] p-4 space-y-3 group-data-[collapsible=icon]:hidden">
+      <SidebarFooter className="p-4 bg-[#fafafa] dark:bg-[#18181b] border-t border-[#ececee] dark:border-[#27272a]">
+        {/* Current Plan Banner */}
+        <div className="bg-white dark:bg-[#27272a] border border-[#ececee] dark:border-[#3f3f46] rounded-[20px] p-4 space-y-3 group-data-[collapsible=icon]:hidden">
           <div className="flex items-center justify-between">
             <span className="text-[10px] text-[#71717a] uppercase font-bold tracking-widest">
               Current Plan
@@ -321,13 +321,13 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
             <Crown className="h-4 w-4 text-amber-500" />
           </div>
           <div>
-            <h4 className="text-base font-bold text-[#09090b]">
+            <h4 className="text-base font-bold text-[#09090b] dark:text-[#fafafa]">
               Enterprise
             </h4>
           </div>
           <Button 
             nativeButton={false}
-            className="w-full bg-[#09090b] hover:bg-[#18181b] text-white text-xs py-2 h-9 rounded-[14px] font-medium transition-all border-none"
+            className="w-full bg-[#09090b] dark:bg-[#fafafa] hover:bg-[#18181b] dark:hover:bg-[#e4e4e7] text-white dark:text-[#09090b] text-xs py-2 h-9 rounded-[14px] font-medium transition-all border-none"
             render={
               <Link href="/settings" />
             }

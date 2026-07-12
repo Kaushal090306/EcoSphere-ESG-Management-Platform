@@ -9,7 +9,7 @@ foreach ($file in $allFiles) {
 
   # Restore text-white on dark button CTAs (bg-[#09090b], bg-[#18181b])
   # Pattern: bg-[#09090b] ... text-[#09090b] -> should be text-white
-  # We match the specific button className patterns
+  # We match the specific button className patterns 
   
   # Dark filled primary buttons - restore white text
   $patterns = @(
