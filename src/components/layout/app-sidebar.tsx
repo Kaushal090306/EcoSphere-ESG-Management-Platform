@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -217,8 +217,8 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
 
                   const buttonClasses = `w-full flex items-center justify-between px-3 py-2.5 h-11 rounded-[14px] cursor-pointer transition-all border ${
                     isActive 
-                      ? "bg-white text-[#09090b] border-[#ececee] shadow-sm font-semibold" 
-                      : "text-[#52525b] border-transparent hover:bg-white hover:text-[#09090b] hover:border-[#ececee] hover:shadow-sm"
+                      ? "bg-white dark:bg-[#18181b] text-[#09090b] border-[#ececee] shadow-sm font-semibold" 
+                      : "text-[#52525b] border-transparent hover:bg-white dark:bg-[#18181b] hover:text-[#09090b] hover:border-[#ececee] hover:shadow-sm"
                   }`;
 
                   return (
@@ -266,8 +266,8 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                                     isActive={isSubActive}
                                     className={`h-9 text-xs justify-start rounded-lg w-full px-3 cursor-pointer transition-all border ${
                                       isSubActive
-                                        ? "bg-white text-[#09090b] border-[#ececee] shadow-sm font-semibold"
-                                        : "text-[#52525b] border-transparent hover:text-[#09090b] hover:bg-white hover:border-[#ececee]"
+                                        ? "bg-white dark:bg-[#18181b] text-[#09090b] border-[#ececee] shadow-sm font-semibold"
+                                        : "text-[#52525b] border-transparent hover:text-[#09090b] hover:bg-white dark:bg-[#18181b] hover:border-[#ececee]"
                                     }`}
                                     render={
                                       <Link href={subItem.href}>

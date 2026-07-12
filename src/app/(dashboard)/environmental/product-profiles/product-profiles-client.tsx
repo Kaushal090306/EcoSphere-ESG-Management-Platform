@@ -86,10 +86,10 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
             placeholder="Search products..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="max-w-xs bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs"
+            className="max-w-xs bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs"
           />
           <Select value={statusFilter} onValueChange={(val) => val && setStatusFilter(val)}>
-            <SelectTrigger className="w-36 bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
+            <SelectTrigger className="w-36 bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="All Statuses" />
             </SelectTrigger>
             <SelectContent>
@@ -99,7 +99,7 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
             </SelectContent>
           </Select>
           <Select value={sortBy} onValueChange={(val) => val && setSortBy(val)}>
-            <SelectTrigger className="w-44 bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
+            <SelectTrigger className="w-44 bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="Sort By" />
             </SelectTrigger>
             <SelectContent>
@@ -116,7 +116,7 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
         </Button>
       </div>
 
-      <Card className="border-[#ececee] bg-white">
+      <Card className="border-[#ececee] bg-white dark:bg-[#18181b]">
         <CardContent className="p-0">
           {filteredProfiles.length === 0 ? (
             <EmptyState title="No product profiles found" description="Adjust search query or filter settings." />
@@ -155,7 +155,7 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
       </Card>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="bg-white border-[#ececee] text-[#09090b]">
+        <DialogContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b]">
           <DialogHeader><DialogTitle>{editing ? "Edit Profile" : "New Profile"}</DialogTitle></DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2"><Label>Product Name</Label><Input name="productName" defaultValue={editing?.productName || ""} className="bg-[#f4f4f5] border-[#ececee]" required /></div>
@@ -180,7 +180,7 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
       </Dialog>
 
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-white border-[#ececee] text-[#09090b]">
+        <DialogContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b]">
           <DialogHeader><DialogTitle>Delete Profile</DialogTitle></DialogHeader>
           <p className="text-sm text-muted-foreground">Delete <span className="font-medium text-[#09090b]">{deleting?.productName}</span>?</p>
           <DialogFooter>

@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Sparkles, Shield, Users, Leaf, ArrowUpRight } from "lucide-react";
 import { auth } from "@/auth";
@@ -10,7 +10,7 @@ export default async function LandingPage() {
   return (
     <div className="min-h-screen bg-[#f4f4f5] text-[#18181b] font-sans antialiased selection:bg-[#ff5a00] selection:text-white">
       {/* Navigation Bar */}
-      <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-[#ececee]">
+      <header className="sticky top-0 z-50 w-full bg-white dark:bg-[#18181b]/80 backdrop-blur-md border-b border-[#ececee]">
         <div className="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
@@ -79,7 +79,7 @@ export default async function LandingPage() {
           </div>
 
           {/* Right Column (CTA Form) */}
-          <div className="lg:col-span-5 bg-white border border-[#ececee] rounded-[36px] p-8 shadow-sm">
+          <div className="lg:col-span-5 bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[36px] p-8 shadow-sm">
             <h3 className="text-xl font-bold text-[#09090b] mb-2">Request Access</h3>
             <p className="text-sm text-[#52525b] mb-6">
               Start measuring your ecological, social, and governance metrics with precision.
@@ -124,7 +124,7 @@ export default async function LandingPage() {
       </section>
 
       {/* Logo Strip (Social Proof) */}
-      <section className="border-y border-[#ececee] bg-white py-8">
+      <section className="border-y border-[#ececee] bg-white dark:bg-[#18181b] py-8">
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="flex flex-wrap items-center justify-center md:justify-between gap-8 md:gap-4 opacity-70">
             <span className="text-[12px] font-bold text-[#71717a] uppercase tracking-wider">Trusted by leaders</span>
@@ -152,7 +152,7 @@ export default async function LandingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Card 1: Environmental */}
-          <div className="bg-white border border-[#ececee] rounded-[36px] overflow-hidden flex flex-col justify-between hover:border-[#ff5a00]/30 transition-all group">
+          <div className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[36px] overflow-hidden flex flex-col justify-between hover:border-[#ff5a00]/30 transition-all group">
             <div className="relative h-48 w-full bg-[#f4f4f5]">
               <Image
                 src="/images/landing/environmental.png"
@@ -173,7 +173,7 @@ export default async function LandingPage() {
           </div>
 
           {/* Card 2: Social */}
-          <div className="bg-white border border-[#ececee] rounded-[36px] overflow-hidden flex flex-col justify-between hover:border-[#ff5a00]/30 transition-all group">
+          <div className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[36px] overflow-hidden flex flex-col justify-between hover:border-[#ff5a00]/30 transition-all group">
             <div className="relative h-48 w-full bg-[#f4f4f5]">
               <Image
                 src="/images/landing/social.png"
@@ -194,7 +194,7 @@ export default async function LandingPage() {
           </div>
 
           {/* Card 3: Governance */}
-          <div className="bg-white border border-[#ececee] rounded-[36px] overflow-hidden flex flex-col justify-between hover:border-[#ff5a00]/30 transition-all group">
+          <div className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[36px] overflow-hidden flex flex-col justify-between hover:border-[#ff5a00]/30 transition-all group">
             <div className="relative h-48 w-full bg-[#f4f4f5]">
               <Image
                 src="/images/landing/governance.png"
@@ -215,7 +215,7 @@ export default async function LandingPage() {
           </div>
 
           {/* Card 4: Gamification */}
-          <div className="bg-white border border-[#ececee] rounded-[36px] overflow-hidden flex flex-col justify-between hover:border-[#ff5a00]/30 transition-all group">
+          <div className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[36px] overflow-hidden flex flex-col justify-between hover:border-[#ff5a00]/30 transition-all group">
             <div className="relative h-48 w-full bg-[#f4f4f5]">
               <Image
                 src="/images/landing/gamification.png"
@@ -252,7 +252,7 @@ export default async function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4">
             <div className="space-y-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-[#ff5a00]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-[#18181b]/10 text-[#ff5a00]">
                 <Leaf className="h-5 w-5" />
               </div>
               <h4 className="text-lg font-semibold">Automated Carbon Math</h4>
@@ -262,7 +262,7 @@ export default async function LandingPage() {
             </div>
 
             <div className="space-y-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-[#ff5a00]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-[#18181b]/10 text-[#ff5a00]">
                 <Shield className="h-5 w-5" />
               </div>
               <h4 className="text-lg font-semibold">Audit-Ready Compliance</h4>
@@ -272,7 +272,7 @@ export default async function LandingPage() {
             </div>
 
             <div className="space-y-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-[#ff5a00]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-[#18181b]/10 text-[#ff5a00]">
                 <Users className="h-5 w-5" />
               </div>
               <h4 className="text-lg font-semibold">Incentivized Actions</h4>
@@ -286,7 +286,7 @@ export default async function LandingPage() {
 
       {/* Stats Block Section */}
       <section id="impact" className="max-w-[1200px] mx-auto px-6 py-20">
-        <div className="bg-white border border-[#ececee] rounded-[36px] p-8 md:p-12">
+        <div className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[36px] p-8 md:p-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {/* Stat 1 */}
             <div className="flex flex-col md:flex-row items-baseline gap-4 md:border-r border-[#ececee] last:border-r-0 pr-4">
@@ -333,7 +333,7 @@ export default async function LandingPage() {
 
       {/* Testimonial / Final CTA */}
       <section className="max-w-[1200px] mx-auto px-6 pb-32">
-        <div className="bg-white border border-[#ececee] rounded-[36px] p-8 md:p-14 text-center max-w-4xl mx-auto space-y-8">
+        <div className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[36px] p-8 md:p-14 text-center max-w-4xl mx-auto space-y-8">
           <p className="text-xl md:text-2xl font-medium text-[#09090b] leading-relaxed italic">
             "EcoSphere completely centralized our Scope 1 and 2 carbon ledger. We consolidated data from three subsidiaries and finished our annual compliance review in just one week."
           </p>
@@ -354,7 +354,7 @@ export default async function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-[#ececee] bg-white py-12 text-[13px] text-[#71717a]">
+      <footer className="border-t border-[#ececee] bg-white dark:bg-[#18181b] py-12 text-[13px] text-[#71717a]">
         <div className="max-w-[1200px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
             <span className="font-bold text-[#09090b]">EcoSphere</span>

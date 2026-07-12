@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { toast } from "sonner";
@@ -165,7 +165,7 @@ function ToggleRow({
         }`}
       >
         <span
-          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+          className={`inline-block h-4 w-4 transform rounded-full bg-white dark:bg-[#18181b] transition-transform ${
             checked ? "translate-x-6" : "translate-x-1"
           }`}
         />

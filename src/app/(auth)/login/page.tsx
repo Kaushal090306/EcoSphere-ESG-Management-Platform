@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
@@ -116,7 +116,7 @@ export default function LoginPage() {
             onClick={() => handleSocialLogin("Google")}
             className="relative w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium py-3 rounded-full text-[13px] flex items-center justify-center transition-colors shadow-sm focus:outline-hidden"
           >
-            <div className="absolute left-2.5 top-1.5 h-8 w-8 bg-white rounded-full flex items-center justify-center">
+            <div className="absolute left-2.5 top-1.5 h-8 w-8 bg-white dark:bg-[#18181b] rounded-full flex items-center justify-center">
               <GoogleIcon />
             </div>
             Log in with Google
@@ -127,7 +127,7 @@ export default function LoginPage() {
             onClick={() => handleSocialLogin("GitHub")}
             className="relative w-full bg-[#1F2937] hover:bg-[#111827] text-white font-medium py-3 rounded-full text-[13px] flex items-center justify-center transition-colors shadow-sm focus:outline-hidden"
           >
-            <div className="absolute left-2.5 top-1.5 h-8 w-8 bg-white rounded-full flex items-center justify-center">
+            <div className="absolute left-2.5 top-1.5 h-8 w-8 bg-white dark:bg-[#18181b] rounded-full flex items-center justify-center">
               <GithubIcon />
             </div>
             Log in with GitHub
@@ -152,7 +152,7 @@ export default function LoginPage() {
               placeholder="Email"
               required
               autoComplete="email"
-              className="w-full bg-[#F3F4F6] text-slate-900 border-none rounded-xl pl-12 pr-4 h-12 focus-visible:ring-1 focus-visible:ring-violet-500 focus-visible:bg-white transition-all outline-hidden text-[13px] placeholder:text-slate-400"
+              className="w-full bg-[#F3F4F6] text-slate-900 border-none rounded-xl pl-12 pr-4 h-12 focus-visible:ring-1 focus-visible:ring-violet-500 focus-visible:bg-white dark:bg-[#18181b] transition-all outline-hidden text-[13px] placeholder:text-slate-400"
             />
           </div>
 
@@ -165,7 +165,7 @@ export default function LoginPage() {
               placeholder="Password"
               required
               autoComplete="current-password"
-              className="w-full bg-[#F3F4F6] text-slate-900 border-none rounded-xl pl-12 pr-4 h-12 focus-visible:ring-1 focus-visible:ring-violet-500 focus-visible:bg-white transition-all outline-hidden text-[13px] placeholder:text-slate-400"
+              className="w-full bg-[#F3F4F6] text-slate-900 border-none rounded-xl pl-12 pr-4 h-12 focus-visible:ring-1 focus-visible:ring-violet-500 focus-visible:bg-white dark:bg-[#18181b] transition-all outline-hidden text-[13px] placeholder:text-slate-400"
             />
           </div>
 

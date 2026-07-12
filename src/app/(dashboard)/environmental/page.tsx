@@ -106,7 +106,7 @@ export default function EnvironmentDashboard() {
 
         {/* Date filter & export action */}
         <div className="flex items-center gap-3 self-end md:self-center">
-          <div className="flex items-center gap-2 bg-white border border-[#ececee] rounded-[14px] px-3 py-1.5 text-xs text-muted-foreground font-medium">
+          <div className="flex items-center gap-2 bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[14px] px-3 py-1.5 text-xs text-muted-foreground font-medium">
             <Calendar className="h-4 w-4 text-muted-foreground/80" />
             <span>Oct 1 – Oct 31, 2024</span>
           </div>
@@ -124,7 +124,7 @@ export default function EnvironmentDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* KPI 1: Total Emissions */}
-        <Card className="bg-white border border-[#ececee] rounded-[28px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[28px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               {/* Left circle icon */}
@@ -162,7 +162,7 @@ export default function EnvironmentDashboard() {
         </Card>
 
         {/* KPI 2: Energy Consumption */}
-        <Card className="bg-white border border-[#ececee] rounded-[28px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[28px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400">
@@ -197,7 +197,7 @@ export default function EnvironmentDashboard() {
         </Card>
 
         {/* KPI 3: Water Usage */}
-        <Card className="bg-white border border-[#ececee] rounded-[28px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[28px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-blue-400">
@@ -232,7 +232,7 @@ export default function EnvironmentDashboard() {
         </Card>
 
         {/* KPI 4: Waste Generated */}
-        <Card className="bg-white border border-[#ececee] rounded-[28px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[28px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-500/10 text-purple-400">
@@ -271,7 +271,7 @@ export default function EnvironmentDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         
         {/* Plot 1: Emissions Trend */}
-        <Card className="bg-white border border-[#ececee] rounded-[20px] p-5 lg:col-span-6 flex flex-col justify-between">
+        <Card className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[20px] p-5 lg:col-span-6 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h4 className="text-sm font-semibold text-[#09090b]">Emissions Trend</h4>
@@ -330,7 +330,7 @@ export default function EnvironmentDashboard() {
         </Card>
 
         {/* Plot 2: Emissions by Scope Donut */}
-        <Card className="bg-white border border-[#ececee] rounded-[20px] p-5 lg:col-span-3 flex flex-col justify-between">
+        <Card className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[20px] p-5 lg:col-span-3 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-2">
             <h4 className="text-sm font-semibold text-[#09090b]">Emissions by Scope</h4>
             <Info className="h-4 w-4 text-muted-foreground/60" />
@@ -379,7 +379,7 @@ export default function EnvironmentDashboard() {
         </Card>
 
         {/* List 1: Recent Activities */}
-        <Card className="bg-white border border-[#ececee] rounded-[20px] p-5 lg:col-span-3 flex flex-col justify-between">
+        <Card className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[20px] p-5 lg:col-span-3 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-3">
             <h4 className="text-sm font-semibold text-[#09090b]">Recent Activities</h4>
             <Button 
@@ -444,7 +444,7 @@ export default function EnvironmentDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         
         {/* Source Pie Chart */}
-        <Card className="bg-white border border-[#ececee] rounded-[20px] p-5 flex flex-col justify-between">
+        <Card className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[20px] p-5 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-3">
             <h4 className="text-sm font-semibold text-[#09090b]">Emissions by Source</h4>
             <Button 
@@ -498,7 +498,7 @@ export default function EnvironmentDashboard() {
         </Card>
 
         {/* Top Emitters Department Table */}
-        <Card className="bg-white border border-[#ececee] rounded-[20px] p-5 flex flex-col justify-between">
+        <Card className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[20px] p-5 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-3">
             <h4 className="text-sm font-semibold text-[#09090b]">Top Emitters (Departments)</h4>
             <Button 
@@ -559,7 +559,7 @@ export default function EnvironmentDashboard() {
         </Card>
 
         {/* Quick Actions List */}
-        <Card className="bg-white border border-[#ececee] rounded-[20px] p-5 flex flex-col justify-between">
+        <Card className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[20px] p-5 flex flex-col justify-between">
           <div className="mb-3">
             <h4 className="text-sm font-semibold text-[#09090b]">Quick Actions</h4>
           </div>

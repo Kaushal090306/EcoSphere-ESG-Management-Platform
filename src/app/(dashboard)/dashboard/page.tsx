@@ -1,6 +1,7 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 import {
   Leaf,
   Users,
@@ -44,6 +45,18 @@ export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedPeriod, setSelectedPeriod] = useState("Last 6 Months");
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
+  const tooltipStyle = {
+    backgroundColor: isDark ? "#18181b" : "#ffffff",
+    border: `1px solid ${isDark ? "#27272a" : "#ececee"}`,
+    borderRadius: "12px",
+    color: isDark ? "#fafafa" : "#09090b",
+    fontSize: "12px",
+    boxShadow: "rgba(0,0,0,0.06) 0px 4px 12px 0px",
+  };
+  const tooltipItemStyle = { padding: "1px 0", color: isDark ? "#a1a1aa" : "#52525b" };
 
   useEffect(() => {
     async function loadData() {
@@ -187,7 +200,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
 
           <Button
             variant="ghost"
-            className="flex items-center gap-2 px-4 py-2 h-10 rounded-[14px] bg-white border border-[#ececee] text-sm text-[#52525b] font-medium hover:bg-[#f4f4f5] hover:border-[#d4d4d8] transition-all cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2 h-10 rounded-[14px] bg-white dark:bg-[#18181b] border border-[#ececee] text-sm text-[#52525b] font-medium hover:bg-[#f4f4f5] hover:border-[#d4d4d8] transition-all cursor-pointer"
           >
             <Calendar className="h-4 w-4 text-[#52525b]" />
             <span>Oct 1 – Oct 31, 2024</span>
@@ -204,7 +217,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
           return (
             <div
               key={card.label}
-              className="bg-white border border-[#ececee] rounded-[28px] p-6 relative overflow-hidden hover:border-[#d4d4d8] hover:shadow-[rgba(0,0,0,0.04)_0px_4px_12px_0px] transition-all group"
+              className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[28px] p-6 relative overflow-hidden hover:border-[#d4d4d8] hover:shadow-[rgba(0,0,0,0.04)_0px_4px_12px_0px] transition-all group"
             >
               <div className="flex items-start justify-between mb-3">
                 <p className="text-[11px] text-[#71717a] uppercase font-bold tracking-wider">
@@ -268,7 +281,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
       {/* Charts Row */}
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-7">
         {/* Line Chart */}
-        <div className="lg:col-span-4 bg-white border border-[#ececee] rounded-[28px] p-6 hover:border-[#d4d4d8] transition-all">
+        <div className="lg:col-span-4 bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[28px] p-6 hover:border-[#d4d4d8] transition-all">
           <div className="flex items-start justify-between mb-5">
             <div>
               <h3 className="text-base font-bold text-[#09090b]">ESG Score Trend</h3>
@@ -292,14 +305,14 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
                 render={
                   <Button
                     variant="ghost"
-                    className="flex items-center gap-2 px-3 py-1.5 h-8 rounded-[10px] bg-[#f4f4f5] border border-[#ececee] text-xs font-medium text-[#52525b] hover:bg-white hover:border-[#d4d4d8] transition-all"
+                    className="flex items-center gap-2 px-3 py-1.5 h-8 rounded-[10px] bg-[#f4f4f5] border border-[#ececee] text-xs font-medium text-[#52525b] hover:bg-white dark:bg-[#18181b] hover:border-[#d4d4d8] transition-all"
                   >
                     <span>{selectedPeriod}</span>
                     <ChevronDown className="h-3.5 w-3.5 text-[#a1a1aa]" />
                   </Button>
                 }
               />
-              <DropdownMenuContent className="bg-white border-[#ececee] shadow-md rounded-[12px] text-[#09090b]">
+              <DropdownMenuContent className="bg-white dark:bg-[#18181b] border-[#ececee] shadow-md rounded-[12px] text-[#09090b]">
                 <DropdownMenuItem onClick={() => setSelectedPeriod("Last 6 Months")} className="text-xs focus:bg-[#f4f4f5] rounded-lg">Last 6 Months</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setSelectedPeriod("Last Year")} className="text-xs focus:bg-[#f4f4f5] rounded-lg">Last Year</DropdownMenuItem>
               </DropdownMenuContent>
@@ -309,48 +322,38 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
           <div className="w-full h-[260px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={data.trend} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#ececee" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#27272a" : "#ececee"} vertical={false} />
                 <XAxis
                   dataKey="month"
-                  stroke="#d4d4d8"
+                  stroke={isDark ? "#3f3f46" : "#d4d4d8"}
                   fontSize={11}
                   tickLine={false}
                   axisLine={false}
                   tickMargin={10}
-                  tick={{ fill: "#71717a" }}
+                  tick={{ fill: isDark ? "#71717a" : "#71717a" }}
                 />
                 <YAxis
-                  stroke="#d4d4d8"
+                  stroke={isDark ? "#3f3f46" : "#d4d4d8"}
                   fontSize={11}
                   tickLine={false}
                   axisLine={false}
                   domain={[0, 100]}
                   ticks={[0, 25, 50, 75, 100]}
                   tickMargin={10}
-                  tick={{ fill: "#71717a" }}
+                  tick={{ fill: isDark ? "#71717a" : "#71717a" }}
                 />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "#ffffff",
-                    border: "1px solid #ececee",
-                    borderRadius: "12px",
-                    color: "#09090b",
-                    fontSize: "12px",
-                    boxShadow: "rgba(0,0,0,0.04) 0px 4px 12px 0px",
-                  }}
-                  itemStyle={{ padding: "1px 0", color: "#52525b" }}
-                />
-                <Line type="monotone" dataKey="overall" stroke="#09090b" strokeWidth={2} dot={{ r: 3, strokeWidth: 1.5, fill: "#ffffff" }} activeDot={{ r: 4 }} name="Overall" />
-                <Line type="monotone" dataKey="environment" stroke="#16a34a" strokeWidth={2} dot={{ r: 3, strokeWidth: 1.5, fill: "#ffffff" }} activeDot={{ r: 4 }} name="Environment" />
-                <Line type="monotone" dataKey="social" stroke="#d97706" strokeWidth={2} dot={{ r: 3, strokeWidth: 1.5, fill: "#ffffff" }} activeDot={{ r: 4 }} name="Social" />
-                <Line type="monotone" dataKey="governance" stroke="#2563eb" strokeWidth={2} dot={{ r: 3, strokeWidth: 1.5, fill: "#ffffff" }} activeDot={{ r: 4 }} name="Governance" />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} />
+                <Line type="monotone" dataKey="overall" stroke={isDark ? "#fafafa" : "#09090b"} strokeWidth={2} dot={{ r: 3, strokeWidth: 1.5, fill: isDark ? "#18181b" : "#ffffff" }} activeDot={{ r: 4 }} name="Overall" />
+                <Line type="monotone" dataKey="environment" stroke="#16a34a" strokeWidth={2} dot={{ r: 3, strokeWidth: 1.5, fill: isDark ? "#18181b" : "#ffffff" }} activeDot={{ r: 4 }} name="Environment" />
+                <Line type="monotone" dataKey="social" stroke="#d97706" strokeWidth={2} dot={{ r: 3, strokeWidth: 1.5, fill: isDark ? "#18181b" : "#ffffff" }} activeDot={{ r: 4 }} name="Social" />
+                <Line type="monotone" dataKey="governance" stroke="#2563eb" strokeWidth={2} dot={{ r: 3, strokeWidth: 1.5, fill: isDark ? "#18181b" : "#ffffff" }} activeDot={{ r: 4 }} name="Governance" />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Donut Chart */}
-        <div className="lg:col-span-3 bg-white border border-[#ececee] rounded-[28px] p-6 flex flex-col hover:border-[#d4d4d8] transition-all">
+        <div className="lg:col-span-3 bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[28px] p-6 flex flex-col hover:border-[#d4d4d8] transition-all">
           <h3 className="text-base font-bold text-[#09090b] mb-4">Score Distribution</h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center my-auto py-2">
@@ -405,7 +408,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
       {/* Bottom Grid */}
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
         {/* Recent Activities */}
-        <div className="bg-white border border-[#ececee] rounded-[28px] p-6 flex flex-col h-[400px] hover:border-[#d4d4d8] transition-all">
+        <div className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[28px] p-6 flex flex-col h-[400px] hover:border-[#d4d4d8] transition-all">
           <div className="flex items-center justify-between mb-5">
             <h3 className="text-base font-bold text-[#09090b]">Recent Activities</h3>
             <Button
@@ -459,7 +462,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
         </div>
 
         {/* Top Performing Departments */}
-        <div className="bg-white border border-[#ececee] rounded-[28px] p-6 flex flex-col h-[400px] hover:border-[#d4d4d8] transition-all">
+        <div className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[28px] p-6 flex flex-col h-[400px] hover:border-[#d4d4d8] transition-all">
           <div className="flex items-center justify-between mb-5">
             <h3 className="text-base font-bold text-[#09090b]">Top Departments</h3>
             <Button
@@ -489,7 +492,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
         </div>
 
         {/* Pending Tasks */}
-        <div className="bg-white border border-[#ececee] rounded-[28px] p-6 flex flex-col h-[400px] hover:border-[#d4d4d8] transition-all">
+        <div className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[28px] p-6 flex flex-col h-[400px] hover:border-[#d4d4d8] transition-all">
           <div className="flex items-center justify-between mb-5">
             <h3 className="text-base font-bold text-[#09090b]">Pending Tasks</h3>
             <Button

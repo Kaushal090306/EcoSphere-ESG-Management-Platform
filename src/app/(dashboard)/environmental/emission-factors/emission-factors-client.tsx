@@ -110,10 +110,10 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
             placeholder="Search factors..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="max-w-xs bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs"
+            className="max-w-xs bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs"
           />
           <Select value={sourceFilter} onValueChange={(val) => val && setSourceFilter(val)}>
-            <SelectTrigger className="w-40 bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
+            <SelectTrigger className="w-40 bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="All Sources" />
             </SelectTrigger>
             <SelectContent>
@@ -124,7 +124,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
             </SelectContent>
           </Select>
           <Select value={scopeFilter} onValueChange={(val) => val && setScopeFilter(val)}>
-            <SelectTrigger className="w-36 bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
+            <SelectTrigger className="w-36 bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="All Scopes" />
             </SelectTrigger>
             <SelectContent>
@@ -135,7 +135,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
             </SelectContent>
           </Select>
           <Select value={sortBy} onValueChange={(val) => val && setSortBy(val)}>
-            <SelectTrigger className="w-40 bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
+            <SelectTrigger className="w-40 bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="Sort By" />
             </SelectTrigger>
             <SelectContent>
@@ -153,7 +153,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
         )}
       </div>
 
-      <Card className="border-[#ececee] bg-white">
+      <Card className="border-[#ececee] bg-white dark:bg-[#18181b]">
         <CardContent className="p-0">
           {filteredFactors.length === 0 ? (
             <EmptyState title="No emission factors found" description="Adjust search query or filter settings." />
@@ -196,7 +196,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
       </Card>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="bg-white border-[#ececee] text-[#09090b]">
+        <DialogContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b]">
           <DialogHeader><DialogTitle>{editing ? "Edit Emission Factor" : "New Emission Factor"}</DialogTitle></DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2"><Label>Name</Label><Input name="name" defaultValue={editing?.name || ""} className="bg-[#f4f4f5] border-[#ececee]" required /></div>
@@ -236,7 +236,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
       </Dialog>
 
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-white border-[#ececee] text-[#09090b]">
+        <DialogContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b]">
           <DialogHeader><DialogTitle>Delete Emission Factor</DialogTitle></DialogHeader>
           <p className="text-sm text-muted-foreground">Delete <span className="font-medium text-[#09090b]">{deleting?.name}</span>?</p>
           <DialogFooter>

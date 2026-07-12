@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
@@ -136,7 +136,7 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
               render={
                 <Button
                   variant="ghost"
-                  className="flex items-center gap-2 px-3 py-1.5 h-9 rounded-[14px] bg-[#f4f4f5] border border-[#ececee] text-sm text-[#18181b] font-medium hover:bg-white hover:border-[#d4d4d8] transition-all cursor-pointer"
+                  className="flex items-center gap-2 px-3 py-1.5 h-9 rounded-[14px] bg-[#f4f4f5] border border-[#ececee] text-sm text-[#18181b] font-medium hover:bg-white dark:bg-[#18181b] hover:border-[#d4d4d8] transition-all cursor-pointer"
                 >
                   <Building2 className="h-4 w-4 text-[#52525b]" />
                   <span>GreenTech Solutions</span>
@@ -144,7 +144,7 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
                 </Button>
               }
             />
-            <DropdownMenuContent align="start" className="w-56 bg-white border-[#ececee] shadow-md rounded-[14px]">
+            <DropdownMenuContent align="start" className="w-56 bg-white dark:bg-[#18181b] border-[#ececee] shadow-md rounded-[14px]">
               <DropdownMenuItem className="text-sm text-[#09090b] focus:bg-[#f4f4f5] rounded-lg font-medium">
                 GreenTech Solutions
               </DropdownMenuItem>
@@ -233,7 +233,7 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
               </Button>
             }
           />
-          <DropdownMenuContent align="end" className="w-56 bg-white border-[#ececee] shadow-md rounded-[14px]">
+          <DropdownMenuContent align="end" className="w-56 bg-white dark:bg-[#18181b] border-[#ececee] shadow-md rounded-[14px]">
             <DropdownMenuGroup>
               <DropdownMenuLabel className="font-normal text-[#09090b]">
                 <div className="flex flex-col space-y-1">

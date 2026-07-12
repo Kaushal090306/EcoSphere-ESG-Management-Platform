@@ -148,12 +148,12 @@ export function UsersClient({
               placeholder="Search users name or email..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 bg-white border-[#ececee]"
+              className="pl-9 bg-white dark:bg-[#18181b] border-[#ececee]"
             />
           </div>
           <div className="w-full sm:w-48">
             <Select value={roleFilter} onValueChange={(val) => setRoleFilter(val || "all")}>
-              <SelectTrigger className="bg-white border-[#ececee]">
+              <SelectTrigger className="bg-white dark:bg-[#18181b] border-[#ececee]">
                 <SelectValue placeholder="Filter by Role" />
               </SelectTrigger>
               <SelectContent>
@@ -260,7 +260,7 @@ export function UsersClient({
 
       {/* Create / Edit Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="sm:max-w-md bg-white border-[#ececee] text-[#09090b]">
+        <DialogContent className="sm:max-w-md bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b]">
           <DialogHeader>
             <DialogTitle>{editing ? "Edit User Account" : "Register New User"}</DialogTitle>
             <DialogDescription>
@@ -315,7 +315,7 @@ export function UsersClient({
                   <SelectTrigger id="role" className="bg-[#15161D] border-[#ececee]">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white border-[#ececee] text-[#09090b]">
+                  <SelectContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b]">
                     <SelectItem value="admin">Administrator</SelectItem>
                     <SelectItem value="esg_manager">ESG Manager</SelectItem>
                     <SelectItem value="dept_head">Department Head</SelectItem>
@@ -331,7 +331,7 @@ export function UsersClient({
                   <SelectTrigger id="status" className="bg-[#15161D] border-[#ececee]">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white border-[#ececee] text-[#09090b]">
+                  <SelectContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b]">
                     <SelectItem value="active">Active</SelectItem>
                     <SelectItem value="inactive">Inactive</SelectItem>
                   </SelectContent>
@@ -345,7 +345,7 @@ export function UsersClient({
                 <SelectTrigger id="departmentId" className="bg-[#15161D] border-[#ececee]">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white border-[#ececee] text-[#09090b]">
+                <SelectContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b]">
                   <SelectItem value="none">No Department Assignment</SelectItem>
                   {departments.map((d) => (
                     <SelectItem key={d.id} value={d.id}>
@@ -379,7 +379,7 @@ export function UsersClient({
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-white border-[#ececee] text-[#09090b]">
+        <DialogContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b]">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-destructive">
               <ShieldAlert className="h-5 w-5" /> Delete Access Account
