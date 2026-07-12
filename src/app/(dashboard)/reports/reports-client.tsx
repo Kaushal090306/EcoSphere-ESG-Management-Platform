@@ -334,9 +334,9 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
       </div>
 
       {/* Filter panel */}
-      <div className="bg-[#121118] border border-[#221f2c] rounded-xl p-5 print:hidden">
-        <div className="flex items-center justify-between mb-4 border-b border-[#221f2c] pb-3">
-          <span className="text-xs font-extrabold uppercase text-purple-400 tracking-wider flex items-center gap-2">
+      <div className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl p-5 print:hidden shadow-xs">
+        <div className="flex items-center justify-between mb-4 border-b border-[#ececee] dark:border-[#221f2c] pb-3">
+          <span className="text-xs font-extrabold uppercase text-purple-600 dark:text-purple-400 tracking-wider flex items-center gap-2">
             <SlidersHorizontal className="h-4 w-4 text-purple-500" /> Filter Configuration
           </span>
           {isPending && <Clock className="h-4 w-4 text-purple-500 animate-spin" />}
@@ -352,7 +352,7 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
               value={departmentId}
               onChange={(e) => setDepartmentId(e.target.value)}
               disabled={isDeptLocked}
-              className="w-full text-xs bg-[#181720] border border-[#2c2a38] text-white rounded-lg p-2 focus:ring-1 focus:ring-purple-500 outline-none disabled:opacity-50"
+              className="w-full text-xs bg-white dark:bg-[#0c0a0e] border border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg p-2 focus:ring-1 focus:ring-purple-500 outline-none disabled:opacity-50"
             >
               {!isDeptLocked && <option value="">All Departments</option>}
               {options.departments.map(d => (
@@ -370,7 +370,7 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
               value={employeeId}
               onChange={(e) => setEmployeeId(e.target.value)}
               disabled={isEmployeeLocked}
-              className="w-full text-xs bg-[#181720] border border-[#2c2a38] text-white rounded-lg p-2 focus:ring-1 focus:ring-purple-500 outline-none disabled:opacity-50"
+              className="w-full text-xs bg-white dark:bg-[#0c0a0e] border border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg p-2 focus:ring-1 focus:ring-purple-500 outline-none disabled:opacity-50"
             >
               {!isEmployeeLocked && <option value="">All Employees</option>}
               {options.employees.map(e => (
@@ -386,7 +386,7 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
               value={moduleId}
               onChange={(e) => setModuleId(e.target.value)}
               disabled={reportType !== "custom"}
-              className="w-full text-xs bg-[#181720] border border-[#2c2a38] text-white rounded-lg p-2 focus:ring-1 focus:ring-purple-500 outline-none disabled:opacity-50"
+              className="w-full text-xs bg-white dark:bg-[#0c0a0e] border border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg p-2 focus:ring-1 focus:ring-purple-500 outline-none disabled:opacity-50"
             >
               <option value="all">All Modules</option>
               <option value="environmental">Environmental</option>
@@ -401,7 +401,7 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
             <select
               value={challengeId}
               onChange={(e) => setChallengeId(e.target.value)}
-              className="w-full text-xs bg-[#181720] border border-[#2c2a38] text-white rounded-lg p-2 focus:ring-1 focus:ring-purple-500 outline-none disabled:opacity-50"
+              className="w-full text-xs bg-white dark:bg-[#0c0a0e] border border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg p-2 focus:ring-1 focus:ring-purple-500 outline-none disabled:opacity-50"
             >
               <option value="">All Challenges</option>
               {options.challenges.map(c => (
@@ -416,7 +416,7 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
             <select
               value={categoryId}
               onChange={(e) => setCategoryId(e.target.value)}
-              className="w-full text-xs bg-[#181720] border border-[#2c2a38] text-white rounded-lg p-2 focus:ring-1 focus:ring-purple-500 outline-none disabled:opacity-50"
+              className="w-full text-xs bg-white dark:bg-[#0c0a0e] border border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg p-2 focus:ring-1 focus:ring-purple-500 outline-none disabled:opacity-50"
             >
               <option value="">All Categories</option>
               {options.categories.map(c => (
@@ -432,7 +432,7 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="w-full text-xs bg-[#181720] border border-[#2c2a38] text-white rounded-lg p-2 focus:ring-1 focus:ring-purple-500 outline-none"
+              className="w-full text-xs bg-white dark:bg-[#0c0a0e] border border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg p-2 focus:ring-1 focus:ring-purple-500 outline-none"
             />
           </div>
 
@@ -443,14 +443,14 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="w-full text-xs bg-[#181720] border border-[#2c2a38] text-white rounded-lg p-2 focus:ring-1 focus:ring-purple-500 outline-none"
+              className="w-full text-xs bg-white dark:bg-[#0c0a0e] border border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg p-2 focus:ring-1 focus:ring-purple-500 outline-none"
             />
           </div>
         </div>
       </div>
 
       {/* Output Content area */}
-      <div className="min-h-[250px] bg-[#121118] border border-[#221f2c] rounded-xl overflow-hidden shadow-xs">
+      <div className="min-h-[250px] bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl overflow-hidden shadow-xs">
         {isPending && !reportData ? (
           <div className="flex flex-col items-center justify-center p-12 space-y-3">
             <Clock className="h-8 w-8 text-purple-500 animate-spin" />
@@ -468,21 +468,21 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
               <div className="p-6 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                   {/* Overall Card */}
-                  <div className="bg-[#181922] rounded-2xl p-6 border border-[#2A2D38] shadow-[0_0_20px_rgba(155,92,246,0.15)] flex flex-col justify-between">
+                  <div className="bg-[#fcfbfe] dark:bg-[#181922] rounded-2xl p-6 border border-[#f3effb] dark:border-[#2A2D38] shadow-[0_0_20px_rgba(155,92,246,0.06)] dark:shadow-[0_0_20px_rgba(155,92,246,0.15)] flex flex-col justify-between">
                     <div>
-                      <span className="text-[10px] uppercase font-extrabold text-purple-400 tracking-wider">Overall Rating</span>
-                      <h2 className="text-5xl font-extrabold text-white mt-2">{reportData.esgSummary.overallScore}</h2>
+                      <span className="text-[10px] uppercase font-extrabold text-purple-600 dark:text-purple-400 tracking-wider">Overall Rating</span>
+                      <h2 className="text-5xl font-extrabold text-[#09090b] dark:text-white mt-2">{reportData.esgSummary.overallScore}</h2>
                     </div>
-                    <div className="flex items-center gap-1 text-[10px] text-green-400 font-semibold mt-4">
+                    <div className="flex items-center gap-1 text-[10px] text-green-600 dark:text-green-400 font-semibold mt-4">
                       <Sparkles className="h-3.5 w-3.5" /> Certified Index Score
                     </div>
                   </div>
 
                   {/* Env Card */}
-                  <div className="bg-[#181922] rounded-2xl p-6 border border-[#2A2D38] flex flex-col justify-between">
+                  <div className="bg-white dark:bg-[#181922] rounded-2xl p-6 border border-[#ececee] dark:border-[#2A2D38] shadow-xs flex flex-col justify-between">
                     <div>
-                      <span className="text-[10px] uppercase font-extrabold text-emerald-400 tracking-wider">Environmental (E)</span>
-                      <h3 className="text-3xl font-extrabold text-white mt-2">{reportData.esgSummary.environmental.score}/100</h3>
+                      <span className="text-[10px] uppercase font-extrabold text-emerald-600 dark:text-emerald-400 tracking-wider">Environmental (E)</span>
+                      <h3 className="text-3xl font-extrabold text-[#09090b] dark:text-white mt-2">{reportData.esgSummary.environmental.score}/100</h3>
                       <p className="text-xs text-muted-foreground mt-1">Total Emissions: {reportData.esgSummary.environmental.totalEmissions} tCO₂e</p>
                     </div>
                     <div className="text-[10px] text-muted-foreground mt-4">
@@ -491,10 +491,10 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
                   </div>
 
                   {/* Social Card */}
-                  <div className="bg-[#181922] rounded-2xl p-6 border border-[#2A2D38] flex flex-col justify-between">
+                  <div className="bg-white dark:bg-[#181922] rounded-2xl p-6 border border-[#ececee] dark:border-[#2A2D38] shadow-xs flex flex-col justify-between">
                     <div>
-                      <span className="text-[10px] uppercase font-extrabold text-blue-400 tracking-wider">Social (S)</span>
-                      <h3 className="text-3xl font-extrabold text-white mt-2">{reportData.esgSummary.social.score}/100</h3>
+                      <span className="text-[10px] uppercase font-extrabold text-blue-600 dark:text-blue-400 tracking-wider">Social (S)</span>
+                      <h3 className="text-3xl font-extrabold text-[#09090b] dark:text-white mt-2">{reportData.esgSummary.social.score}/100</h3>
                       <p className="text-xs text-muted-foreground mt-1">Training Rate: {reportData.esgSummary.social.trainingCompletionRate}%</p>
                     </div>
                     <div className="text-[10px] text-muted-foreground mt-4">
@@ -503,20 +503,20 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
                   </div>
 
                   {/* Gov Card */}
-                  <div className="bg-[#181922] rounded-2xl p-6 border border-[#2A2D38] flex flex-col justify-between">
+                  <div className="bg-white dark:bg-[#181922] rounded-2xl p-6 border border-[#ececee] dark:border-[#2A2D38] shadow-xs flex flex-col justify-between">
                     <div>
-                      <span className="text-[10px] uppercase font-extrabold text-yellow-500 tracking-wider">Governance (G)</span>
-                      <h3 className="text-3xl font-extrabold text-white mt-2">{reportData.esgSummary.governance.score}/100</h3>
+                      <span className="text-[10px] uppercase font-extrabold text-yellow-600 dark:text-yellow-500 tracking-wider">Governance (G)</span>
+                      <h3 className="text-3xl font-extrabold text-[#09090b] dark:text-white mt-2">{reportData.esgSummary.governance.score}/100</h3>
                       <p className="text-xs text-muted-foreground mt-1">Policy Ack Rate: {reportData.esgSummary.governance.policyAcknowledgementRate}%</p>
                     </div>
-                    <div className="text-[10px] text-red-400 font-semibold mt-4 flex items-center gap-1">
+                    <div className="text-[10px] text-red-600 dark:text-red-400 font-semibold mt-4 flex items-center gap-1">
                       <AlertTriangle className="h-3.5 w-3.5" /> {reportData.esgSummary.governance.openComplianceIssues} open issues
                     </div>
                   </div>
                 </div>
 
-                <div className="p-4 bg-purple-9B5CF6/5 border border-purple-500/10 rounded-xl">
-                  <h4 className="text-xs font-bold text-white mb-1 flex items-center gap-1.5">
+                <div className="p-4 bg-purple-500/5 dark:bg-purple-500/10 border border-purple-500/10 rounded-xl">
+                  <h4 className="text-xs font-bold text-[#09090b] dark:text-white mb-1 flex items-center gap-1.5">
                     <CheckCircle2 className="h-4 w-4 text-purple-500" /> Auditor Assessment Summary
                   </h4>
                   <p className="text-[11px] text-muted-foreground leading-normal">
@@ -531,7 +531,7 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="bg-[#1a1824] border-b border-[#2c2a38] text-[10px] uppercase font-extrabold text-purple-400 tracking-wider">
+                    <tr className="bg-[#f4f4f5] dark:bg-[#1a1824] border-b border-[#ececee] dark:border-[#2c2a38] text-[10px] uppercase font-extrabold text-purple-600 dark:text-purple-400 tracking-wider">
                       <th className="p-4">Date</th>
                       <th className="p-4">Department</th>
                       <th className="p-4">Source Category / Factor Name</th>
@@ -541,14 +541,14 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
                       <th className="p-4">Type</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#221f2c] text-xs text-white">
+                  <tbody className="divide-y divide-[#ececee] dark:divide-[#221f2c] text-xs text-[#09090b] dark:text-white">
                     {reportData.environmental.length === 0 ? (
                       <tr>
                         <td colSpan={7} className="p-8 text-center text-muted-foreground">No carbon transaction logs found.</td>
                       </tr>
                     ) : (
                       reportData.environmental.map((row: any) => (
-                        <tr key={row.id} className="hover:bg-[#1a1824]/50">
+                        <tr key={row.id} className="hover:bg-[#f4f4f5]/50 dark:hover:bg-[#1a1824]/50">
                           <td className="p-4">{new Date(row.date).toLocaleDateString()}</td>
                           <td className="p-4 font-semibold">{row.departmentName}</td>
                           <td className="p-4">{row.factorName}</td>
@@ -568,12 +568,12 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
             {reportType === "social" && reportData.social && (
               <div className="space-y-6">
                 <div>
-                  <h4 className="p-4 text-xs font-extrabold text-purple-400 uppercase tracking-wider bg-[#1a1824] border-b border-[#2c2a38]">
+                  <h4 className="p-4 text-xs font-extrabold text-purple-600 dark:text-purple-400 uppercase tracking-wider bg-[#f4f4f5] dark:bg-[#1a1824] border-b border-[#ececee] dark:border-[#2c2a38]">
                     CSR Volunteering & Activities
                   </h4>
-                  <table className="w-full text-left border-collapse text-xs text-white">
+                  <table className="w-full text-left border-collapse text-xs text-[#09090b] dark:text-white">
                     <thead>
-                      <tr className="border-b border-[#221f2c] bg-white/5 text-[10px] uppercase font-bold text-muted-foreground">
+                      <tr className="border-b border-[#ececee] dark:border-[#221f2c] bg-[#f4f4f5]/50 dark:bg-white/5 text-[10px] uppercase font-bold text-muted-foreground">
                         <th className="p-3 pl-4">Date</th>
                         <th className="p-3">Employee</th>
                         <th className="p-3">CSR Activity</th>
@@ -581,14 +581,14 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
                         <th className="p-3 pr-4">Approval Status</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#221f2c]">
+                    <tbody className="divide-y divide-[#ececee] dark:divide-[#221f2c]">
                       {reportData.social.csr.length === 0 ? (
                         <tr>
                           <td colSpan={5} className="p-4 text-center text-muted-foreground">No CSR participation records found.</td>
                         </tr>
                       ) : (
                         reportData.social.csr.map((row: any) => (
-                          <tr key={row.id} className="hover:bg-white/5">
+                          <tr key={row.id} className="hover:bg-[#f4f4f5]/50 dark:hover:bg-[#1c1a24]/50">
                             <td className="p-3 pl-4">{new Date(row.date).toLocaleDateString()}</td>
                             <td className="p-3 font-semibold">{row.employeeName}</td>
                             <td className="p-3">{row.activityTitle}</td>
@@ -609,26 +609,26 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
                 </div>
 
                 <div>
-                  <h4 className="p-4 text-xs font-extrabold text-purple-400 uppercase tracking-wider bg-[#1a1824] border-b border-[#2c2a38]">
+                  <h4 className="p-4 text-xs font-extrabold text-purple-600 dark:text-purple-400 uppercase tracking-wider bg-[#f4f4f5] dark:bg-[#1a1824] border-b border-[#ececee] dark:border-[#2c2a38]">
                     Anti-Bribery & Skill Compliance Training
                   </h4>
-                  <table className="w-full text-left border-collapse text-xs text-white">
+                  <table className="w-full text-left border-collapse text-xs text-[#09090b] dark:text-white">
                     <thead>
-                      <tr className="border-b border-[#221f2c] bg-white/5 text-[10px] uppercase font-bold text-muted-foreground">
+                      <tr className="border-b border-[#ececee] dark:border-[#221f2c] bg-[#f4f4f5]/50 dark:bg-white/5 text-[10px] uppercase font-bold text-muted-foreground">
                         <th className="p-3 pl-4">Date Completed / Created</th>
                         <th className="p-3">Employee</th>
                         <th className="p-3">Course Name</th>
                         <th className="p-3 pr-4">Status</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#221f2c]">
+                    <tbody className="divide-y divide-[#ececee] dark:divide-[#221f2c]">
                       {reportData.social.training.length === 0 ? (
                         <tr>
                           <td colSpan={4} className="p-4 text-center text-muted-foreground">No training records found.</td>
                         </tr>
                       ) : (
                         reportData.social.training.map((row: any) => (
-                          <tr key={row.id} className="hover:bg-white/5">
+                          <tr key={row.id} className="hover:bg-[#f4f4f5]/50 dark:hover:bg-[#1c1a24]/50">
                             <td className="p-3 pl-4">{new Date(row.date).toLocaleDateString()}</td>
                             <td className="p-3 font-semibold">{row.employeeName}</td>
                             <td className="p-3">{row.courseName}</td>
@@ -652,26 +652,26 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
             {reportType === "governance" && reportData.governance && (
               <div className="space-y-6">
                 <div>
-                  <h4 className="p-4 text-xs font-extrabold text-purple-400 uppercase tracking-wider bg-[#1a1824] border-b border-[#2c2a38]">
+                  <h4 className="p-4 text-xs font-extrabold text-purple-600 dark:text-purple-400 uppercase tracking-wider bg-[#f4f4f5] dark:bg-[#1a1824] border-b border-[#ececee] dark:border-[#2c2a38]">
                     Policy Signature Checklist
                   </h4>
-                  <table className="w-full text-left border-collapse text-xs text-white">
+                  <table className="w-full text-left border-collapse text-xs text-[#09090b] dark:text-white">
                     <thead>
-                      <tr className="border-b border-[#221f2c] bg-white/5 text-[10px] uppercase font-bold text-muted-foreground">
+                      <tr className="border-b border-[#ececee] dark:border-[#221f2c] bg-[#f4f4f5]/50 dark:bg-white/5 text-[10px] uppercase font-bold text-muted-foreground">
                         <th className="p-3 pl-4">Signature Date</th>
                         <th className="p-3">Employee</th>
                         <th className="p-3">Acknowledged ESG Policy</th>
                         <th className="p-3 pr-4">Version</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#221f2c]">
+                    <tbody className="divide-y divide-[#ececee] dark:divide-[#221f2c]">
                       {reportData.governance.policyAcks.length === 0 ? (
                         <tr>
                           <td colSpan={4} className="p-4 text-center text-muted-foreground">No policy signature acknowledgements.</td>
                         </tr>
                       ) : (
                         reportData.governance.policyAcks.map((row: any) => (
-                          <tr key={row.id} className="hover:bg-white/5">
+                          <tr key={row.id} className="hover:bg-[#f4f4f5]/50 dark:hover:bg-[#1c1a24]/50">
                             <td className="p-3 pl-4">{new Date(row.date).toLocaleDateString()}</td>
                             <td className="p-3 font-semibold">{row.employeeName}</td>
                             <td className="p-3">{row.policyTitle}</td>
@@ -684,12 +684,12 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
                 </div>
 
                 <div>
-                  <h4 className="p-4 text-xs font-extrabold text-purple-400 uppercase tracking-wider bg-[#1a1824] border-b border-[#2c2a38]">
+                  <h4 className="p-4 text-xs font-extrabold text-purple-600 dark:text-purple-400 uppercase tracking-wider bg-[#f4f4f5] dark:bg-[#1a1824] border-b border-[#ececee] dark:border-[#2c2a38]">
                     Compliance Audit Findings & Ticket Tracker
                   </h4>
-                  <table className="w-full text-left border-collapse text-xs text-white">
+                  <table className="w-full text-left border-collapse text-xs text-[#09090b] dark:text-white">
                     <thead>
-                      <tr className="border-b border-[#221f2c] bg-white/5 text-[10px] uppercase font-bold text-muted-foreground">
+                      <tr className="border-b border-[#ececee] dark:border-[#221f2c] bg-[#f4f4f5]/50 dark:bg-white/5 text-[10px] uppercase font-bold text-muted-foreground">
                         <th className="p-3 pl-4">Incidents Description</th>
                         <th className="p-3">Severity</th>
                         <th className="p-3">Status</th>
@@ -698,14 +698,14 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
                         <th className="p-3 pr-4">Source Audit</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#221f2c]">
+                    <tbody className="divide-y divide-[#ececee] dark:divide-[#221f2c]">
                       {reportData.governance.complianceIssues.length === 0 ? (
                         <tr>
                           <td colSpan={6} className="p-4 text-center text-muted-foreground">No compliance tickets logged.</td>
                         </tr>
                       ) : (
                         reportData.governance.complianceIssues.map((row: any) => (
-                          <tr key={row.id} className="hover:bg-white/5">
+                          <tr key={row.id} className="hover:bg-[#f4f4f5]/50 dark:hover:bg-[#1c1a24]/50">
                             <td className="p-3 pl-4 font-semibold">{row.description}</td>
                             <td className="p-3">
                               <span className={`px-2 py-0.5 text-[9px] font-extrabold rounded uppercase ${
@@ -737,25 +737,25 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
             {/* 5. Custom Builder Report Render */}
             {reportType === "custom" && reportData.custom && (
               <div className="p-4 space-y-6">
-                <div className="p-4 bg-purple-9B5CF6/5 border border-purple-500/10 rounded-xl">
-                  <h3 className="text-xs font-bold text-white mb-2 flex items-center gap-1.5">
+                <div className="p-4 bg-purple-500/5 dark:bg-purple-500/10 border border-purple-500/10 rounded-xl">
+                  <h3 className="text-xs font-bold text-[#09090b] dark:text-white mb-2 flex items-center gap-1.5">
                     <Sparkles className="h-4 w-4 text-purple-500" /> Compiled Custom Query
                   </h3>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-[11px] text-muted-foreground">
-                    <div>Emissions Logs: <span className="text-white font-bold">{reportData.custom.emissions.length}</span></div>
-                    <div>CSR Activity: <span className="text-white font-bold">{reportData.custom.csr.length}</span></div>
-                    <div>Trainings Done: <span className="text-white font-bold">{reportData.custom.training.length}</span></div>
-                    <div>Policy Sigs: <span className="text-white font-bold">{reportData.custom.policyAcks.length}</span></div>
+                    <div>Emissions Logs: <span className="text-[#09090b] dark:text-white font-bold">{reportData.custom.emissions.length}</span></div>
+                    <div>CSR Activity: <span className="text-[#09090b] dark:text-white font-bold">{reportData.custom.csr.length}</span></div>
+                    <div>Trainings Done: <span className="text-[#09090b] dark:text-white font-bold">{reportData.custom.training.length}</span></div>
+                    <div>Policy Sigs: <span className="text-[#09090b] dark:text-white font-bold">{reportData.custom.policyAcks.length}</span></div>
                   </div>
                 </div>
 
                 <div className="space-y-4">
                   {reportData.custom.emissions.length > 0 && (
                     <div>
-                      <h4 className="text-xs font-bold text-white mb-2 uppercase tracking-wider text-purple-400">Carbon Ingestions</h4>
-                      <div className="border border-[#221f2c] rounded-lg overflow-hidden">
-                        <table className="w-full text-left text-xs text-white">
-                          <tr className="bg-white/5 font-bold border-b border-[#221f2c] text-[10px] text-muted-foreground uppercase">
+                      <h4 className="text-xs font-bold text-[#09090b] dark:text-white mb-2 uppercase tracking-wider text-purple-600 dark:text-purple-400">Carbon Ingestions</h4>
+                      <div className="border border-[#ececee] dark:border-[#221f2c] rounded-lg overflow-hidden">
+                        <table className="w-full text-left text-xs text-[#09090b] dark:text-white">
+                          <tr className="bg-[#f4f4f5] dark:bg-white/5 font-bold border-b border-[#ececee] dark:border-[#221f2c] text-[10px] text-muted-foreground uppercase">
                             <th className="p-2.5 pl-4">Date</th>
                             <th className="p-2.5">Department</th>
                             <th className="p-2.5">Factor</th>
@@ -763,7 +763,7 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
                             <th className="p-2.5 pr-4">CO2e Value</th>
                           </tr>
                           {reportData.custom.emissions.map((r: any) => (
-                            <tr key={r.id} className="border-b border-[#221f2c] last:border-0 hover:bg-white/5">
+                            <tr key={r.id} className="border-b border-[#ececee] dark:border-[#221f2c] last:border-0 hover:bg-[#f4f4f5]/50 dark:hover:bg-white/5">
                               <td className="p-2.5 pl-4">{new Date(r.date).toLocaleDateString()}</td>
                               <td className="p-2.5">{r.departmentName}</td>
                               <td className="p-2.5">{r.factorName}</td>
@@ -778,17 +778,17 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
 
                   {reportData.custom.csr.length > 0 && (
                     <div>
-                      <h4 className="text-xs font-bold text-white mb-2 uppercase tracking-wider text-purple-400">CSR volunteering</h4>
-                      <div className="border border-[#221f2c] rounded-lg overflow-hidden">
-                        <table className="w-full text-left text-xs text-white">
-                          <tr className="bg-white/5 font-bold border-b border-[#221f2c] text-[10px] text-muted-foreground uppercase">
+                      <h4 className="text-xs font-bold text-[#09090b] dark:text-white mb-2 uppercase tracking-wider text-purple-600 dark:text-purple-400">CSR volunteering</h4>
+                      <div className="border border-[#ececee] dark:border-[#221f2c] rounded-lg overflow-hidden">
+                        <table className="w-full text-left text-xs text-[#09090b] dark:text-white">
+                          <tr className="bg-[#f4f4f5] dark:bg-white/5 font-bold border-b border-[#ececee] dark:border-[#221f2c] text-[10px] text-muted-foreground uppercase">
                             <th className="p-2.5 pl-4">Date</th>
                             <th className="p-2.5">Employee</th>
                             <th className="p-2.5">Activity</th>
                             <th className="p-2.5 pr-4">Points</th>
                           </tr>
                           {reportData.custom.csr.map((r: any) => (
-                            <tr key={r.id} className="border-b border-[#221f2c] last:border-0 hover:bg-white/5">
+                            <tr key={r.id} className="border-b border-[#ececee] dark:border-[#221f2c] last:border-0 hover:bg-[#f4f4f5]/50 dark:hover:bg-white/5">
                               <td className="p-2.5 pl-4">{new Date(r.date).toLocaleDateString()}</td>
                               <td className="p-2.5">{r.employeeName}</td>
                               <td className="p-2.5">{r.activityTitle}</td>
@@ -802,17 +802,17 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
 
                   {reportData.custom.training.length > 0 && (
                     <div>
-                      <h4 className="text-xs font-bold text-white mb-2 uppercase tracking-wider text-purple-400">Trainings completed</h4>
-                      <div className="border border-[#221f2c] rounded-lg overflow-hidden">
-                        <table className="w-full text-left text-xs text-white">
-                          <tr className="bg-white/5 font-bold border-b border-[#221f2c] text-[10px] text-muted-foreground uppercase">
+                      <h4 className="text-xs font-bold text-[#09090b] dark:text-white mb-2 uppercase tracking-wider text-purple-600 dark:text-purple-400">Trainings completed</h4>
+                      <div className="border border-[#ececee] dark:border-[#221f2c] rounded-lg overflow-hidden">
+                        <table className="w-full text-left text-xs text-[#09090b] dark:text-white">
+                          <tr className="bg-[#f4f4f5] dark:bg-white/5 font-bold border-b border-[#ececee] dark:border-[#221f2c] text-[10px] text-muted-foreground uppercase">
                             <th className="p-2.5 pl-4">Date</th>
                             <th className="p-2.5">Employee</th>
                             <th className="p-2.5">Course</th>
                             <th className="p-2.5 pr-4">Status</th>
                           </tr>
                           {reportData.custom.training.map((r: any) => (
-                            <tr key={r.id} className="border-b border-[#221f2c] last:border-0 hover:bg-white/5">
+                            <tr key={r.id} className="border-b border-[#ececee] dark:border-[#221f2c] last:border-0 hover:bg-[#f4f4f5]/50 dark:hover:bg-white/5">
                               <td className="p-2.5 pl-4">{new Date(r.date).toLocaleDateString()}</td>
                               <td className="p-2.5">{r.employeeName}</td>
                               <td className="p-2.5">{r.courseName}</td>
