@@ -99,7 +99,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
             { title: "Compliance Issues", href: "/governance/compliance-issues" },
           ],
         },
-        { title: "ESG Scoring", href: "/environmental/goals", icon: ClipboardCheck },
+        { title: "ESG Scoring", href: "/esg-scoring", icon: ClipboardCheck },
         {
           title: "Gamification",
           icon: Trophy,

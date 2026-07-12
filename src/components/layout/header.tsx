@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
@@ -54,6 +54,7 @@ const routeLabels: Record<string, string> = {
   "/gamification/badges": "Badges",
   "/gamification/rewards": "Rewards",
   "/gamification/leaderboard": "Leaderboard",
+  "/esg-scoring": "ESG Scoring",
   "/reports": "Reports",
   "/settings": "Configuration",
   "/settings/users": "User Management",
