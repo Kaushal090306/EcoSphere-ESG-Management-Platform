@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { toast } from "sonner";
@@ -125,10 +125,10 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
             placeholder="Search factors..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs"
+            className="max-w-xs bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white rounded-lg h-9 text-xs"
           />
           <Select value={sourceFilter} onValueChange={(val) => setSourceFilter(val || "")}>
-            <SelectTrigger className="w-40 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
+            <SelectTrigger className="w-40 bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white rounded-lg h-9 text-xs">
               <SelectValue placeholder="All Sources" />
             </SelectTrigger>
             <SelectContent>
@@ -139,7 +139,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
             </SelectContent>
           </Select>
           <Select value={scopeFilter} onValueChange={(val) => setScopeFilter(val || "")}>
-            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
+            <SelectTrigger className="w-36 bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white rounded-lg h-9 text-xs">
               <SelectValue placeholder="All Scopes" />
             </SelectTrigger>
             <SelectContent>
@@ -158,7 +158,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
         )}
       </div>
 
-      <Card className="border-[#2d2f39] bg-[#181922] rounded-md overflow-hidden shadow-none">
+      <Card className="border-[#ececee] dark:border-[#2d2f39] bg-white dark:bg-[#181922] rounded-md overflow-hidden shadow-none">
         <CardContent className="p-0">
           {filteredFactors.length === 0 ? (
             <EmptyState title="No emission factors found" description="Adjust search query or filter settings." />
@@ -223,7 +223,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
               <TableBody>
                 {filteredFactors.map((f) => (
                   <TableRow key={f.id}>
-                    <TableCell className="font-medium text-white">{f.name}</TableCell>
+                    <TableCell className="font-medium text-[#09090b] dark:text-white">{f.name}</TableCell>
                     <TableCell className="capitalize text-muted-foreground">{f.sourceType}</TableCell>
                     <TableCell className="text-muted-foreground">{f.unit}</TableCell>
                     <TableCell className="font-mono text-white">{f.factorValue}</TableCell>
@@ -246,47 +246,47 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
       </Card>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="bg-[#14151f] border border-[#2d2f39] text-white rounded-xl p-6 max-w-md">
-          <DialogHeader><DialogTitle className="text-lg font-bold text-white">{editing ? "Edit Emission Factor" : "New Emission Factor"}</DialogTitle></DialogHeader>
+        <DialogContent className="bg-white dark:bg-[#14151f] border border-[#ececee] dark:border-[#2d2f39] text-white rounded-xl p-6 max-w-md">
+          <DialogHeader><DialogTitle className="text-lg font-bold text-[#09090b] dark:text-white">{editing ? "Edit Emission Factor" : "New Emission Factor"}</DialogTitle></DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4 mt-2">
             <div className="space-y-1.5">
-              <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Name</Label>
-              <Input name="name" defaultValue={editing?.name || ""} className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+              <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Name</Label>
+              <Input name="name" defaultValue={editing?.name || ""} className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Source Type</Label>
+                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Source Type</Label>
                 <Select name="sourceType" defaultValue={editing?.sourceType || "fuel"}>
-                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-[#181922] transition-all"><SelectValue /></SelectTrigger>
-                  <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">{sourceTypes.map(s => <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>)}</SelectContent>
+                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:bg-[#181922] transition-all"><SelectValue /></SelectTrigger>
+                  <SelectContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white">{sourceTypes.map(s => <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Scope</Label>
+                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Scope</Label>
                 <Select name="scope" defaultValue={editing?.scope || "scope_1"}>
-                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-[#181922] transition-all"><SelectValue /></SelectTrigger>
-                  <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">{scopes.map(s => <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>)}</SelectContent>
+                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:bg-[#181922] transition-all"><SelectValue /></SelectTrigger>
+                  <SelectContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white">{scopes.map(s => <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Unit</Label>
-                <Input name="unit" defaultValue={editing?.unit || ""} placeholder="kWh, liters, kg" className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Unit</Label>
+                <Input name="unit" defaultValue={editing?.unit || ""} placeholder="kWh, liters, kg" className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Factor Value (CO₂e)</Label>
-                <Input name="factorValue" defaultValue={editing?.factorValue || ""} placeholder="0.000233" className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Factor Value (CO₂e)</Label>
+                <Input name="factorValue" defaultValue={editing?.factorValue || ""} placeholder="0.000233" className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Status</Label>
+              <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Status</Label>
               <Select name="status" defaultValue={editing?.status || "active"}>
-                <SelectTrigger className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-[#181922] transition-all"><SelectValue /></SelectTrigger>
-                <SelectContent className="bg-[#181922] border-[#2d2f39] text-white"><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem></SelectContent>
+                <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:bg-[#181922] transition-all"><SelectValue /></SelectTrigger>
+                <SelectContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white"><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem></SelectContent>
               </Select>
             </div>
 
@@ -299,9 +299,9 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
       </Dialog>
 
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-[#14151f] border border-[#2d2f39] text-white rounded-xl p-6">
-          <DialogHeader><DialogTitle className="text-lg font-bold text-white">Delete Emission Factor</DialogTitle></DialogHeader>
-          <p className="text-sm text-muted-foreground py-2">Delete <span className="font-medium text-white">{deleting?.name}</span>?</p>
+        <DialogContent className="bg-white dark:bg-[#14151f] border border-[#ececee] dark:border-[#2d2f39] text-white rounded-xl p-6">
+          <DialogHeader><DialogTitle className="text-lg font-bold text-[#09090b] dark:text-white">Delete Emission Factor</DialogTitle></DialogHeader>
+          <p className="text-sm text-muted-foreground py-2">Delete <span className="font-medium text-[#09090b] dark:text-white">{deleting?.name}</span>?</p>
           <DialogFooter>
             <Button variant="outline" onClick={() => setDeleteOpen(false)} className="rounded-lg bg-[#222430] hover:bg-[#2c2e3c] border-transparent text-white text-xs h-9 px-4 font-semibold">Cancel</Button>
             <Button variant="destructive" onClick={handleDelete} disabled={loading} className="rounded-lg text-xs h-9 px-4 font-semibold">Delete</Button>

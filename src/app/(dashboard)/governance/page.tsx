@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -225,21 +225,21 @@ export default function GovernanceOverviewPage() {
   const currentSpark4 = sparklineData4.map(d => ({ val: Math.round(d.val * kpiData.sparkMult4) }));
 
   return (
-    <div className="space-y-6 text-white bg-[#0f1016]">
+    <div className="space-y-6 text-white bg-[#f4f4f5] dark:bg-[#0f1016]">
       {/* Row 1: KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* KPI 1: Policy Compliance */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-blue-400">
                 <CheckCircle2 className="h-5 w-5" />
               </div>
               <div className="space-y-1">
-                <span className="text-[13px] text-[#8e909a] font-medium block">Policy Compliance</span>
-                <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  {kpiData.compliance} <span className="text-[11px] text-[#8e909a] font-semibold">acknowledged</span>
+                <span className="text-[13px] text-[#71717a] dark:text-[#8e909a] font-medium block">Policy Compliance</span>
+                <h3 className="text-[26px] font-normal text-[#09090b] dark:text-white leading-none flex items-baseline gap-1.5 mt-1">
+                  {kpiData.compliance} <span className="text-[11px] text-[#71717a] dark:text-[#8e909a] font-semibold">acknowledged</span>
                 </h3>
                 <div className="flex items-center gap-1 text-[11px] font-semibold pt-1 text-emerald-400">
                   {kpiData.complianceUp ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
@@ -265,16 +265,16 @@ export default function GovernanceOverviewPage() {
         </Card>
 
         {/* KPI 2: Active Policies */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-blue-400">
                 <FileText className="h-5 w-5" />
               </div>
               <div className="space-y-1">
-                <span className="text-[13px] text-[#8e909a] font-medium block">Active Policies</span>
-                <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  {kpiData.active} <span className="text-[11px] text-[#8e909a] font-semibold">published</span>
+                <span className="text-[13px] text-[#71717a] dark:text-[#8e909a] font-medium block">Active Policies</span>
+                <h3 className="text-[26px] font-normal text-[#09090b] dark:text-white leading-none flex items-baseline gap-1.5 mt-1">
+                  {kpiData.active} <span className="text-[11px] text-[#71717a] dark:text-[#8e909a] font-semibold">published</span>
                 </h3>
                 <div className="flex items-center gap-1 text-[11px] font-semibold pt-1 text-emerald-400">
                   {kpiData.activeUp ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
@@ -300,16 +300,16 @@ export default function GovernanceOverviewPage() {
         </Card>
 
         {/* KPI 3: Compliance Audits */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-blue-400">
                 <Shield className="h-5 w-5" />
               </div>
               <div className="space-y-1">
-                <span className="text-[13px] text-[#8e909a] font-medium block">Compliance Audits</span>
-                <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  {kpiData.audits} <span className="text-[11px] text-[#8e909a] font-semibold">completed</span>
+                <span className="text-[13px] text-[#71717a] dark:text-[#8e909a] font-medium block">Compliance Audits</span>
+                <h3 className="text-[26px] font-normal text-[#09090b] dark:text-white leading-none flex items-baseline gap-1.5 mt-1">
+                  {kpiData.audits} <span className="text-[11px] text-[#71717a] dark:text-[#8e909a] font-semibold">completed</span>
                 </h3>
                 <div className="flex items-center gap-1 text-[11px] font-semibold pt-1 text-emerald-400">
                   {kpiData.auditsUp ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
@@ -335,16 +335,16 @@ export default function GovernanceOverviewPage() {
         </Card>
 
         {/* KPI 4: Open Issues */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-rose-500/10 text-rose-400">
                 <AlertTriangle className="h-5 w-5" />
               </div>
               <div className="space-y-1">
-                <span className="text-[13px] text-[#8e909a] font-medium block">Open Issues</span>
-                <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  {kpiData.issues} <span className="text-[11px] text-[#8e909a] font-semibold">active</span>
+                <span className="text-[13px] text-[#71717a] dark:text-[#8e909a] font-medium block">Open Issues</span>
+                <h3 className="text-[26px] font-normal text-[#09090b] dark:text-white leading-none flex items-baseline gap-1.5 mt-1">
+                  {kpiData.issues} <span className="text-[11px] text-[#71717a] dark:text-[#8e909a] font-semibold">active</span>
                 </h3>
                 <div className="flex items-center gap-1 text-[11px] font-semibold pt-1 text-emerald-400">
                   {kpiData.issuesUp ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
@@ -374,12 +374,12 @@ export default function GovernanceOverviewPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         
         {/* Plot 1: Compliance rates by category */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl p-5 lg:col-span-6 flex flex-col justify-between">
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl p-5 lg:col-span-6 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h4 className="text-sm font-semibold text-white">Policy Compliance by Category</h4>
+              <h4 className="text-sm font-semibold text-[#09090b] dark:text-white">Policy Compliance by Category</h4>
             </div>
-            <div className="flex items-center gap-2 bg-[#0f1016] border border-[#2d2f39] rounded-lg px-2.5 py-1 text-[11px] text-muted-foreground cursor-pointer">
+            <div className="flex items-center gap-2 bg-[#f4f4f5] dark:bg-[#0f1016] border border-[#ececee] dark:border-[#2d2f39] rounded-lg px-2.5 py-1 text-[11px] text-muted-foreground cursor-pointer">
               <span>Overall Rate</span>
               <ChevronDown className="h-3 w-3" />
             </div>
@@ -396,7 +396,7 @@ export default function GovernanceOverviewPage() {
               <CartesianGrid strokeDasharray="3 3" stroke="#252731" vertical={false} />
               <XAxis dataKey="category" stroke="#4b5563" fontSize={10} tickLine={false} axisLine={false} />
               <YAxis stroke="#4b5563" fontSize={10} tickLine={false} axisLine={false} domain={[0, 100]} />
-              <Tooltip contentStyle={{ backgroundColor: "#181922", border: "1px solid #2d2f39", borderRadius: "12px" }} />
+              <Tooltip contentStyle={{ backgroundColor: "var(--card)", border: "1px solid var(--border)", borderRadius: "12px" }} />
               <Bar dataKey="compliance" fill="url(#barGlow)" radius={[4, 4, 0, 0]} barSize={28}>
                 {kpiData.chart.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={index % 2 === 0 ? "url(#barGlow)" : "#3b82f6"} />
@@ -407,9 +407,9 @@ export default function GovernanceOverviewPage() {
         </Card>
 
         {/* Card 2: Recent Audit History */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl p-5 lg:col-span-3 flex flex-col justify-between">
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl p-5 lg:col-span-3 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-3">
-            <h4 className="text-sm font-semibold text-white">Recent Audits</h4>
+            <h4 className="text-sm font-semibold text-[#09090b] dark:text-white">Recent Audits</h4>
             <Button 
               render={<Link href="/governance/audits" />}
               variant="ghost" 
@@ -426,7 +426,7 @@ export default function GovernanceOverviewPage() {
                   <Clock className="h-3.5 w-3.5" />
                 </div>
                 <div className="text-[11px]">
-                  <p className="font-medium text-white leading-normal">{log.title}</p>
+                  <p className="font-medium text-[#09090b] dark:text-white leading-normal">{log.title}</p>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <span className="text-[10px] text-emerald-400 font-semibold">{log.result}</span>
                     <span className="text-muted-foreground/60">•</span>
@@ -437,7 +437,7 @@ export default function GovernanceOverviewPage() {
             ))}
           </div>
 
-          <div className="mt-3 text-center border-t border-[#2d2f39]/50 pt-2.5">
+          <div className="mt-3 text-center border-t border-[#ececee] dark:border-[#2d2f39]/50 pt-2.5">
             <Link 
               href="/governance/audits"
               className="text-[10px] text-[#7C3AED] hover:text-[#6D28D9] h-auto p-0 inline-flex items-center gap-1 cursor-pointer font-medium"
@@ -449,13 +449,13 @@ export default function GovernanceOverviewPage() {
         </Card>
 
         {/* Card 3: Active Compliance Alerts */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl p-5 lg:col-span-3 flex flex-col justify-between">
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl p-5 lg:col-span-3 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-3">
-            <h4 className="text-sm font-semibold text-white">Active Alerts</h4>
+            <h4 className="text-sm font-semibold text-[#09090b] dark:text-white">Active Alerts</h4>
             <Button 
               render={<Link href="/governance/compliance-issues" />}
               variant="ghost" 
-              className="text-[10px] text-muted-foreground hover:text-white p-0 h-auto cursor-pointer"
+              className="text-[10px] text-muted-foreground hover:text-[#09090b] dark:hover:text-white p-0 h-auto cursor-pointer"
             >
               View All
             </Button>
@@ -465,14 +465,14 @@ export default function GovernanceOverviewPage() {
             {kpiData.issuesList.map((issue, i) => (
               <div key={i} className="space-y-1.5">
                 <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                  <span className="font-semibold text-white truncate max-w-[130px]">{issue.name}</span>
+                  <span className="font-semibold text-[#09090b] dark:text-white truncate max-w-[130px]">{issue.name}</span>
                   <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold ${
                     issue.severity === "High" ? "bg-red-500/10 text-red-400" :
                     issue.severity === "Medium" ? "bg-amber-500/10 text-amber-400" :
                     "bg-blue-500/10 text-blue-400"
                   }`}>{issue.severity}</span>
                 </div>
-                <div className="h-1.5 w-full bg-[#0f1016] rounded-full overflow-hidden">
+                <div className="h-1.5 w-full bg-[#f4f4f5] dark:bg-[#0f1016] rounded-full overflow-hidden">
                   <div className={`h-full rounded-full ${
                     issue.severity === "High" ? "bg-red-500" :
                     issue.severity === "Medium" ? "bg-amber-500" :

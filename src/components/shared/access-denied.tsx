@@ -9,7 +9,7 @@ export function AccessDenied() {
     <div className="flex flex-col items-center justify-center min-h-[70vh] p-4">
       {/* Background glow effects */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 h-80 w-80 rounded-full bg-eco-red/5 blur-3xl -z-10 animate-pulse" />
-      
+
       <Card className="w-full max-w-md glass border-destructive/20 text-center shadow-lg">
         <CardHeader className="space-y-4 pb-2">
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-destructive/10 text-destructive border border-destructive/20">
@@ -24,17 +24,17 @@ export function AccessDenied() {
             </CardDescription>
           </div>
         </CardHeader>
-        
+
         <CardContent className="pt-4 space-y-4">
           <p className="text-xs text-muted-foreground px-4">
             This module is restricted to authorized roles (e.g., Administrator or Sustainability Manager) in accordance with the corporate ESG access policy.
           </p>
-          
+
           <Link
-            href="/"
+            href="/dashboard"
             className={cn(
               buttonVariants({ variant: "default" }),
-              "w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white flex items-center justify-center gap-2"
+              "w-full bg-[#09090b] hover:bg-[#18181b] text-white flex items-center justify-center gap-2"
             )}
           >
             <ArrowLeft className="h-4 w-4" />

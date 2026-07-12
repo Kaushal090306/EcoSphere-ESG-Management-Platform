@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import {
@@ -96,10 +96,10 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
 
   if (loading) {
     return (
-      <div className="flex h-[calc(100vh-120px)] w-full items-center justify-center bg-[#0f1016]">
+      <div className="flex h-[calc(100vh-120px)] w-full items-center justify-center bg-[#f4f4f5] dark:bg-[#0f1016]">
         <div className="flex flex-col items-center gap-2">
           <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#9B5CF6] border-t-transparent" />
-          <span className="text-sm text-gray-400 font-medium animate-pulse">Loading live database records...</span>
+          <span className="text-sm text-[#71717a] dark:text-gray-400 font-medium animate-pulse">Loading live database records...</span>
         </div>
       </div>
     );
@@ -107,8 +107,8 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
 
   if (!data) {
     return (
-      <div className="flex h-[calc(100vh-120px)] w-full items-center justify-center bg-[#0f1016]">
-        <span className="text-gray-400">Failed to load dashboard data. Check database.</span>
+      <div className="flex h-[calc(100vh-120px)] w-full items-center justify-center bg-[#f4f4f5] dark:bg-[#0f1016]">
+        <span className="text-[#71717a] dark:text-gray-400">Failed to load dashboard data. Check database.</span>
       </div>
     );
   }
@@ -162,7 +162,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
   };
 
   return (
-    <div className="space-y-6 pb-8 bg-[#0f1016] min-h-screen text-white">
+    <div className="space-y-6 pb-8 bg-[#f4f4f5] dark:bg-[#0f1016] min-h-screen text-white">
       {/* Top Welcome bar */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
@@ -185,7 +185,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
               render={
                 <Button
                   variant="ghost"
-                  className="flex items-center gap-2 px-3 py-1.5 h-8.5 rounded-xl bg-[#181922] border border-[#2d2f39] text-xs font-semibold text-muted-foreground hover:bg-[#201E2A] hover:text-white transition-all cursor-pointer"
+                  className="flex items-center gap-2 px-3 py-1.5 h-8.5 rounded-xl bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] text-xs font-semibold text-muted-foreground hover:bg-[#f4f4f5] dark:hover:bg-[#201E2A] hover:text-[#09090b] dark:hover:text-white transition-all cursor-pointer"
                 >
                   <Calendar className="h-4 w-4 text-[#9B5CF6]" />
                   <span>{periodLabels[calendarPeriod] || "Oct 1 – Oct 31, 2024"}</span>
@@ -193,7 +193,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
                 </Button>
               }
             />
-            <DropdownMenuContent className="bg-[#181922] border-[#2d2f39] text-white rounded-xl">
+            <DropdownMenuContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white rounded-xl">
               <DropdownMenuItem onClick={() => setCalendarPeriod("oct")} className="text-xs focus:bg-[#2c2e3c] focus:text-white cursor-pointer">
                 Oct 1 – Oct 31, 2024
               </DropdownMenuItem>
@@ -223,16 +223,16 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         
         {/* KPI 1: Overall ESG */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-violet-500/10 text-violet-400">
                 <Shield className="h-5 w-5" />
               </div>
               <div className="space-y-1">
-                <span className="text-[13px] text-[#8e909a] font-medium block">Overall ESG Score</span>
-                <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  {currentScores.overall} <span className="text-[11px] text-[#8e909a] font-semibold">/100</span>
+                <span className="text-[13px] text-[#71717a] dark:text-[#8e909a] font-medium block">Overall ESG Score</span>
+                <h3 className="text-[26px] font-normal text-[#09090b] dark:text-white leading-none flex items-baseline gap-1.5 mt-1">
+                  {currentScores.overall} <span className="text-[11px] text-[#71717a] dark:text-[#8e909a] font-semibold">/100</span>
                 </h3>
                 <div className="flex items-center gap-1 text-[11px] text-emerald-400 font-semibold pt-1">
                   {currentScores.overallTrend >= 0 ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
@@ -258,16 +258,16 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
         </Card>
 
         {/* KPI 2: Environment */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400">
                 <Leaf className="h-5 w-5" />
               </div>
               <div className="space-y-1">
-                <span className="text-[13px] text-[#8e909a] font-medium block">Environment Score</span>
-                <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  {currentScores.environment} <span className="text-[11px] text-[#8e909a] font-semibold">/100</span>
+                <span className="text-[13px] text-[#71717a] dark:text-[#8e909a] font-medium block">Environment Score</span>
+                <h3 className="text-[26px] font-normal text-[#09090b] dark:text-white leading-none flex items-baseline gap-1.5 mt-1">
+                  {currentScores.environment} <span className="text-[11px] text-[#71717a] dark:text-[#8e909a] font-semibold">/100</span>
                 </h3>
                 <div className="flex items-center gap-1 text-[11px] text-emerald-400 font-semibold pt-1">
                   {currentScores.environmentTrend >= 0 ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
@@ -293,16 +293,16 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
         </Card>
 
         {/* KPI 3: Social */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-[#F59E0B]">
                 <Users className="h-5 w-5" />
               </div>
               <div className="space-y-1">
-                <span className="text-[13px] text-[#8e909a] font-medium block">Social Score</span>
-                <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  {currentScores.social} <span className="text-[11px] text-[#8e909a] font-semibold">/100</span>
+                <span className="text-[13px] text-[#71717a] dark:text-[#8e909a] font-medium block">Social Score</span>
+                <h3 className="text-[26px] font-normal text-[#09090b] dark:text-white leading-none flex items-baseline gap-1.5 mt-1">
+                  {currentScores.social} <span className="text-[11px] text-[#71717a] dark:text-[#8e909a] font-semibold">/100</span>
                 </h3>
                 <div className="flex items-center gap-1 text-[11px] text-emerald-400 font-semibold pt-1">
                   {currentScores.socialTrend >= 0 ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
@@ -328,16 +328,16 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
         </Card>
 
         {/* KPI 4: Governance */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-blue-400">
                 <ShieldCheck className="h-5 w-5" />
               </div>
               <div className="space-y-1">
-                <span className="text-[13px] text-[#8e909a] font-medium block">Governance Score</span>
-                <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  {currentScores.governance} <span className="text-[11px] text-[#8e909a] font-semibold">/100</span>
+                <span className="text-[13px] text-[#71717a] dark:text-[#8e909a] font-medium block">Governance Score</span>
+                <h3 className="text-[26px] font-normal text-[#09090b] dark:text-white leading-none flex items-baseline gap-1.5 mt-1">
+                  {currentScores.governance} <span className="text-[11px] text-[#71717a] dark:text-[#8e909a] font-semibold">/100</span>
                 </h3>
                 <div className="flex items-center gap-1 text-[11px] text-emerald-400 font-semibold pt-1">
                   {currentScores.governanceTrend >= 0 ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
@@ -367,10 +367,10 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-7">
         
         {/* Line Chart: ESG Score Trend */}
-        <Card className="lg:col-span-4 bg-[#181922] border border-[#2d2f39] rounded-lg p-5 shadow-none flex flex-col justify-between">
+        <Card className="lg:col-span-4 bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-lg p-5 shadow-none flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-2">
-              <h4 className="text-sm font-semibold text-white">ESG Score Trend</h4>
+              <h4 className="text-sm font-semibold text-[#09090b] dark:text-white">ESG Score Trend</h4>
               
               {/* Time Filter Select */}
               <DropdownMenu>
@@ -378,16 +378,16 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
                   render={
                     <Button
                       variant="ghost"
-                      className="flex items-center gap-2 px-2.5 py-1 h-8 rounded-lg bg-[#0f1016] border border-[#2d2f39] text-[11px] text-muted-foreground hover:bg-[#1C1A24]"
+                      className="flex items-center gap-2 px-2.5 py-1 h-8 rounded-lg bg-[#f4f4f5] dark:bg-[#0f1016] border border-[#ececee] dark:border-[#2d2f39] text-[11px] text-muted-foreground hover:bg-[#1C1A24]"
                     >
                       <span>{selectedPeriod}</span>
                       <ChevronDown className="h-3 w-3" />
                     </Button>
                   }
                 />
-                <DropdownMenuContent className="bg-[#181922] border-[#2d2f39] text-white">
-                  <DropdownMenuItem onClick={() => setSelectedPeriod("Last 6 Months")} className="text-xs focus:bg-[#221F2C]">Last 6 Months</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setSelectedPeriod("Last Year")} className="text-xs focus:bg-[#221F2C]">Last Year</DropdownMenuItem>
+                <DropdownMenuContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white">
+                  <DropdownMenuItem onClick={() => setSelectedPeriod("Last 6 Months")} className="text-xs focus:bg-[#f4f4f5] dark:focus:bg-[#221F2C]">Last 6 Months</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setSelectedPeriod("Last Year")} className="text-xs focus:bg-[#f4f4f5] dark:focus:bg-[#221F2C]">Last Year</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -433,10 +433,10 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#181922",
-                    border: "1px solid #2d2f39",
+                    backgroundColor: "var(--card)",
+                    border: "1px solid var(--border)",
                     borderRadius: "12px",
-                    color: "#ffffff",
+                    color: "var(--foreground)",
                     fontSize: "11px",
                   }}
                 />
@@ -482,9 +482,9 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
         </Card>
 
         {/* Donut Chart: Score Distribution */}
-        <Card className="lg:col-span-3 bg-[#181922] border border-[#2d2f39] rounded-lg p-5 shadow-none flex flex-col justify-between">
+        <Card className="lg:col-span-3 bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-lg p-5 shadow-none flex flex-col justify-between">
           <div>
-            <h4 className="text-sm font-semibold text-white">Score Distribution</h4>
+            <h4 className="text-sm font-semibold text-[#09090b] dark:text-white">Score Distribution</h4>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center justify-center my-auto py-2">
@@ -510,7 +510,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
               
               {/* Central Text */}
               <div className="absolute flex flex-col items-center justify-center text-center">
-                <span className="text-xl font-extrabold text-white leading-none">{currentScores.overall}</span>
+                <span className="text-xl font-extrabold text-[#09090b] dark:text-white leading-none">{currentScores.overall}</span>
                 <span className="text-[8px] text-muted-foreground uppercase font-bold tracking-wider mt-0.5">
                   Overall
                 </span>
@@ -522,9 +522,9 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
               <div className="flex flex-col gap-0.5 text-[11px]">
                 <div className="flex items-center gap-1.5">
                   <div className="h-1.5 w-1.5 rounded-full bg-[#10B981]" />
-                  <span className="text-gray-400 font-medium">Environment</span>
+                  <span className="text-[#71717a] dark:text-gray-400 font-medium">Environment</span>
                 </div>
-                <span className="text-white font-semibold pl-3">
+                <span className="text-[#09090b] dark:text-white font-semibold pl-3">
                   {currentScores.environment} ({data.distribution.environment.percentage}%)
                 </span>
               </div>
@@ -532,9 +532,9 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
               <div className="flex flex-col gap-0.5 text-[11px]">
                 <div className="flex items-center gap-1.5">
                   <div className="h-1.5 w-1.5 rounded-full bg-[#F59E0B]" />
-                  <span className="text-gray-400 font-medium">Social</span>
+                  <span className="text-[#71717a] dark:text-gray-400 font-medium">Social</span>
                 </div>
-                <span className="text-white font-semibold pl-3">
+                <span className="text-[#09090b] dark:text-white font-semibold pl-3">
                   {currentScores.social} ({data.distribution.social.percentage}%)
                 </span>
               </div>
@@ -542,9 +542,9 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
               <div className="flex flex-col gap-0.5 text-[11px]">
                 <div className="flex items-center gap-1.5">
                   <div className="h-1.5 w-1.5 rounded-full bg-[#3B82F6]" />
-                  <span className="text-gray-400 font-medium">Governance</span>
+                  <span className="text-[#71717a] dark:text-gray-400 font-medium">Governance</span>
                 </div>
-                <span className="text-white font-semibold pl-3">
+                <span className="text-[#09090b] dark:text-white font-semibold pl-3">
                   {currentScores.governance} ({data.distribution.governance.percentage}%)
                 </span>
               </div>
@@ -557,9 +557,9 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         
         {/* Recent Activities */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-lg p-5 shadow-none flex flex-col h-[350px]">
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-lg p-5 shadow-none flex flex-col h-[350px]">
           <div className="flex items-center justify-between mb-4">
-            <h4 className="text-sm font-semibold text-white">Recent Activities</h4>
+            <h4 className="text-sm font-semibold text-[#09090b] dark:text-white">Recent Activities</h4>
             <Button variant="ghost" className="text-xs font-semibold text-[#9B5CF6] hover:bg-[#9B5CF6]/10 px-2.5 h-8 rounded-lg cursor-pointer">
               View All
             </Button>
@@ -583,7 +583,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
                       <config.icon className="h-4.5 w-4.5" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs font-semibold text-white truncate leading-snug">
+                      <p className="text-xs font-semibold text-[#09090b] dark:text-white truncate leading-snug">
                         {act.title}
                       </p>
                       <p className="text-[10px] text-muted-foreground mt-0.5">
@@ -591,7 +591,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
                       </p>
                     </div>
                   </div>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0 rounded-lg text-muted-foreground hover:text-white">
+                  <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0 rounded-lg text-muted-foreground hover:text-[#09090b] dark:hover:text-white">
                     <MoreVertical className="h-4 w-4" />
                   </Button>
                 </div>
@@ -601,9 +601,9 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
         </Card>
 
         {/* Top Performing Departments */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-lg p-5 shadow-none flex flex-col h-[350px]">
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-lg p-5 shadow-none flex flex-col h-[350px]">
           <div className="flex items-center justify-between mb-4">
-            <h4 className="text-sm font-semibold text-white">Top Performing Departments</h4>
+            <h4 className="text-sm font-semibold text-[#09090b] dark:text-white">Top Performing Departments</h4>
             <Button variant="ghost" className="text-xs font-semibold text-[#9B5CF6] hover:bg-[#9B5CF6]/10 px-2.5 h-8 rounded-lg cursor-pointer">
               View All
             </Button>
@@ -613,10 +613,10 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
             {data.topDepartments.map((dept, i) => (
               <div key={i} className="space-y-1.5">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-white">{dept.name}</span>
-                  <span className="font-bold text-gray-300">{Math.round(dept.score * periodMultiplier)}</span>
+                  <span className="font-semibold text-[#09090b] dark:text-white">{dept.name}</span>
+                  <span className="font-bold text-[#52525b] dark:text-gray-300">{Math.round(dept.score * periodMultiplier)}</span>
                 </div>
-                <div className="w-full bg-[#0f1016] h-2 rounded-full overflow-hidden">
+                <div className="w-full bg-[#f4f4f5] dark:bg-[#0f1016] h-2 rounded-full overflow-hidden">
                   <div
                     className="bg-gradient-to-r from-[#9B5CF6] to-[#7C3AED] h-full rounded-full"
                     style={{ width: `${Math.min(100, Math.round(dept.score * periodMultiplier))}%` }}
@@ -628,9 +628,9 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
         </Card>
 
         {/* Pending Tasks */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-lg p-5 shadow-none flex flex-col h-[350px]">
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-lg p-5 shadow-none flex flex-col h-[350px]">
           <div className="flex items-center justify-between mb-4">
-            <h4 className="text-sm font-semibold text-white">Pending Tasks</h4>
+            <h4 className="text-sm font-semibold text-[#09090b] dark:text-white">Pending Tasks</h4>
             <Button variant="ghost" className="text-xs font-semibold text-[#9B5CF6] hover:bg-[#9B5CF6]/10 px-2.5 h-8 rounded-lg cursor-pointer">
               View All
             </Button>
@@ -646,11 +646,11 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
                   : "border-[#3B82F6]/25 text-[#3B82F6] bg-[#3B82F6]/5";
 
               return (
-                <div key={task.id} className="flex items-start gap-3 justify-between border-b border-[#2d2f39]/40 pb-3 last:border-0 last:pb-0">
+                <div key={task.id} className="flex items-start gap-3 justify-between border-b border-[#ececee] dark:border-[#2d2f39]/40 pb-3 last:border-0 last:pb-0">
                   <div className="flex items-start gap-2.5 min-w-0">
                     <CheckCircle2 className="h-4 w-4 shrink-0 text-muted-foreground mt-0.5 hover:text-[#9B5CF6] transition-colors cursor-pointer" />
                     <div className="min-w-0">
-                      <p className="text-xs font-semibold text-white leading-snug">
+                      <p className="text-xs font-semibold text-[#09090b] dark:text-[#09090b] dark:text-white leading-snug">
                         {task.title}
                       </p>
                       <div className="flex flex-wrap items-center gap-2 mt-1">

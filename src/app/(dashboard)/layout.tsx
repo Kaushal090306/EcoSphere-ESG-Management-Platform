@@ -20,7 +20,7 @@ export default async function DashboardLayout({
       <AppSidebar user={session.user as any} />
       <SidebarInset>
         <Header user={session.user as any} />
-        <main className="flex-1 overflow-auto p-6">{children}</main>
+        <main className="flex-1 overflow-auto p-6 bg-[#f4f4f5] dark:bg-[#09090b] min-h-screen transition-colors">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

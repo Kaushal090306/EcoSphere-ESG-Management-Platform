@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -177,12 +177,12 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
     setExpanded((prev) => ({ ...prev, [name]: !prev[name] }));
   };
   return (
-    <Sidebar collapsible="icon" className="border-r border-[#1A1822] bg-[#0C0A0E]">
-      <SidebarHeader className="px-6 py-6 group-data-[collapsible=icon]:p-2 bg-[#0C0A0E]">
+    <Sidebar collapsible="icon" className="border-r border-[#ececee] dark:border-[#1a1822] bg-[#fafafa] dark:bg-[#0C0A0E]">
+      <SidebarHeader className="px-6 py-6 group-data-[collapsible=icon]:p-2 bg-[#fafafa] dark:bg-[#0C0A0E]">
         <Link href="/" className="flex flex-col group-data-[collapsible=icon]:items-center">
           <div className="flex items-center gap-3">
             {/* Custom 4-circle logo arrange in clover style */}
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#121016] border border-[#221F2C]">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white dark:bg-[#121016] border border-[#ececee] dark:border-[#221F2C]">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="3" y="3" width="7" height="7" rx="2" fill="#9B5CF6" />
                 <rect x="14" y="3" width="7" height="7" rx="2" fill="#9B5CF6" />
@@ -202,7 +202,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
         </Link>
       </SidebarHeader>
 
-      <SidebarContent className="bg-[#0C0A0E] px-3 space-y-1">
+      <SidebarContent className="bg-[#fafafa] dark:bg-[#0C0A0E] px-3 space-y-1">
         {navGroups.map((group) => (
           <SidebarGroup key={group.label} className="px-0 py-2">
             <SidebarGroupLabel className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground/40 px-3 mb-2">
@@ -225,7 +225,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                         <>
                           <SidebarMenuButton
                             isActive={isActive}
-                            className="w-full text-sidebar-foreground hover:bg-[#121016] px-3 py-2.5 h-11 rounded-lg cursor-pointer"
+                            className="w-full text-sidebar-foreground hover:bg-white dark:bg-[#121016] px-3 py-2.5 h-11 rounded-lg cursor-pointer"
                             tooltip={item.title}
                             render={
                               <Link href={item.href || "#"}>
@@ -243,7 +243,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                                 e.stopPropagation();
                                 toggleGroup(item.title);
                               }}
-                              className="absolute right-3 top-[22px] -translate-y-1/2 flex items-center justify-center h-6 w-6 text-muted-foreground/70 hover:text-white rounded-md transition-all cursor-pointer z-10"
+                              className="absolute right-3 top-[22px] -translate-y-1/2 flex items-center justify-center h-6 w-6 text-muted-foreground/70 hover:text-[#09090b] dark:hover:text-white rounded-md transition-all cursor-pointer z-10"
                             >
                               {isExpanded ? (
                                 <ChevronUp className="h-4 w-4" />
@@ -254,17 +254,17 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                           )}
 
                           {!isCollapsed && isExpanded && (
-                            <div className="pl-6 mt-1 mb-2 space-y-1 border-l border-[#221F2C] ml-5 flex flex-col">
+                            <div className="pl-6 mt-1 mb-2 space-y-1 border-l border-[#ececee] dark:border-[#221F2C] ml-5 flex flex-col">
                               {item.items!.map((subItem) => {
                                 const isSubActive = pathname === subItem.href;
                                 return (
                                   <SidebarMenuButton
                                     key={subItem.href}
                                     isActive={isSubActive}
-                                    className="h-9 text-xs justify-start rounded-lg hover:bg-[#121016] w-full px-3 cursor-pointer"
+                                    className="h-9 text-xs justify-start rounded-lg hover:bg-white dark:bg-[#121016] w-full px-3 cursor-pointer"
                                     render={
                                       <Link href={subItem.href}>
-                                        <span className={isSubActive ? "text-white font-semibold" : "text-muted-foreground"}>
+                                        <span className={isSubActive ? "text-[#09090b] dark:text-white font-semibold" : "text-muted-foreground"}>
                                           {subItem.title}
                                         </span>
                                       </Link>
@@ -278,7 +278,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                       ) : (
                         <SidebarMenuButton
                           isActive={isActive}
-                          className="w-full flex items-center justify-between px-3 py-2.5 h-11 rounded-lg cursor-pointer hover:bg-[#121016]"
+                          className="w-full flex items-center justify-between px-3 py-2.5 h-11 rounded-lg cursor-pointer hover:bg-white dark:bg-[#121016]"
                           tooltip={item.title}
                           render={
                             <Link href={item.href || "#"}>
@@ -287,7 +287,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                                 <span className="text-sm font-medium">{item.title}</span>
                               </div>
                               {item.badge !== undefined && (
-                                <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#7C3AED] px-1 text-[10px] font-bold text-white shadow-[0_0_10px_rgba(124,58,237,0.4)]">
+                                <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#7C3AED] px-1 text-[10px] font-bold text-[#09090b] dark:text-white shadow-[0_0_10px_rgba(124,58,237,0.4)]">
                                   {item.badge}
                                 </span>
                               )}
@@ -304,7 +304,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
         ))}
       </SidebarContent>
 
-      <SidebarFooter className="p-4 bg-[#0C0A0E] border-t border-[#1A1822] hidden md:block">
+      <SidebarFooter className="p-4 bg-[#fafafa] dark:bg-[#0C0A0E] border-t border-[#ececee] dark:border-[#1a1822] hidden md:block">
         {/* Removed plan information card */}
       </SidebarFooter>
     </Sidebar>

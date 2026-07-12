@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { toast } from "sonner";
@@ -135,13 +135,13 @@ export function PoliciesClient({
             placeholder="Search policies..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs"
+            className="max-w-xs bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white rounded-lg h-9 text-xs"
           />
           <Select value={statusFilter} onValueChange={(val) => setStatusFilter(val || "")}>
-            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
+            <SelectTrigger className="w-36 bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white rounded-lg h-9 text-xs">
               <SelectValue placeholder="All Statuses" />
             </SelectTrigger>
-            <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">
+            <SelectContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white">
               <SelectItem value="all">All Statuses</SelectItem>
               <SelectItem value="draft">Draft</SelectItem>
               <SelectItem value="published">Published</SelectItem>
@@ -149,10 +149,10 @@ export function PoliciesClient({
             </SelectContent>
           </Select>
           <Select value={categoryFilter} onValueChange={(val) => setCategoryFilter(val || "")}>
-            <SelectTrigger className="w-40 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
+            <SelectTrigger className="w-40 bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white rounded-lg h-9 text-xs">
               <SelectValue placeholder="All Categories" />
             </SelectTrigger>
-            <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">
+            <SelectContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white">
               <SelectItem value="all">All Categories</SelectItem>
               {categories.map((c) => (
                 <SelectItem key={c} value={c}>{c}</SelectItem>
@@ -168,7 +168,7 @@ export function PoliciesClient({
         )}
       </div>
 
-      <Card className="border-[#2d2f39] bg-[#181922] rounded-md overflow-hidden shadow-none">
+      <Card className="border-[#ececee] dark:border-[#2d2f39] bg-white dark:bg-[#181922] rounded-md overflow-hidden shadow-none">
         <CardContent className="p-0">
           {filteredPolicies.length === 0 ? (
             <EmptyState title="No policies found" description="Adjust search query or filter settings." />
@@ -223,7 +223,7 @@ export function PoliciesClient({
               <TableBody>
                 {filteredPolicies.map((p) => (
                   <TableRow key={p.id}>
-                    <TableCell className="font-medium text-white">{p.title}</TableCell>
+                    <TableCell className="font-medium text-[#09090b] dark:text-white">{p.title}</TableCell>
                     <TableCell className="font-mono text-muted-foreground">v{p.version}</TableCell>
                     <TableCell className="text-muted-foreground">{p.category}</TableCell>
                     <TableCell className="text-muted-foreground">{p.effectiveDate}</TableCell>
@@ -249,19 +249,19 @@ export function PoliciesClient({
 
       {/* View Dialog */}
       <Dialog open={viewOpen} onOpenChange={setViewOpen}>
-        <DialogContent className="bg-[#14151f] border border-[#2d2f39] text-white rounded-xl p-6 max-w-2xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="bg-white dark:bg-[#14151f] border border-[#ececee] dark:border-[#2d2f39] text-white rounded-xl p-6 max-w-2xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-lg font-bold text-white">
+            <DialogTitle className="text-lg font-bold text-[#09090b] dark:text-white">
               {viewing?.title}{" "}
-              <span className="text-[#8e909a] font-normal text-sm">
+              <span className="text-[#71717a] dark:text-[#8e909a] font-normal text-sm">
                 v{viewing?.version}
               </span>
             </DialogTitle>
           </DialogHeader>
-          <div className="prose prose-invert max-w-none text-sm text-gray-300 whitespace-pre-wrap my-6 leading-relaxed">
+          <div className="prose prose-invert max-w-none text-sm text-[#52525b] dark:text-gray-300 whitespace-pre-wrap my-6 leading-relaxed">
             {viewing?.content}
           </div>
-          <div className="flex items-center justify-between border-t border-[#2d2f39]/50 pt-4 mt-6">
+          <div className="flex items-center justify-between border-t border-[#ececee] dark:border-[#2d2f39]/50 pt-4 mt-6">
             <div>
               {viewing && acknowledgements.includes(viewing.id) ? (
                 <span className="text-eco-green flex items-center gap-1.5 text-xs font-semibold">
@@ -281,7 +281,7 @@ export function PoliciesClient({
               <Button
                 onClick={() => handleAcknowledge(viewing.id)}
                 disabled={loading}
-                className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-semibold py-1.5 px-4 rounded-lg shadow-lg text-xs"
+                className="bg-[#7C3AED] hover:bg-[#6D28D9] text-[#09090b] dark:text-white font-semibold py-1.5 px-4 rounded-lg shadow-lg text-xs"
               >
                 {loading ? "Acknowledging..." : "Acknowledge Policy (+5 XP)"}
               </Button>
@@ -292,74 +292,74 @@ export function PoliciesClient({
 
       {/* Add / Edit Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="bg-[#14151f] border border-[#2d2f39] text-white rounded-xl p-6 max-w-lg">
+        <DialogContent className="bg-white dark:bg-[#14151f] border border-[#ececee] dark:border-[#2d2f39] text-white rounded-xl p-6 max-w-lg">
           <DialogHeader>
-            <DialogTitle className="text-lg font-bold text-white">
+            <DialogTitle className="text-lg font-bold text-[#09090b] dark:text-white">
               {editing ? "Edit ESG Policy" : "Create ESG Policy"}
             </DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4 mt-2">
             <div className="space-y-1.5">
-              <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Title</Label>
+              <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Title</Label>
               <Input
                 name="title"
                 defaultValue={editing?.title || ""}
-                className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]"
+                className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]"
                 required
               />
             </div>
 
             <div className="grid gap-4 sm:grid-cols-3">
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Version</Label>
+                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Version</Label>
                 <Input
                   name="version"
                   defaultValue={editing?.version || "1.0"}
                   placeholder="e.g. 1.0"
-                  className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6]"
+                  className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6]"
                   required
                 />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Category</Label>
+                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Category</Label>
                 <Input
                   name="category"
                   defaultValue={editing?.category || ""}
                   placeholder="e.g. Environmental"
-                  className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6]"
+                  className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6]"
                   required
                 />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Effective Date</Label>
+                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Effective Date</Label>
                 <Input
                   type="date"
                   name="effectiveDate"
                   defaultValue={editing?.effectiveDate || ""}
-                  className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6]"
+                  className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6]"
                   required
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Policy Content</Label>
+              <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Policy Content</Label>
               <textarea
                 name="content"
                 defaultValue={editing?.content || ""}
                 rows={6}
-                className="w-full bg-[#0f1016] border border-[#2d2f39] rounded-lg p-3 text-sm text-white focus:outline-hidden focus:ring-1 focus:ring-[#9B5CF6] focus:border-[#9B5CF6] transition-all resize-none"
+                className="w-full bg-[#f4f4f5] dark:bg-[#0f1016] border border-[#ececee] dark:border-[#2d2f39] rounded-lg p-3 text-sm text-white focus:outline-hidden focus:ring-1 focus:ring-[#9B5CF6] focus:border-[#9B5CF6] transition-all resize-none"
                 required
               />
             </div>
 
             <div className="space-y-1.5">
-              <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Status</Label>
+              <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Status</Label>
               <Select name="status" defaultValue={editing?.status || "draft"}>
-                <SelectTrigger className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white hover:bg-[#181922] transition-all">
+                <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white hover:bg-white dark:bg-[#181922] transition-all">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">
+                <SelectContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white">
                   <SelectItem value="draft">Draft</SelectItem>
                   <SelectItem value="published">Published</SelectItem>
                   <SelectItem value="archived">Archived</SelectItem>
@@ -372,14 +372,14 @@ export function PoliciesClient({
                 type="button"
                 variant="ghost"
                 onClick={() => setDialogOpen(false)}
-                className="bg-[#222430] hover:bg-[#2c2e3c] text-white font-semibold rounded-lg text-xs"
+                className="bg-[#222430] hover:bg-[#2c2e3c] text-[#09090b] dark:text-white font-semibold rounded-lg text-xs"
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
                 disabled={loading}
-                className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-semibold rounded-lg text-xs"
+                className="bg-[#7C3AED] hover:bg-[#6D28D9] text-[#09090b] dark:text-white font-semibold rounded-lg text-xs"
               >
                 {loading ? "Saving..." : "Save Policy"}
               </Button>
@@ -390,25 +390,25 @@ export function PoliciesClient({
 
       {/* Delete Confirmation */}
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-[#14151f] border border-[#2d2f39] text-white rounded-xl p-6 max-w-sm">
+        <DialogContent className="bg-white dark:bg-[#14151f] border border-[#ececee] dark:border-[#2d2f39] text-white rounded-xl p-6 max-w-sm">
           <DialogHeader>
-            <DialogTitle className="text-lg font-bold text-white">Delete ESG Policy</DialogTitle>
+            <DialogTitle className="text-lg font-bold text-[#09090b] dark:text-white">Delete ESG Policy</DialogTitle>
           </DialogHeader>
-          <div className="text-sm text-gray-300 my-4 leading-relaxed">
-            Are you sure you want to permanently delete <span className="font-semibold text-white">"{deleting?.title}"</span>? This action cannot be undone.
+          <div className="text-sm text-[#52525b] dark:text-gray-300 my-4 leading-relaxed">
+            Are you sure you want to permanently delete <span className="font-semibold text-[#09090b] dark:text-white">"{deleting?.title}"</span>? This action cannot be undone.
           </div>
           <DialogFooter className="gap-2">
             <Button
               variant="ghost"
               onClick={() => setDeleteOpen(false)}
-              className="bg-[#222430] hover:bg-[#2c2e3c] text-white font-semibold rounded-lg text-xs"
+              className="bg-[#222430] hover:bg-[#2c2e3c] text-[#09090b] dark:text-white font-semibold rounded-lg text-xs"
             >
               Cancel
             </Button>
             <Button
               onClick={handleDelete}
               disabled={loading}
-              className="bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg text-xs"
+              className="bg-red-500 hover:bg-red-600 text-[#09090b] dark:text-white font-semibold rounded-lg text-xs"
             >
               {loading ? "Deleting..." : "Delete"}
             </Button>

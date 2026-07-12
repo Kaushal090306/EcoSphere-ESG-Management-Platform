@@ -59,53 +59,86 @@
   --shadow-glow: 0 0 35px rgba(155, 92, 246, 0.25);
 }
 
-/* Dark-first theme - EcoSphere branded */
+/* Light-first theme - Awesomic DESIGN.md */
 :root {
-  --background: #0f1016;
-  --foreground: #ffffff;
-  --card: #181922;
+  --background: #f4f4f5;       /* Paper — canvas */
+  --foreground: #09090b;       /* Obsidian — primary text */
+  --card: #ffffff;             /* Snow — elevated surfaces */
+  --card-foreground: #09090b;
+  --popover: #ffffff;
+  --popover-foreground: #09090b;
+  --primary: #09090b;          /* Obsidian — primary CTA */
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;  /* Fog */
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #ececee;            /* Cloud — hairline borders */
+  --input: #ececee;
+  --ring: #09090b;
+  --radius: 1.75rem;            /* ~28px — card radius per DESIGN.md */
+
+  /* Chart colors — semantic ESG */
+  --chart-1: #09090b;
+  --chart-2: #16a34a;
+  --chart-3: #d97706;
+  --chart-4: #2563eb;
+  --chart-5: #ff5a00;          /* Ember — accent only */
+
+  /* Sidebar styling — light surface */
+  --sidebar: #fafafa;
+  --sidebar-foreground: #52525b;  /* Steel */
+  --sidebar-primary: #09090b;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: #09090b;
+  --sidebar-border: #ececee;
+  --sidebar-ring: #09090b;
+
+  /* EcoSphere brand palette */
+  --eco-green: #16a34a;
+  --eco-teal: #0d9488;
+  --eco-blue: #2563eb;
+  --eco-orange: #d97706;
+  --eco-ember: #ff5a00;
+  --eco-red: #dc2626;
+}
+
+/* Dark mode overrides — activated by .dark class on <html> via next-themes */
+.dark {
+  --background: #0f1016;       /* Premium custom dark canvas */
+  --foreground: #ffffff;       /* Pure white */
+  --card: #181922;             /* Custom dark card */
   --card-foreground: #ffffff;
   --popover: #181922;
   --popover-foreground: #ffffff;
-  --primary: #9B5CF6;
-  --primary-foreground: #ffffff;
-  --secondary: #7C3AED;
+  --primary: #ffffff;
+  --primary-foreground: #0f1016;
+  --secondary: #222430;
   --secondary-foreground: #ffffff;
-  --muted: #1d1e27;
-  --muted-foreground: #9ca3af;
-  --accent: #22242f;
+  --muted: #222430;
+  --muted-foreground: #8e909a;  /* Custom muted text */
+  --accent: #222430;
   --accent-foreground: #ffffff;
-  --destructive: #ef4444;
+  --destructive: #dc2626;
   --destructive-foreground: #ffffff;
-  --border: #2A2D38;
-  --input: #2A2D38;
-  --ring: #9B5CF6;
-  --radius: 1.5rem; /* 24px as in target design card */
+  --border: #2d2f39;           /* Custom border styling */
+  --input: #2d2f39;
+  --ring: #8e909a;
 
-  /* Chart colors */
-  --chart-1: #9B5CF6;
-  --chart-2: #10b981;
-  --chart-3: #f59e0b;
-  --chart-4: #3b82f6;
-  --chart-5: #7C3AED;
-
-  /* Sidebar styling */
-  --sidebar: #15161D;
-  --sidebar-foreground: #9ca3af;
-  --sidebar-primary: #9B5CF6;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #22242f;
+  /* Sidebar dark surface matching our exact styles */
+  --sidebar: #0c0a0e;
+  --sidebar-foreground: #8e909a;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: #0c0a0e;
+  --sidebar-accent: #121016;
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #2d2f39;
-  --sidebar-ring: #9B5CF6;
-
-  /* EcoSphere brand palette */
-  --eco-green: #10b981;
-  --eco-teal: #14b8a6;
-  --eco-blue: #3b82f6;
-  --eco-orange: #f59e0b;
-  --eco-purple: #9B5CF6;
-  --eco-red: #ef4444;
+  --sidebar-border: #1a1822;
+  --sidebar-ring: #8e909a;
 }
 
 @layer base {
@@ -113,7 +146,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    background: #0f1016;
     font-family: var(--font-sans), sans-serif;
     @apply bg-background text-foreground;
   }
@@ -121,6 +153,7 @@
     @apply font-sans;
   }
 }
+
 
 /* Custom scrollbar matching uitheme.md */
 @layer base {
@@ -140,26 +173,50 @@
   }
 }
 
-/* Active sidebar item styling matching mockup */
+/* Active sidebar item — light mode */
 [data-sidebar="menu-button"][data-active="true"] {
-  background-color: rgba(155, 92, 246, 0.12) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(155, 92, 246, 0.25) !important;
-  border-radius: 12px;
+  background-color: #ffffff !important;
+  color: #09090b !important;
+  border: 1px solid #ececee !important;
+  border-radius: 14px;
+  box-shadow: rgba(0,0,0,0.04) 0px 2px 8px 0px;
 }
 
 [data-sidebar="menu-button"][data-active="true"] svg {
-  color: #9B5CF6 !important;
+  color: #09090b !important;
 }
 
 [data-sidebar="menu-button"]:hover:not([data-active="true"]) {
-  background-color: #121016 !important;
-  color: #ffffff !important;
+  background-color: #f4f4f5 !important;
+  color: #09090b !important;
+}
+
+/* Active sidebar item — dark mode */
+.dark [data-sidebar="menu-button"][data-active="true"] {
+  background-color: #27272a !important;
+  color: #fafafa !important;
+  border: 1px solid #3f3f46 !important;
+  box-shadow: none;
+}
+
+.dark [data-sidebar="menu-button"][data-active="true"] svg {
+  color: #fafafa !important;
+}
+
+.dark [data-sidebar="menu-button"]:hover:not([data-active="true"]) {
+  background-color: #27272a !important;
+  color: #fafafa !important;
 }
 
 /* Glassmorphism utility */
 .glass {
-  background: rgba(24, 25, 34, 0.6);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.dark .glass {
+  background: rgba(24, 24, 27, 0.8);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }

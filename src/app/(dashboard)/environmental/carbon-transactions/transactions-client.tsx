@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
@@ -166,10 +166,10 @@ export function TransactionsClient({
             placeholder="Search entries..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs"
+            className="max-w-xs bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white rounded-lg h-9 text-xs"
           />
           <Select value={deptFilter} onValueChange={(val) => setDeptFilter(val || "")}>
-            <SelectTrigger className="w-44 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
+            <SelectTrigger className="w-44 bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white rounded-lg h-9 text-xs">
               <SelectValue placeholder="All Departments" />
             </SelectTrigger>
             <SelectContent>
@@ -180,7 +180,7 @@ export function TransactionsClient({
             </SelectContent>
           </Select>
           <Select value={sourceFilter} onValueChange={(val) => setSourceFilter(val || "")}>
-            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
+            <SelectTrigger className="w-36 bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white rounded-lg h-9 text-xs">
               <SelectValue placeholder="All Sources" />
             </SelectTrigger>
             <SelectContent>
@@ -198,7 +198,7 @@ export function TransactionsClient({
         </Button>
       </div>
 
-      <Card className="border-[#2d2f39] bg-[#181922] rounded-md overflow-hidden shadow-none">
+      <Card className="border-[#ececee] dark:border-[#2d2f39] bg-white dark:bg-[#181922] rounded-md overflow-hidden shadow-none">
         <CardContent className="p-0">
           {filteredTransactions.length === 0 ? (
             <EmptyState title="No transactions found" description="Adjust search query or filter settings." />
@@ -276,7 +276,7 @@ export function TransactionsClient({
                     <TableCell className="text-muted-foreground">
                       {t.date ? new Date(t.date).toLocaleDateString() : "—"}
                     </TableCell>
-                    <TableCell className="font-medium text-white">
+                    <TableCell className="font-medium text-[#09090b] dark:text-white">
                       {deptName(t.departmentId)}
                     </TableCell>
                     <TableCell>
@@ -290,7 +290,7 @@ export function TransactionsClient({
                     <TableCell className="font-mono text-muted-foreground">
                       {t.quantity} {emissionFactors.find((f) => f.id === t.emissionFactorId)?.unit || ""}
                     </TableCell>
-                    <TableCell className="text-right font-mono text-white font-semibold">
+                    <TableCell className="text-right font-mono text-[#09090b] dark:text-white font-semibold">
                       {parseFloat(t.co2eValue).toFixed(2)} t
                     </TableCell>
                     <TableCell className="text-right">
@@ -339,22 +339,22 @@ export function TransactionsClient({
       </Card>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-lg bg-[#14151f] border border-[#2d2f39] text-white rounded-xl p-6">
-          <DialogHeader><DialogTitle className="text-lg font-bold text-white">{editing ? "Edit Transaction" : "New Transaction"}</DialogTitle></DialogHeader>
+        <DialogContent className="max-w-lg bg-white dark:bg-[#14151f] border border-[#ececee] dark:border-[#2d2f39] text-white rounded-xl p-6">
+          <DialogHeader><DialogTitle className="text-lg font-bold text-[#09090b] dark:text-white">{editing ? "Edit Transaction" : "New Transaction"}</DialogTitle></DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4 mt-2">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Department</Label>
+                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Department</Label>
                 <Select name="departmentId" defaultValue={editing?.departmentId || ""}>
-                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-[#181922] transition-all"><SelectValue placeholder="Select department" /></SelectTrigger>
-                  <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">{departments.map((d) => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent>
+                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:bg-[#181922] transition-all"><SelectValue placeholder="Select department" /></SelectTrigger>
+                  <SelectContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white">{departments.map((d) => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Source Type</Label>
+                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Source Type</Label>
                 <Select name="sourceType" defaultValue={editing?.sourceType || "purchase"}>
-                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-[#181922] transition-all"><SelectValue /></SelectTrigger>
-                  <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">
+                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:bg-[#181922] transition-all"><SelectValue /></SelectTrigger>
+                  <SelectContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white">
                     <SelectItem value="purchase">Purchase</SelectItem>
                     <SelectItem value="manufacturing">Manufacturing</SelectItem>
                     <SelectItem value="expense">Expense</SelectItem>
@@ -365,28 +365,28 @@ export function TransactionsClient({
             </div>
 
             <div className="space-y-1.5">
-              <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Emission Factor</Label>
+              <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Emission Factor</Label>
               <Select value={selectedFactorId} onValueChange={(val) => setSelectedFactorId(val || "")}>
-                <SelectTrigger className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-[#181922] transition-all"><SelectValue placeholder="Select emission factor" /></SelectTrigger>
-                <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">{emissionFactors.map((f) => <SelectItem key={f.id} value={f.id}>{f.name} ({f.factorValue} kgCO₂e/{f.unit})</SelectItem>)}</SelectContent>
+                <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:bg-[#181922] transition-all"><SelectValue placeholder="Select emission factor" /></SelectTrigger>
+                <SelectContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white">{emissionFactors.map((f) => <SelectItem key={f.id} value={f.id}>{f.name} ({f.factorValue} kgCO₂e/{f.unit})</SelectItem>)}</SelectContent>
               </Select>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Quantity {activeFactor ? `(${activeFactor.unit})` : ""}</Label>
-                <Input type="number" step="any" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Quantity {activeFactor ? `(${activeFactor.unit})` : ""}</Label>
+                <Input type="number" step="any" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Date</Label>
-                <Input name="date" type="date" defaultValue={editing?.date ? new Date(editing.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0]} className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6]" required />
+                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Date</Label>
+                <Input name="date" type="date" defaultValue={editing?.date ? new Date(editing.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0]} className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6]" required />
               </div>
             </div>
 
-            <div className="bg-[#0f1016] border border-[#2d2f39] rounded-xl p-4 space-y-4">
+            <div className="bg-[#f4f4f5] dark:bg-[#0f1016] border border-[#ececee] dark:border-[#2d2f39] rounded-xl p-4 space-y-4">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <Label className="text-xs font-semibold text-white">Auto-calculate CO₂e</Label>
+                  <Label className="text-xs font-semibold text-[#09090b] dark:text-white">Auto-calculate CO₂e</Label>
                   <p className="text-[11px] text-muted-foreground">Use factor equation instead of manual override</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -396,8 +396,8 @@ export function TransactionsClient({
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Calculated CO₂e Value (tonnes)</Label>
-                <Input type="number" step="any" value={currentCo2e} disabled={autoCalc} onChange={(e) => setCustomCo2e(e.target.value)} className="bg-[#14151f] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6]" />
+                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Calculated CO₂e Value (tonnes)</Label>
+                <Input type="number" step="any" value={currentCo2e} disabled={autoCalc} onChange={(e) => setCustomCo2e(e.target.value)} className="bg-white dark:bg-[#14151f] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6]" />
               </div>
             </div>
 
@@ -410,8 +410,8 @@ export function TransactionsClient({
       </Dialog>
 
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-[#14151f] border border-[#2d2f39] text-white rounded-xl p-6">
-          <DialogHeader><DialogTitle className="text-lg font-bold text-white">Delete Transaction</DialogTitle></DialogHeader>
+        <DialogContent className="bg-white dark:bg-[#14151f] border border-[#ececee] dark:border-[#2d2f39] text-white rounded-xl p-6">
+          <DialogHeader><DialogTitle className="text-lg font-bold text-[#09090b] dark:text-white">Delete Transaction</DialogTitle></DialogHeader>
           <p className="text-sm text-muted-foreground py-2">Are you sure you want to delete this carbon entry?</p>
           <DialogFooter>
             <Button variant="outline" onClick={() => setDeleteOpen(false)} className="rounded-lg bg-[#222430] hover:bg-[#2c2e3c] border-transparent text-white text-xs h-9 px-4 font-semibold">Cancel</Button>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { toast } from "sonner";
@@ -96,10 +96,10 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
             placeholder="Search products..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs"
+            className="max-w-xs bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white rounded-lg h-9 text-xs"
           />
           <Select value={statusFilter} onValueChange={(val) => setStatusFilter(val || "")}>
-            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
+            <SelectTrigger className="w-36 bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white rounded-lg h-9 text-xs">
               <SelectValue placeholder="All Statuses" />
             </SelectTrigger>
             <SelectContent>
@@ -115,7 +115,7 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
         </Button>
       </div>
 
-      <Card className="border-[#2d2f39] bg-[#181922] rounded-md overflow-hidden shadow-none">
+      <Card className="border-[#ececee] dark:border-[#2d2f39] bg-white dark:bg-[#181922] rounded-md overflow-hidden shadow-none">
         <CardContent className="p-0">
           {filteredProfiles.length === 0 ? (
             <EmptyState title="No product profiles found" description="Adjust search query or filter settings." />
@@ -161,7 +161,7 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
               <TableBody>
                 {filteredProfiles.map(p => (
                   <TableRow key={p.id}>
-                    <TableCell className="font-medium text-white">{p.productName}</TableCell>
+                    <TableCell className="font-medium text-[#09090b] dark:text-white">{p.productName}</TableCell>
                     <TableCell className="font-mono text-white">{p.carbonIntensity} CO₂e/unit</TableCell>
                     <TableCell className="text-muted-foreground">{p.recyclability || "0"}%</TableCell>
                     <TableCell className="text-muted-foreground">{p.certifications?.join(", ") || "—"}</TableCell>
@@ -181,35 +181,35 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
       </Card>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="bg-[#14151f] border border-[#2d2f39] text-white rounded-xl p-6 max-w-md">
-          <DialogHeader><DialogTitle className="text-lg font-bold text-white">{editing ? "Edit Profile" : "New Profile"}</DialogTitle></DialogHeader>
+        <DialogContent className="bg-white dark:bg-[#14151f] border border-[#ececee] dark:border-[#2d2f39] text-white rounded-xl p-6 max-w-md">
+          <DialogHeader><DialogTitle className="text-lg font-bold text-[#09090b] dark:text-white">{editing ? "Edit Profile" : "New Profile"}</DialogTitle></DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4 mt-2">
             <div className="space-y-1.5">
-              <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Product Name</Label>
-              <Input name="productName" defaultValue={editing?.productName || ""} className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+              <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Product Name</Label>
+              <Input name="productName" defaultValue={editing?.productName || ""} className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
             </div>
             
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Carbon Intensity (CO₂e/unit)</Label>
-                <Input name="carbonIntensity" defaultValue={editing?.carbonIntensity || ""} className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Carbon Intensity (CO₂e/unit)</Label>
+                <Input name="carbonIntensity" defaultValue={editing?.carbonIntensity || ""} className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Recyclability (%)</Label>
-                <Input name="recyclabilityPercentage" defaultValue={editing?.recyclability || ""} className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+                <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Recyclability (%)</Label>
+                <Input name="recyclabilityPercentage" defaultValue={editing?.recyclability || ""} className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Certifications</Label>
-              <Input name="certifications" defaultValue={editing?.certifications?.join(", ") || ""} placeholder="ISO 14001, FSC, etc." className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" />
+              <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Certifications</Label>
+              <Input name="certifications" defaultValue={editing?.certifications?.join(", ") || ""} placeholder="ISO 14001, FSC, etc." className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" />
             </div>
 
             <div className="space-y-1.5">
-              <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Status</Label>
+              <Label className="text-[10px] text-[#71717a] dark:text-[#8e909a] font-bold tracking-wider uppercase">Status</Label>
               <Select name="status" defaultValue={editing?.status || "active"}>
-                <SelectTrigger className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-[#181922] transition-all"><SelectValue /></SelectTrigger>
-                <SelectContent className="bg-[#181922] border-[#2d2f39] text-white"><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem></SelectContent>
+                <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0f1016] border-[#ececee] dark:border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:bg-[#181922] transition-all"><SelectValue /></SelectTrigger>
+                <SelectContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white"><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem></SelectContent>
               </Select>
             </div>
 
@@ -222,9 +222,9 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
       </Dialog>
 
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-[#14151f] border border-[#2d2f39] text-white rounded-xl p-6">
-          <DialogHeader><DialogTitle className="text-lg font-bold text-white">Delete Profile</DialogTitle></DialogHeader>
-          <p className="text-sm text-muted-foreground py-2">Delete <span className="font-medium text-white">{deleting?.productName}</span>?</p>
+        <DialogContent className="bg-white dark:bg-[#14151f] border border-[#ececee] dark:border-[#2d2f39] text-white rounded-xl p-6">
+          <DialogHeader><DialogTitle className="text-lg font-bold text-[#09090b] dark:text-white">Delete Profile</DialogTitle></DialogHeader>
+          <p className="text-sm text-muted-foreground py-2">Delete <span className="font-medium text-[#09090b] dark:text-white">{deleting?.productName}</span>?</p>
           <DialogFooter>
             <Button variant="outline" onClick={() => setDeleteOpen(false)} className="rounded-lg bg-[#222430] hover:bg-[#2c2e3c] border-transparent text-white text-xs h-9 px-4 font-semibold">Cancel</Button>
             <Button variant="destructive" onClick={handleDelete} disabled={loading} className="rounded-lg text-xs h-9 px-4 font-semibold">Delete</Button>
