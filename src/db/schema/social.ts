@@ -9,7 +9,6 @@ import {
   pgEnum,
   index,
 } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
 import { departments } from "./departments";
 import { categories } from "./categories";
 import { users } from "./users";
@@ -107,51 +106,11 @@ export const trainingRecords = pgTable(
   })
 );
 
-export const csrActivitiesRelations = relations(csrActivities, ({ one, many }) => ({
-  category: one(categories, {
-    fields: [csrActivities.categoryId],
-    references: [categories.id],
-  }),
-  department: one(departments, {
-    fields: [csrActivities.departmentId],
-    references: [departments.id],
-  }),
-  participations: many(employeeParticipations),
-}));
 
-export const employeeParticipationsRelations = relations(
-  employeeParticipations,
-  ({ one }) => ({
-    employee: one(users, {
-      fields: [employeeParticipations.employeeId],
-      references: [users.id],
-    }),
-    activity: one(csrActivities, {
-      fields: [employeeParticipations.activityId],
-      references: [csrActivities.id],
-    }),
-  })
-);
 
-export const diversityMetricsRelations = relations(
-  diversityMetrics,
-  ({ one }) => ({
-    department: one(departments, {
-      fields: [diversityMetrics.departmentId],
-      references: [departments.id],
-    }),
-  })
-);
 
-export const trainingRecordsRelations = relations(
-  trainingRecords,
-  ({ one }) => ({
-    employee: one(users, {
-      fields: [trainingRecords.employeeId],
-      references: [users.id],
-    }),
-  })
-);
+
+
 
 export type CsrActivity = typeof csrActivities.$inferSelect;
 export type NewCsrActivity = typeof csrActivities.$inferInsert;
@@ -161,3 +120,5 @@ export type DiversityMetric = typeof diversityMetrics.$inferSelect;
 export type NewDiversityMetric = typeof diversityMetrics.$inferInsert;
 export type TrainingRecord = typeof trainingRecords.$inferSelect;
 export type NewTrainingRecord = typeof trainingRecords.$inferInsert;
+
+

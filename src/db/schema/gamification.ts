@@ -9,7 +9,6 @@ import {
   pgEnum,
   index,
 } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
 import { categories } from "./categories";
 import { users } from "./users";
 import { rewards } from "./rewards";
@@ -89,41 +88,9 @@ export const rewardRedemptions = pgTable(
   })
 );
 
-export const challengesRelations = relations(challenges, ({ one, many }) => ({
-  category: one(categories, {
-    fields: [challenges.categoryId],
-    references: [categories.id],
-  }),
-  participations: many(challengeParticipations),
-}));
 
-export const challengeParticipationsRelations = relations(
-  challengeParticipations,
-  ({ one }) => ({
-    challenge: one(challenges, {
-      fields: [challengeParticipations.challengeId],
-      references: [challenges.id],
-    }),
-    employee: one(users, {
-      fields: [challengeParticipations.employeeId],
-      references: [users.id],
-    }),
-  })
-);
 
-export const rewardRedemptionsRelations = relations(
-  rewardRedemptions,
-  ({ one }) => ({
-    employee: one(users, {
-      fields: [rewardRedemptions.employeeId],
-      references: [users.id],
-    }),
-    reward: one(rewards, {
-      fields: [rewardRedemptions.rewardId],
-      references: [rewards.id],
-    }),
-  })
-);
+
 
 export type Challenge = typeof challenges.$inferSelect;
 export type NewChallenge = typeof challenges.$inferInsert;
@@ -131,3 +98,5 @@ export type ChallengeParticipation = typeof challengeParticipations.$inferSelect
 export type NewChallengeParticipation = typeof challengeParticipations.$inferInsert;
 export type RewardRedemption = typeof rewardRedemptions.$inferSelect;
 export type NewRewardRedemption = typeof rewardRedemptions.$inferInsert;
+
+

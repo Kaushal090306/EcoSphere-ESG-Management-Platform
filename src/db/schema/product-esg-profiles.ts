@@ -15,11 +15,8 @@ export const productEsgProfiles = pgTable("product_esg_profiles", {
     precision: 10,
     scale: 4,
   }).notNull(),
-  recyclabilityPercentage: decimal("recyclability_percentage", {
-    precision: 5,
-    scale: 2,
-  }).notNull(),
-  certifications: text("certifications"), // JSON array stored as text
+  recyclability: text("recyclability"),
+  certifications: text("certifications").array(),
   status: statusEnum("status").notNull().default("active"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),

@@ -9,7 +9,6 @@ import {
   index,
   unique,
 } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
 import { departments } from "./departments";
 import { users } from "./users";
 import { policies } from "./policies";
@@ -94,45 +93,9 @@ export const complianceIssues = pgTable(
   })
 );
 
-export const policyAcknowledgementsRelations = relations(
-  policyAcknowledgements,
-  ({ one }) => ({
-    employee: one(users, {
-      fields: [policyAcknowledgements.employeeId],
-      references: [users.id],
-    }),
-    policy: one(policies, {
-      fields: [policyAcknowledgements.policyId],
-      references: [policies.id],
-    }),
-  })
-);
 
-export const auditsRelations = relations(audits, ({ one, many }) => ({
-  department: one(departments, {
-    fields: [audits.departmentId],
-    references: [departments.id],
-  }),
-  auditor: one(users, {
-    fields: [audits.auditorId],
-    references: [users.id],
-  }),
-  issues: many(complianceIssues),
-}));
 
-export const complianceIssuesRelations = relations(
-  complianceIssues,
-  ({ one }) => ({
-    audit: one(audits, {
-      fields: [complianceIssues.auditId],
-      references: [audits.id],
-    }),
-    owner: one(users, {
-      fields: [complianceIssues.ownerId],
-      references: [users.id],
-    }),
-  })
-);
+
 
 export type PolicyAcknowledgement = typeof policyAcknowledgements.$inferSelect;
 export type NewPolicyAcknowledgement = typeof policyAcknowledgements.$inferInsert;
@@ -140,3 +103,5 @@ export type Audit = typeof audits.$inferSelect;
 export type NewAudit = typeof audits.$inferInsert;
 export type ComplianceIssue = typeof complianceIssues.$inferSelect;
 export type NewComplianceIssue = typeof complianceIssues.$inferInsert;
+
+

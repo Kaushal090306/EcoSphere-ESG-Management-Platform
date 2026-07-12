@@ -7,7 +7,6 @@ import {
   index,
   unique,
 } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
 import { departments } from "./departments";
 
 export const departmentScores = pgTable(
@@ -31,15 +30,9 @@ export const departmentScores = pgTable(
   })
 );
 
-export const departmentScoresRelations = relations(
-  departmentScores,
-  ({ one }) => ({
-    department: one(departments, {
-      fields: [departmentScores.departmentId],
-      references: [departments.id],
-    }),
-  })
-);
+
 
 export type DepartmentScore = typeof departmentScores.$inferSelect;
 export type NewDepartmentScore = typeof departmentScores.$inferInsert;
+
+

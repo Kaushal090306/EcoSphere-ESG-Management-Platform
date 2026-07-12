@@ -1,21 +1,23 @@
 import {
   pgTable,
   uuid,
-  integer,
+  numeric,
   boolean,
+  integer,
   timestamp,
 } from "drizzle-orm/pg-core";
 
 export const esgSettings = pgTable("esg_settings", {
   id: uuid("id").defaultRandom().primaryKey(),
-  environmentalWeight: integer("environmental_weight").notNull().default(40),
-  socialWeight: integer("social_weight").notNull().default(30),
-  governanceWeight: integer("governance_weight").notNull().default(30),
-  autoEmissionCalculation: boolean("auto_emission_calculation")
+  environmentalWeight: numeric("environmental_weight").notNull().default("0.4"),
+  socialWeight: numeric("social_weight").notNull().default("0.3"),
+  governanceWeight: numeric("governance_weight").notNull().default("0.3"),
+  autoEmissionCalc: boolean("auto_emission_calc")
     .notNull()
-    .default(true),
-  evidenceRequired: boolean("evidence_required").notNull().default(true),
-  badgeAutoAward: boolean("badge_auto_award").notNull().default(true),
+    .default(false),
+  evidenceRequired: boolean("evidence_required").notNull().default(false),
+  badgeAutoAward: boolean("badge_auto_award").notNull().default(false),
+  policyReminderDays: integer("policy_reminder_days").notNull().default(7),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

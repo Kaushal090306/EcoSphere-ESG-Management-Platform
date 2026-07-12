@@ -46,3 +46,4 @@ export * from "./governance";
 export * from "./gamification";
 export * from "./scoring";
 export * from "./notifications";
+export * from "./relations";

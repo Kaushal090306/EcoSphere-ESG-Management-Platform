@@ -21,8 +21,11 @@ import {
   challenges,
   challengeParticipations,
   rewardRedemptions,
+  challengeParticipations,
+  rewardRedemptions,
   departmentScores,
   notifications,
+  notificationSettings,
 } from "@/db/schema";
 import bcrypt from "bcryptjs";
 
@@ -121,8 +124,8 @@ export async function seedDatabase() {
 
   // 6. Product ESG Profiles
   const profileData = [
-    { productName: "EcoWidget Pro", carbonIntensity: "2.3400", recyclabilityPercentage: "85.00", certifications: "ISO 14001, FSC Certified" },
-    { productName: "GreenPack Packaging", carbonIntensity: "0.8900", recyclabilityPercentage: "95.00", certifications: "Cradle to Cradle, FSC" },
+    { productName: "EcoWidget Pro", carbonIntensity: "2.3400", recyclability: "High", certifications: ["ISO 14001", "FSC Certified"] },
+    { productName: "GreenPack Packaging", carbonIntensity: "0.8900", recyclability: "Very High", certifications: ["Cradle to Cradle", "FSC"] },
   ];
   await db.insert(productEsgProfiles).values(profileData.map((p) => ({ ...p, status: "active" as const }))).onConflictDoNothing();
 
@@ -149,6 +152,16 @@ export async function seedDatabase() {
 
   // 9. ESG Settings
   await db.insert(esgSettings).values({}).onConflictDoNothing();
+
+  const notificationSettingsData = [
+    { eventType: "compliance_issue" as const, inAppEnabled: true, emailEnabled: true },
+    { eventType: "csr_approval" as const, inAppEnabled: true, emailEnabled: false },
+    { eventType: "challenge_approval" as const, inAppEnabled: true, emailEnabled: false },
+    { eventType: "policy_reminder" as const, inAppEnabled: true, emailEnabled: true },
+    { eventType: "badge_unlock" as const, inAppEnabled: true, emailEnabled: false },
+    { eventType: "overdue_issue" as const, inAppEnabled: true, emailEnabled: true },
+  ];
+  await db.insert(notificationSettings).values(notificationSettingsData).onConflictDoNothing();
 
   // --- NEW TABLES SEEDING ---
 

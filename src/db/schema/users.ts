@@ -6,12 +6,13 @@ import {
   timestamp,
   pgEnum,
   integer,
+  index,
 } from "drizzle-orm/pg-core";
 
 export const userRoleEnum = pgEnum("user_role", [
   "admin",
   "esg_manager",
-  "department_head",
+  "dept_head",
   "employee",
   "auditor",
 ]);
@@ -30,7 +31,15 @@ export const users = pgTable("users", {
   xp: integer("xp").notNull().default(0),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
+}, (table) => ({
+  departmentIdIdx: index("user_department_id_idx").on(table.departmentId),
+}));
+
+
 
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
+
+
+
+

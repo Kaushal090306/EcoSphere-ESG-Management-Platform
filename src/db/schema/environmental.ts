@@ -8,7 +8,6 @@ import {
   pgEnum,
   index,
 } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
 import { departments } from "./departments";
 import { emissionFactors } from "./emission-factors";
 
@@ -43,19 +42,9 @@ export const carbonTransactions = pgTable(
   })
 );
 
-export const carbonTransactionsRelations = relations(
-  carbonTransactions,
-  ({ one }) => ({
-    department: one(departments, {
-      fields: [carbonTransactions.departmentId],
-      references: [departments.id],
-    }),
-    emissionFactor: one(emissionFactors, {
-      fields: [carbonTransactions.emissionFactorId],
-      references: [emissionFactors.id],
-    }),
-  })
-);
+
 
 export type CarbonTransaction = typeof carbonTransactions.$inferSelect;
 export type NewCarbonTransaction = typeof carbonTransactions.$inferInsert;
+
+
