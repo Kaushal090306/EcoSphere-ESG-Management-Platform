@@ -1,13 +1,28 @@
 "use server";
 
 import { db } from "@/db";
-import { departments } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { departments, users } from "@/db/schema";
+import { eq, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { departmentSchema, type DepartmentFormData } from "@/lib/validations";
 
 export async function getDepartments() {
-  return db.select().from(departments).orderBy(departments.name);
+  return db
+    .select({
+      id: departments.id,
+      name: departments.name,
+      code: departments.code,
+      headUserId: departments.headUserId,
+      parentDepartmentId: departments.parentDepartmentId,
+      employeeCount: sql<number>`count(${users.id})::int`,
+      status: departments.status,
+      createdAt: departments.createdAt,
+      updatedAt: departments.updatedAt,
+    })
+    .from(departments)
+    .leftJoin(users, eq(users.departmentId, departments.id))
+    .groupBy(departments.id)
+    .orderBy(departments.name);
 }
 
 export async function getDepartmentById(id: string) {
