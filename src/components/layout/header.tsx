@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { useState, useEffect } from "react";
@@ -26,6 +27,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { getUnreadNotificationsCount } from "@/actions/notifications";
 
 const roleDisplayNames: Record<string, string> = {
   admin: "Administrator",
@@ -83,6 +85,7 @@ function getBreadcrumbs(pathname: string) {
   return crumbs;
 }
 
+
 export function Header({ user }: { user?: { name?: string | null; email?: string | null; role?: string } }) {
   const pathname = usePathname();
   const breadcrumbs = getBreadcrumbs(pathname);
@@ -90,6 +93,7 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
 
   // Dynamic session fetch
   const [currentUser, setCurrentUser] = useState({ name: "Michael Smith", role: "Admin" });
+  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     fetch("/api/auth/session")
@@ -110,6 +114,12 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
       })
       .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    getUnreadNotificationsCount()
+      .then((count) => setUnreadCount(count))
+      .catch(() => {});
+  }, [pathname]);
 
   // Compute initials
   const initials = user?.name
@@ -190,14 +200,20 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
         </Button>
 
         {/* Notifications */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="relative h-9 w-9 rounded-[12px] text-[#71717a] dark:text-[#a1a1aa] hover:text-[#09090b] dark:hover:text-[#fafafa] hover:bg-[#f4f4f5] dark:hover:bg-[#27272a] border border-transparent hover:border-[#ececee] dark:hover:border-[#3f3f46] transition-all"
-        >
-          <Bell className="h-4 w-4" />
-          <span className="absolute right-2 top-2 flex h-2 w-2 rounded-full bg-[#ff5a00] ring-2 ring-white dark:ring-[#18181b]" />
-        </Button>
+        <Link href="/notifications" className="block">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="relative h-9 w-9 rounded-[12px] text-[#71717a] dark:text-[#a1a1aa] hover:text-[#09090b] dark:hover:text-[#fafafa] hover:bg-[#f4f4f5] dark:hover:bg-[#27272a] border border-transparent hover:border-[#ececee] dark:hover:border-[#3f3f46] transition-all"
+          >
+            <Bell className="h-4 w-4" />
+            {unreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#ff5a00] px-1 text-[8px] font-bold text-white ring-2 ring-white dark:ring-[#18181b]">
+                {unreadCount}
+              </span>
+            )}
+          </Button>
+        </Link>
 
         {/* Theme Toggle */}
         <ThemeToggle />
