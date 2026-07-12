@@ -88,24 +88,16 @@ export function DiversityClient({ metrics, departments, userRole }: any) {
   const deptName = (id: string) => departments.find((d: any) => d.id === id)?.name || "Unknown";
 
   return (
-    <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl shadow-none py-0">
-      <CardHeader className="flex flex-row items-center justify-between p-5 pb-4 border-b border-[#ececee] dark:border-[#2d2f39]">
-        <div>
-          <CardTitle className="flex items-center gap-2 text-base">
-            <Users className="h-4 w-4 text-[#14b8a6]" />
-            Diversity Metrics
-          </CardTitle>
-          <CardDescription>
-            Track workforce diversity across demographics at the department level.
-          </CardDescription>
-        </div>
-        {canManage && (
-          <Button onClick={() => { setEditing(null); resetForm(); setIsOpen(true); }}>
-            <Plus className="mr-2 h-4 w-4" /> Add Record
+    <div className="space-y-4">
+      {canManage && (
+        <div className="flex justify-end">
+          <Button onClick={() => { setEditing(null); resetForm(); setIsOpen(true); }} className="gap-2 rounded-lg text-xs h-9">
+            <Plus className="h-4 w-4" /> Add Record
           </Button>
-        )}
-      </CardHeader>
-      <CardContent>
+        </div>
+      )}
+      <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl shadow-none py-0">
+        <CardContent className="p-0">
         <Table>
           <TableHeader>
             <TableRow>
@@ -205,6 +197,7 @@ export function DiversityClient({ metrics, departments, userRole }: any) {
           </DialogContent>
         </Dialog>
       </CardContent>
-    </Card>
+      </Card>
+    </div>
   );
 }

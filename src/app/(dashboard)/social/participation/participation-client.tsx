@@ -54,15 +54,6 @@ export function ParticipationClient({ participations, activities, userRole, user
 
   return (
     <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl shadow-none py-0">
-      <CardHeader className="p-5 pb-4 border-b border-[#ececee] dark:border-[#2d2f39]">
-        <CardTitle className="flex items-center gap-2 text-base">
-          <Users className="h-4 w-4 text-[#14b8a6]" />
-          Volunteer Record
-        </CardTitle>
-        <CardDescription>
-          Audit log of employee sign-ups, participation status, and earned carbon credits.
-        </CardDescription>
-      </CardHeader>
       <CardContent className="p-0">
         {participations.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">

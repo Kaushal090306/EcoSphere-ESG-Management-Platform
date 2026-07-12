@@ -61,24 +61,16 @@ export function TrainingClient({ records, users, userRole }: any) {
   const userName = (id: string) => users.find((u: any) => u.id === id)?.name || "Unknown";
 
   return (
-    <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl shadow-none py-0">
-      <CardHeader className="flex flex-row items-center justify-between p-5 pb-4 border-b border-[#ececee] dark:border-[#2d2f39]">
-        <div>
-          <CardTitle className="flex items-center gap-2 text-base">
-            <BookOpen className="h-4 w-4 text-[#14b8a6]" />
-            Training Records
-          </CardTitle>
-          <CardDescription>
-            Monitor ESG-related training and certification progress.
-          </CardDescription>
-        </div>
-        {canManage && (
-          <Button onClick={() => { setEditing(null); setIsOpen(true); }}>
-            <Plus className="mr-2 h-4 w-4" /> Log Training
+    <div className="space-y-4">
+      {canManage && (
+        <div className="flex justify-end">
+          <Button onClick={() => { setEditing(null); setIsOpen(true); }} className="gap-2 rounded-lg text-xs h-9">
+            <Plus className="h-4 w-4" /> Log Training
           </Button>
-        )}
-      </CardHeader>
-      <CardContent>
+        </div>
+      )}
+      <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl shadow-none py-0">
+        <CardContent className="p-0">
         <Table>
           <TableHeader>
             <TableRow>
@@ -174,6 +166,7 @@ export function TrainingClient({ records, users, userRole }: any) {
           </DialogContent>
         </Dialog>
       </CardContent>
-    </Card>
+      </Card>
+    </div>
   );
 }

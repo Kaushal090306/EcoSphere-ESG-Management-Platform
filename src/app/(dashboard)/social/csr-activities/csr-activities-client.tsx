@@ -75,19 +75,16 @@ export function CsrActivitiesClient({ activities, departments, categories, userR
   }
 
   return (
-    <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl shadow-none py-0">
-      <CardHeader className="flex flex-row items-center justify-between p-5 pb-4 border-b border-[#ececee] dark:border-[#2d2f39]">
-        <div>
-          <CardTitle>CSR Activities</CardTitle>
-          <CardDescription>Overview of community outreach and sustainability drives.</CardDescription>
-        </div>
-        {canManage && (
-          <Button onClick={() => { setEditing(null); setIsOpen(true); }}>
-            <Plus className="mr-2 h-4 w-4" /> Add Activity
+    <div className="space-y-4">
+      {canManage && (
+        <div className="flex justify-end">
+          <Button onClick={() => { setEditing(null); setIsOpen(true); }} className="gap-2 rounded-lg text-xs h-9">
+            <Plus className="h-4 w-4" /> Add Activity
           </Button>
-        )}
-      </CardHeader>
-      <CardContent>
+        </div>
+      )}
+      <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl shadow-none py-0">
+        <CardContent className="p-0">
         <Table>
           <TableHeader>
             <TableRow>
@@ -206,6 +203,7 @@ export function CsrActivitiesClient({ activities, departments, categories, userR
           </DialogContent>
         </Dialog>
       </CardContent>
-    </Card>
+      </Card>
+    </div>
   );
 }
