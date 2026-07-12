@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { useState, useEffect } from "react";
@@ -24,8 +25,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { getUnreadNotificationsCount } from "@/actions/notifications";
 
 const roleDisplayNames: Record<string, string> = {
   admin: "Administrator",
@@ -84,6 +86,7 @@ function getBreadcrumbs(pathname: string) {
   return crumbs;
 }
 
+
 export function Header({ user }: { user?: { name?: string | null; email?: string | null; role?: string } }) {
   const pathname = usePathname();
   const breadcrumbs = getBreadcrumbs(pathname);
@@ -91,6 +94,7 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
 
   // Dynamic session fetch
   const [currentUser, setCurrentUser] = useState({ name: "Michael Smith", role: "Admin" });
+  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     fetch("/api/auth/session")
@@ -111,6 +115,12 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
       })
       .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    getUnreadNotificationsCount()
+      .then((count) => setUnreadCount(count))
+      .catch(() => {});
+  }, [pathname]);
 
   // Compute initials
   const initials = user?.name
@@ -191,14 +201,20 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
         </Button>
 
         {/* Notifications */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="relative h-9 w-9 rounded-[12px] text-[#71717a] dark:text-[#a1a1aa] hover:text-[#09090b] dark:hover:text-[#fafafa] hover:bg-[#f4f4f5] dark:hover:bg-[#27272a] border border-transparent hover:border-[#ececee] dark:hover:border-[#3f3f46] transition-all"
-        >
-          <Bell className="h-4 w-4" />
-          <span className="absolute right-2 top-2 flex h-2 w-2 rounded-full bg-[#ff5a00] ring-2 ring-white dark:ring-[#18181b]" />
-        </Button>
+        <Link href="/notifications" className="block">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="relative h-9 w-9 rounded-[12px] text-[#71717a] dark:text-[#a1a1aa] hover:text-[#09090b] dark:hover:text-[#fafafa] hover:bg-[#f4f4f5] dark:hover:bg-[#27272a] border border-transparent hover:border-[#ececee] dark:hover:border-[#3f3f46] transition-all"
+          >
+            <Bell className="h-4 w-4" />
+            {unreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#ff5a00] px-1 text-[8px] font-bold text-white ring-2 ring-white dark:ring-[#18181b]">
+                {unreadCount}
+              </span>
+            )}
+          </Button>
+        </Link>
 
         {/* Theme Toggle */}
         <ThemeToggle />
@@ -214,20 +230,16 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
                 className="flex items-center gap-2.5 p-1.5 pr-3 h-10 rounded-[12px] hover:bg-[#f4f4f5] border border-transparent hover:border-[#ececee] text-left cursor-pointer transition-all"
               >
                 <Avatar className="h-7 w-7 border border-[#ececee]">
-                  <AvatarImage
-                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
-                    alt={user?.name || currentUser.name}
-                  />
                   <AvatarFallback className="bg-[#f4f4f5] text-[#52525b] text-xs font-semibold">
                     {initials}
                   </AvatarFallback>
                 </Avatar>
                 <div className="hidden md:flex flex-col">
                   <span className="text-sm font-semibold text-[#09090b] dark:text-white leading-tight">
-                    {currentUser.name}
+                    {user?.name || currentUser.name}
                   </span>
                   <span className="text-[11px] text-[#71717a]">
-                    {currentUser.role}
+                    {user?.role ? (roleDisplayNames[user.role] || user.role) : currentUser.role}
                   </span>
                 </div>
                 <ChevronDown className="h-3.5 w-3.5 text-[#a1a1aa] hidden md:block" />
