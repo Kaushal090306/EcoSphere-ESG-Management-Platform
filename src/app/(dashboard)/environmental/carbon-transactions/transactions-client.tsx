@@ -198,7 +198,7 @@ export function TransactionsClient({
         </Button>
       </div>
 
-      <Card className="border-[#ececee] dark:border-[#2d2f39] bg-white dark:bg-[#181922] rounded-md overflow-hidden shadow-none">
+      <Card className="border border-[#ececee] dark:border-[#2d2f39] bg-white dark:bg-[#181922] rounded-md overflow-hidden shadow-none py-0">
         <CardContent className="p-0">
           {filteredTransactions.length === 0 ? (
             <EmptyState title="No transactions found" description="Adjust search query or filter settings." />
@@ -207,7 +207,7 @@ export function TransactionsClient({
               <TableHeader>
                 <TableRow>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("date")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -217,7 +217,7 @@ export function TransactionsClient({
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("dept")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -227,7 +227,7 @@ export function TransactionsClient({
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("source")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -237,7 +237,7 @@ export function TransactionsClient({
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("factor")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -247,7 +247,7 @@ export function TransactionsClient({
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("quantity")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -266,8 +266,8 @@ export function TransactionsClient({
                       {sortBy === "co2e-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
                     </div>
                   </TableHead>
-                  <TableHead className="text-right text-white">Calculation</TableHead>
-                  <TableHead className="w-24 text-right pr-4 text-white">Actions</TableHead>
+                  <TableHead className="text-right text-foreground">Calculation</TableHead>
+                  <TableHead className="w-24 text-right pr-4 text-foreground">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

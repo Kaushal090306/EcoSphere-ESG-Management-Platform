@@ -80,7 +80,7 @@
   --border: #ececee;            /* Cloud — hairline borders */
   --input: #ececee;
   --ring: #09090b;
-  --radius: 1.75rem;            /* ~28px — card radius per DESIGN.md */
+  --radius: 0.75rem;            /* ~12px card radius - sleeker global design */
 
   /* Chart colors — semantic ESG */
   --chart-1: #09090b;

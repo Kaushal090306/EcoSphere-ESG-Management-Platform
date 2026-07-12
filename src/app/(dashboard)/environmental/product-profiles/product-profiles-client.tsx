@@ -115,7 +115,7 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
         </Button>
       </div>
 
-      <Card className="border-[#ececee] dark:border-[#2d2f39] bg-white dark:bg-[#181922] rounded-md overflow-hidden shadow-none">
+      <Card className="border border-[#ececee] dark:border-[#2d2f39] bg-white dark:bg-[#181922] rounded-md overflow-hidden shadow-none py-0">
         <CardContent className="p-0">
           {filteredProfiles.length === 0 ? (
             <EmptyState title="No product profiles found" description="Adjust search query or filter settings." />
@@ -124,7 +124,7 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
               <TableHeader>
                 <TableRow>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("name")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -134,7 +134,7 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("carbon")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -144,7 +144,7 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("recyclability")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -153,9 +153,9 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
                       {sortBy === "recyclability-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
                     </div>
                   </TableHead>
-                  <TableHead className="text-white">Certifications</TableHead>
-                  <TableHead className="text-white">Status</TableHead>
-                  <TableHead className="w-24 text-right pr-4 text-white">Actions</TableHead>
+                  <TableHead className="text-foreground">Certifications</TableHead>
+                  <TableHead className="text-foreground">Status</TableHead>
+                  <TableHead className="w-24 text-right pr-4 text-foreground">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

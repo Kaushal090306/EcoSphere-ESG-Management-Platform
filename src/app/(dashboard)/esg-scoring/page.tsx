@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
@@ -137,7 +137,7 @@ export default function EsgScoringPage() {
           <Button
             onClick={handleRecalc}
             disabled={recalculating}
-            className="flex items-center gap-2 px-4 py-2 h-10 rounded-[14px] bg-[#09090b] dark:bg-[#fafafa] text-white dark:text-[#09090b] text-sm font-medium hover:bg-[#18181b] dark:hover:bg-[#e4e4e7] transition-all border border-[#09090b] dark:border-[#fafafa] shadow-none disabled:opacity-60"
+            className="flex items-center gap-2 px-4 py-2 h-10 rounded-lg bg-[#09090b] dark:bg-[#fafafa] text-white dark:text-[#09090b] text-sm font-medium hover:bg-[#18181b] dark:hover:bg-[#e4e4e7] transition-all border border-[#09090b] dark:border-[#fafafa] shadow-none disabled:opacity-60"
           >
             <RefreshCw className={`h-4 w-4 ${recalculating ? "animate-spin" : ""}`} />
             {recalculating ? "Recalculating…" : "Recalculate All"}
@@ -149,7 +149,7 @@ export default function EsgScoringPage() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
         {/* Overall score card */}
-        <div className="bg-white dark:bg-[#18181b] border border-[#ececee] dark:border-[#27272a] rounded-[28px] p-6 flex flex-col items-center justify-center gap-3 hover:border-[#d4d4d8] dark:hover:border-[#3f3f46] hover:shadow-[rgba(0,0,0,0.04)_0px_4px_12px_0px] transition-all">
+        <div className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#ececee] dark:border-[#2d2f39] rounded-xl p-6 flex flex-col items-center justify-center gap-3 hover:border-[#d4d4d8] dark:hover:border-[#3f3f46] hover:shadow-[rgba(0,0,0,0.04)_0px_4px_12px_0px] transition-all">
           <div className="relative">
             <RingGauge score={data.scores.overall} color="#ff5a00" size={120} />
             <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ transform: "rotate(0deg)" }}>
@@ -170,11 +170,11 @@ export default function EsgScoringPage() {
           const grade = score >= 85 ? "A" : score >= 70 ? "B" : score >= 55 ? "C" : "D";
           return (
             <div key={label}
-              className="bg-white dark:bg-[#18181b] border border-[#ececee] dark:border-[#27272a] rounded-[28px] p-6 relative overflow-hidden hover:border-[#d4d4d8] dark:hover:border-[#3f3f46] hover:shadow-[rgba(0,0,0,0.04)_0px_4px_12px_0px] transition-all group"
+              className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#ececee] dark:border-[#2d2f39] rounded-xl p-6 relative overflow-hidden hover:border-[#d4d4d8] dark:hover:border-[#3f3f46] hover:shadow-[rgba(0,0,0,0.04)_0px_4px_12px_0px] transition-all group"
             >
               <div className="flex items-start justify-between mb-3">
                 <p className="text-[11px] text-[#71717a] uppercase font-bold tracking-wider">{label}</p>
-                <div className="flex h-8 w-8 items-center justify-center rounded-[12px] border border-[#ececee] dark:border-[#27272a]"
+                <div className="flex h-8 w-8 items-center justify-center rounded-[12px] border border-[#ececee] dark:border-[#ececee] dark:border-[#2d2f39]"
                   style={{ backgroundColor: `${color}12` }}>
                   <Icon className="h-4 w-4" style={{ color }} />
                 </div>
@@ -189,7 +189,7 @@ export default function EsgScoringPage() {
                 <span>Weight: {weight}%</span>
               </div>
               {/* mini progress bar at bottom */}
-              <div className="mt-4 w-full h-1 rounded-full bg-[#f4f4f5] dark:bg-[#27272a] overflow-hidden">
+              <div className="mt-4 w-full h-1 rounded-full bg-[#f4f4f5] dark:bg-[#f4f4f5] dark:bg-[#0f1016] overflow-hidden">
                 <div className="h-full rounded-full transition-all duration-1000"
                   style={{ width: `${score}%`, backgroundColor: color }} />
               </div>
@@ -202,7 +202,7 @@ export default function EsgScoringPage() {
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-7">
 
         {/* Trend Line Chart */}
-        <div className="lg:col-span-4 bg-white dark:bg-[#18181b] border border-[#ececee] dark:border-[#27272a] rounded-[28px] p-6 hover:border-[#d4d4d8] dark:hover:border-[#3f3f46] transition-all">
+        <div className="lg:col-span-4 bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#ececee] dark:border-[#2d2f39] rounded-xl p-6 hover:border-[#d4d4d8] dark:hover:border-[#3f3f46] transition-all">
           <div className="flex items-start justify-between mb-5">
             <div>
               <h3 className="text-base font-bold text-[#09090b] dark:text-[#fafafa]">6-Month Score Trend</h3>
@@ -243,7 +243,7 @@ export default function EsgScoringPage() {
         </div>
 
         {/* Weight Configuration */}
-        <div className="lg:col-span-3 bg-white dark:bg-[#18181b] border border-[#ececee] dark:border-[#27272a] rounded-[28px] p-6 flex flex-col hover:border-[#d4d4d8] dark:hover:border-[#3f3f46] transition-all">
+        <div className="lg:col-span-3 bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#ececee] dark:border-[#2d2f39] rounded-xl p-6 flex flex-col hover:border-[#d4d4d8] dark:hover:border-[#3f3f46] transition-all">
           <div className="flex items-center gap-2 mb-1">
             <Activity className="h-4 w-4 text-[#71717a]" />
             <h3 className="text-base font-bold text-[#09090b] dark:text-[#fafafa]">Weight Configuration</h3>
@@ -251,7 +251,7 @@ export default function EsgScoringPage() {
           <p className="text-[12px] text-[#71717a] mb-4">Adjust pillar weights. Must sum to 100%.</p>
 
           {/* Live formula */}
-          <div className="rounded-[14px] bg-[#f4f4f5] dark:bg-[#27272a] border border-[#ececee] dark:border-[#3f3f46] px-4 py-3 mb-4 font-mono text-[11px] text-[#52525b] dark:text-[#a1a1aa]">
+          <div className="rounded-[14px] bg-[#f4f4f5] dark:bg-[#f4f4f5] dark:bg-[#0f1016] border border-[#ececee] dark:border-[#3f3f46] px-4 py-3 mb-4 font-mono text-[11px] text-[#52525b] dark:text-[#a1a1aa]">
             <span>ESG = ({envW}%·E) + ({socW}%·S) + ({govW}%·G)</span>
             <br />
             <span className="font-bold text-[#ff5a00]">≈ {liveOverall} / 100</span>
@@ -277,7 +277,7 @@ export default function EsgScoringPage() {
           </div>
 
           <Button onClick={handleSaveWeights} disabled={saving || !isValidWeights}
-            className="w-full flex items-center justify-center gap-2 rounded-[14px] bg-[#09090b] dark:bg-[#fafafa] text-white dark:text-[#09090b] text-sm font-medium h-10 hover:bg-[#18181b] dark:hover:bg-[#e4e4e7] transition-all shadow-none disabled:opacity-60">
+            className="w-full flex items-center justify-center gap-2 rounded-lg bg-[#09090b] dark:bg-[#fafafa] text-white dark:text-[#09090b] text-sm font-medium h-10 hover:bg-[#18181b] dark:hover:bg-[#e4e4e7] transition-all shadow-none disabled:opacity-60">
             <Save className="h-4 w-4" />
             {saving ? "Saving…" : "Save Weights"}
           </Button>
@@ -288,8 +288,8 @@ export default function EsgScoringPage() {
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
 
         {/* Department Scorecard – takes 2 cols */}
-        <div className="lg:col-span-2 bg-white dark:bg-[#18181b] border border-[#ececee] dark:border-[#27272a] rounded-[28px] overflow-hidden hover:border-[#d4d4d8] dark:hover:border-[#3f3f46] transition-all">
-          <div className="px-6 py-4 border-b border-[#ececee] dark:border-[#27272a] flex items-center gap-2">
+        <div className="lg:col-span-2 bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#ececee] dark:border-[#2d2f39] rounded-xl overflow-hidden hover:border-[#d4d4d8] dark:hover:border-[#3f3f46] transition-all">
+          <div className="px-6 py-4 border-b border-[#ececee] dark:border-[#ececee] dark:border-[#2d2f39] flex items-center gap-2">
             <Building2 className="h-4 w-4 text-[#71717a]" />
             <h3 className="text-base font-bold text-[#09090b] dark:text-[#fafafa]">Department Scorecards</h3>
             <span className="ml-auto text-[11px] text-[#a1a1aa]">{data.departments[0]?.period || "2026-Q2"}</span>
@@ -297,7 +297,7 @@ export default function EsgScoringPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-[13px]">
               <thead>
-                <tr className="border-b border-[#ececee] dark:border-[#27272a] bg-[#fafafa] dark:bg-[#18181b]">
+                <tr className="border-b border-[#ececee] dark:border-[#ececee] dark:border-[#2d2f39] bg-[#f4f4f5] dark:bg-[#1a1822]">
                   <th className="px-6 py-3 text-left text-[11px] font-bold text-[#71717a] uppercase tracking-wider">Dept</th>
                   <th className="px-4 py-3 text-center text-[11px] font-bold uppercase tracking-wider text-[#16a34a]">Env</th>
                   <th className="px-4 py-3 text-center text-[11px] font-bold uppercase tracking-wider text-[#d97706]">Soc</th>
@@ -308,7 +308,7 @@ export default function EsgScoringPage() {
               </thead>
               <tbody>
                 {data.departments.map((dept, i) => (
-                  <tr key={dept.id} className="border-b border-[#ececee] dark:border-[#27272a] last:border-0 hover:bg-[#f4f4f5] dark:hover:bg-[#27272a]/40 transition-colors">
+                  <tr key={dept.id} className="border-b border-[#ececee] dark:border-[#ececee] dark:border-[#2d2f39] last:border-0 hover:bg-[#f4f4f5] dark:hover:bg-[#f4f4f5] dark:bg-[#0f1016]/40 transition-colors">
                     <td className="px-6 py-3">
                       <div className="flex items-center gap-2">
                         <span className="text-[10px] text-[#a1a1aa] w-4">#{i + 1}</span>
@@ -322,7 +322,7 @@ export default function EsgScoringPage() {
                       { v: dept.totalScore,         c: "#ff5a00" },
                     ].map(({ v, c }, j) => (
                       <td key={j} className="px-4 py-3 text-center">
-                        <span className="inline-flex items-center justify-center rounded-[8px] px-2 py-0.5 text-[11px] font-bold"
+                        <span className="inline-flex items-center justify-center rounded-md px-2 py-0.5 text-[11px] font-bold"
                           style={{ backgroundColor: `${c}15`, color: c }}>
                           {v.toFixed(1)}
                         </span>
@@ -330,7 +330,7 @@ export default function EsgScoringPage() {
                     ))}
                     <td className="px-6 py-3">
                       <div className="flex items-center gap-2">
-                        <div className="flex-1 h-1.5 rounded-full bg-[#f4f4f5] dark:bg-[#27272a] overflow-hidden">
+                        <div className="flex-1 h-1.5 rounded-full bg-[#f4f4f5] dark:bg-[#f4f4f5] dark:bg-[#0f1016] overflow-hidden">
                           <div className="h-full rounded-full bg-[#ff5a00] transition-all duration-700"
                             style={{ width: `${Math.min(dept.totalScore, 100)}%` }} />
                         </div>
@@ -345,18 +345,18 @@ export default function EsgScoringPage() {
         </div>
 
         {/* Audit Trail */}
-        <div className="bg-white dark:bg-[#18181b] border border-[#ececee] dark:border-[#27272a] rounded-[28px] overflow-hidden hover:border-[#d4d4d8] dark:hover:border-[#3f3f46] transition-all flex flex-col">
-          <div className="px-6 py-4 border-b border-[#ececee] dark:border-[#27272a] flex items-center justify-between">
+        <div className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#ececee] dark:border-[#2d2f39] rounded-xl overflow-hidden hover:border-[#d4d4d8] dark:hover:border-[#3f3f46] transition-all flex flex-col">
+          <div className="px-6 py-4 border-b border-[#ececee] dark:border-[#ececee] dark:border-[#2d2f39] flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Clock className="h-4 w-4 text-[#71717a]" />
               <h3 className="text-base font-bold text-[#09090b] dark:text-[#fafafa]">Audit Trail</h3>
             </div>
             <span className="text-[11px] text-[#a1a1aa]">Last 5</span>
           </div>
-          <div className="flex-1 divide-y divide-[#ececee] dark:divide-[#27272a]">
+          <div className="flex-1 divide-y divide-[#ececee] dark:divide-[#ececee] dark:divide-[#2d2f39]">
             {data.auditLog.map((entry) => (
-              <div key={entry.id} className="px-5 py-3.5 flex items-center gap-3 hover:bg-[#f4f4f5] dark:hover:bg-[#27272a]/40 transition-colors">
-                <div className={`shrink-0 h-8 w-8 rounded-[10px] flex items-center justify-center ${
+              <div key={entry.id} className="px-5 py-3.5 flex items-center gap-3 hover:bg-[#f4f4f5] dark:hover:bg-[#f4f4f5] dark:bg-[#0f1016]/40 transition-colors">
+                <div className={`shrink-0 h-8 w-8 rounded-lg flex items-center justify-center ${
                   entry.delta >= 0 ? "bg-[#f0fdf4] dark:bg-[#16a34a]/10" : "bg-red-50 dark:bg-red-500/10"
                 }`}>
                   {entry.delta >= 0

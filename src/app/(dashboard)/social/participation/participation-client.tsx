@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { CheckCircle2, XCircle, FileText } from "lucide-react";
@@ -53,8 +53,8 @@ export function ParticipationClient({ participations, activities, userRole, user
   }
 
   return (
-    <Card>
-      <CardHeader>
+    <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl shadow-none py-0">
+      <CardHeader className="p-5 pb-4 border-b border-[#ececee] dark:border-[#2d2f39]">
         <CardTitle className="flex items-center gap-2 text-base">
           <Users className="h-4 w-4 text-[#14b8a6]" />
           Volunteer Record

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { Plus, Edit2, Trash2 } from "lucide-react";
@@ -88,8 +88,8 @@ export function DiversityClient({ metrics, departments, userRole }: any) {
   const deptName = (id: string) => departments.find((d: any) => d.id === id)?.name || "Unknown";
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
+    <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl shadow-none py-0">
+      <CardHeader className="flex flex-row items-center justify-between p-5 pb-4 border-b border-[#ececee] dark:border-[#2d2f39]">
         <div>
           <CardTitle className="flex items-center gap-2 text-base">
             <Users className="h-4 w-4 text-[#14b8a6]" />

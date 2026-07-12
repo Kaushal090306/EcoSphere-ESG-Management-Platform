@@ -158,7 +158,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
         )}
       </div>
 
-      <Card className="border-[#ececee] dark:border-[#2d2f39] bg-white dark:bg-[#181922] rounded-md overflow-hidden shadow-none">
+      <Card className="border border-[#ececee] dark:border-[#2d2f39] bg-white dark:bg-[#181922] rounded-md overflow-hidden shadow-none py-0">
         <CardContent className="p-0">
           {filteredFactors.length === 0 ? (
             <EmptyState title="No emission factors found" description="Adjust search query or filter settings." />
@@ -167,7 +167,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
               <TableHeader>
                 <TableRow>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("name")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -177,7 +177,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("source")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -187,7 +187,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("unit")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -197,7 +197,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("factor")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -207,7 +207,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("scope")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -216,8 +216,8 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
                       {sortBy === "scope-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
                     </div>
                   </TableHead>
-                  <TableHead className="text-white">Status</TableHead>
-                  {!isReadOnly && <TableHead className="w-24 text-right pr-4 text-white">Actions</TableHead>}
+                  <TableHead className="text-foreground">Status</TableHead>
+                  {!isReadOnly && <TableHead className="w-24 text-right pr-4 text-foreground">Actions</TableHead>}
                 </TableRow>
               </TableHeader>
               <TableBody>

@@ -157,7 +157,7 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
         </Button>
       </div>
 
-      <Card className="border-[#ececee] dark:border-[#2d2f39] bg-white dark:bg-[#181922] rounded-md overflow-hidden shadow-none">
+      <Card className="border border-[#ececee] dark:border-[#2d2f39] bg-white dark:bg-[#181922] rounded-md overflow-hidden shadow-none py-0">
         <CardContent className="p-0">
           {filteredGoals.length === 0 ? (
             <EmptyState title="No goals found" description="Adjust search query or filter settings." />
@@ -166,7 +166,7 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
               <TableHeader>
                 <TableRow>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("title")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -176,7 +176,7 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("dept")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -186,7 +186,7 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("metric")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -196,7 +196,7 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("progress")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -206,7 +206,7 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("deadline")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -216,7 +216,7 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("status")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -225,7 +225,7 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
                       {sortBy === "status-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
                     </div>
                   </TableHead>
-                  <TableHead className="w-24 text-right pr-4 text-white">Actions</TableHead>
+                  <TableHead className="w-24 text-right pr-4 text-foreground">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

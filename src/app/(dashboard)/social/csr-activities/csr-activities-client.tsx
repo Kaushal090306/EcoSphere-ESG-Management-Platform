@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { Plus, Edit2, Trash2, UserPlus } from "lucide-react";
@@ -75,8 +75,8 @@ export function CsrActivitiesClient({ activities, departments, categories, userR
   }
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
+    <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl shadow-none py-0">
+      <CardHeader className="flex flex-row items-center justify-between p-5 pb-4 border-b border-[#ececee] dark:border-[#2d2f39]">
         <div>
           <CardTitle>CSR Activities</CardTitle>
           <CardDescription>Overview of community outreach and sustainability drives.</CardDescription>
