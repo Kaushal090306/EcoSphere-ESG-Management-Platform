@@ -30,6 +30,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuAction,
   SidebarFooter,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
@@ -64,7 +65,7 @@ export function AppSidebar() {
     const activeGroup = Object.keys(expanded).find((groupName) => {
       const items = navGroups.find((g) => g.label === "MAIN MENU" || g.label === "OTHER")?.items || [];
       const parent = items.find((item) => item.title === groupName);
-      return parent?.items?.some((sub) => pathname.startsWith(sub.href)) || false;
+      return parent?.items?.some((sub) => pathname === sub.href || pathname.startsWith(sub.href + "/")) || false;
     });
 
     if (activeGroup) {
@@ -84,6 +85,7 @@ export function AppSidebar() {
         {
           title: "Environment",
           icon: Leaf,
+          href: "/environmental",
           items: [
             { title: "Overview", href: "/environmental" },
             { title: "Emission Factors", href: "/environmental/emission-factors" },
@@ -95,6 +97,7 @@ export function AppSidebar() {
         {
           title: "Social",
           icon: Users,
+          href: "/social",
           items: [
             { title: "Overview", href: "/social" },
             { title: "CSR Activities", href: "/social/csr-activities" },
@@ -104,6 +107,7 @@ export function AppSidebar() {
         {
           title: "Governance",
           icon: ShieldCheck,
+          href: "/governance",
           items: [
             { title: "Overview", href: "/governance" },
             { title: "ESG Policies", href: "/governance/policies" },
@@ -115,6 +119,7 @@ export function AppSidebar() {
         {
           title: "Gamification",
           icon: Trophy,
+          href: "/gamification",
           items: [
             { title: "Overview", href: "/gamification" },
             { title: "Challenges", href: "/gamification/challenges" },
@@ -135,6 +140,7 @@ export function AppSidebar() {
         {
           title: "Settings",
           icon: Settings,
+          href: "/settings",
           items: [
             { title: "Configuration", href: "/settings" },
             { title: "Departments", href: "/settings/departments" },
@@ -186,20 +192,35 @@ export function AppSidebar() {
                       {hasSubItems ? (
                         <>
                           <SidebarMenuButton
-                            onClick={() => toggleGroup(item.title)}
-                            className="w-full flex items-center justify-between text-sidebar-foreground hover:bg-[#22242f] px-3 py-2 h-10 rounded-xl cursor-pointer"
+                            isActive={isActive}
+                            className="w-full text-sidebar-foreground hover:bg-[#22242f] px-3 py-2 h-10 rounded-xl cursor-pointer"
                             tooltip={item.title}
-                          >
-                            <div className="flex items-center gap-3">
-                              <item.icon className="h-4 w-4 text-muted-foreground" />
-                              <span>{item.title}</span>
-                            </div>
-                            {isExpanded ? (
-                              <ChevronUp className="h-3.5 w-3.5 text-muted-foreground/70" />
-                            ) : (
-                              <ChevronDown className="h-3.5 w-3.5 text-muted-foreground/70" />
-                            )}
-                          </SidebarMenuButton>
+                            render={
+                              <Link href={item.href || "#"}>
+                                <div className="flex items-center gap-3">
+                                  <item.icon className="h-4 w-4" />
+                                  <span>{item.title}</span>
+                                </div>
+                              </Link>
+                            }
+                          />
+                          <SidebarMenuAction
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              toggleGroup(item.title);
+                            }}
+                            className="right-2 top-1/2 -translate-y-1/2 flex items-center justify-center h-6 w-6 text-muted-foreground/70 hover:text-white rounded-md transition-all cursor-pointer"
+                            render={
+                              <button>
+                                {isExpanded ? (
+                                  <ChevronUp className="h-3.5 w-3.5" />
+                                ) : (
+                                  <ChevronDown className="h-3.5 w-3.5" />
+                                )}
+                              </button>
+                            }
+                          />
 
                           {isExpanded && (
                             <div className="pl-6 mt-1 mb-2 space-y-1 border-l border-sidebar-border/30 ml-5 flex flex-col">
