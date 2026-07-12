@@ -32,6 +32,12 @@ const difficultyColors: Record<string, string> = {
   hard: "bg-red-500/10 text-red-500 border-red-500/20 font-semibold",
 };
 
+const difficultyBorders: Record<string, string> = {
+  easy: "border-t-emerald-500/80",
+  medium: "border-t-amber-500/80",
+  hard: "border-t-red-500/80",
+};
+
 export function ChallengesClient({
   challenges,
   participations: initialParticipations,
@@ -106,7 +112,7 @@ export function ChallengesClient({
 
   // Quests tab view
   const questsView = (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
       {challenges
         .filter((c) => c.status === "active")
         .map((c) => {
@@ -116,25 +122,25 @@ export function ChallengesClient({
           const isApproved = part?.approvalStatus === "approved";
 
           return (
-            <Card key={c.id} className="flex flex-col justify-between overflow-hidden bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] hover:border-gray-300 dark:hover:border-zinc-800 transition duration-300 shadow-xs">
-              <CardHeader className="pb-4 p-5">
-                <div className="flex justify-between items-start">
-                  <Badge variant="outline" className={`${difficultyColors[c.difficulty]} rounded text-[10px] font-bold uppercase tracking-wider`}>
+            <Card key={c.id} className={`flex flex-col justify-between overflow-hidden bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] border-t-[3px] ${difficultyBorders[c.difficulty] || "border-t-purple-500"} hover:border-purple-500/30 dark:hover:border-purple-500/20 hover:shadow-md transition-all duration-300 rounded-xl group relative`}>
+              <CardHeader className="pb-2 p-4">
+                <div className="flex justify-between items-center">
+                  <Badge variant="outline" className={`${difficultyColors[c.difficulty]} rounded text-[9px] font-bold uppercase tracking-wider px-2 py-0.5`}>
                     {c.difficulty}
                   </Badge>
-                  <span className="text-[#f59e0b] font-bold font-mono text-xs">
-                    +{c.xp} XP
+                  <span className="text-[#f59e0b] font-bold font-mono text-xs flex items-center gap-1">
+                    🏆 +{c.xp} XP
                   </span>
                 </div>
-                <CardTitle className="text-sm font-bold text-foreground mt-3 leading-tight">{c.title}</CardTitle>
-                <Badge variant="secondary" className="w-fit mt-1.5 bg-[#f4f4f5] dark:bg-[#1c1a24] text-muted-foreground border-none text-[10px] font-semibold">
+                <CardTitle className="text-sm font-bold text-foreground mt-2 leading-snug group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">{c.title}</CardTitle>
+                <Badge variant="secondary" className="w-fit mt-1 bg-[#f4f4f5] dark:bg-[#1c1a24] text-muted-foreground border-none text-[9px] font-semibold px-2 py-0.5 rounded-md">
                   {getCategoryName(c.categoryId)}
                 </Badge>
-                <CardDescription className="text-[12px] mt-3 text-muted-foreground leading-normal">
+                <CardDescription className="text-[11px] mt-2 text-muted-foreground leading-relaxed line-clamp-3">
                   {c.description}
                 </CardDescription>
               </CardHeader>
-              <CardFooter className="pt-2 pb-5 px-5">
+              <CardFooter className="pt-1.5 pb-4 px-4">
                 {isApproved ? (
                   <div className="w-full flex items-center justify-center gap-1.5 py-2 bg-emerald-500/10 text-emerald-500 rounded-md border border-emerald-500/20 text-xs font-semibold">
                     <CheckCircle2 className="h-3.5 w-3.5" /> Completed & Claimed

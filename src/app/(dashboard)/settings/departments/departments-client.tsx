@@ -111,47 +111,52 @@ export function DepartmentsClient({ departments }: DepartmentsClientProps) {
 
   return (
     <>
-      <div className="flex justify-end">
-        <Button onClick={handleNew} className="gap-2">
+      <div className="flex justify-end mb-2.5">
+        <Button 
+          onClick={handleNew} 
+          className="gap-2 bg-[#09090b] dark:bg-[#fafafa] hover:bg-[#18181b] dark:hover:bg-[#e4e4e7] text-white dark:text-[#09090b] rounded-[8px] h-9 text-xs px-4 transition-all font-semibold border border-transparent shadow-xs"
+        >
           <Plus className="h-4 w-4" /> Add Department
         </Button>
       </div>
 
-      <Card>
+      <Card className="border border-[#ececee] dark:border-[#221f2c] bg-white dark:bg-[#121118] rounded-xl shadow-xs overflow-hidden py-0">
         <CardContent className="p-0">
           {departments.length === 0 ? (
             <EmptyState
               title="No departments yet"
               description="Create your first department to start organizing ESG ownership."
             >
-              <Button onClick={handleNew} variant="outline" className="gap-2">
+              <Button 
+                onClick={handleNew} 
+                variant="outline" 
+                className="gap-2 border border-[#ececee] dark:border-[#221f2c] text-foreground hover:bg-[#f4f4f5] dark:hover:bg-[#1c1a24] rounded-[8px] h-9 text-xs"
+              >
                 <Plus className="h-4 w-4" /> Add Department
               </Button>
             </EmptyState>
           ) : (
             <Table>
               <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Code</TableHead>
-                  <TableHead>Employees</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="w-24">Actions</TableHead>
+                <TableRow className="border-b border-[#ececee] dark:border-[#221f2c] bg-[#f4f4f5] dark:bg-[#121118]">
+                  <TableHead className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider">Name</TableHead>
+                  <TableHead className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider">Code</TableHead>
+                  <TableHead className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider">Employees</TableHead>
+                  <TableHead className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider">Status</TableHead>
+                  <TableHead className="text-right text-foreground font-semibold px-6 py-3 text-[11px] uppercase tracking-wider pr-6">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {departments.map((dept) => (
-                  <TableRow key={dept.id}>
-                    <TableCell className="font-medium">{dept.name}</TableCell>
-                    <TableCell className="text-muted-foreground">
+                  <TableRow key={dept.id} className="border-b border-[#ececee] dark:border-[#221f2c] hover:bg-[#f4f4f5]/50 dark:hover:bg-[#16141f]/50 transition-colors">
+                    <TableCell className="font-semibold text-foreground px-6 py-4">{dept.name}</TableCell>
+                    <TableCell className="text-muted-foreground font-mono text-xs px-6 py-4">
                       {dept.code}
                     </TableCell>
-                    <TableCell>{dept.employeeCount}</TableCell>
-                    <TableCell>
+                    <TableCell className="text-foreground font-medium px-6 py-4">{dept.employeeCount}</TableCell>
+                    <TableCell className="px-6 py-4">
                       <Badge
-                        variant={
-                          dept.status === "active" ? "default" : "secondary"
-                        }
+                        variant={dept.status === "active" ? "default" : "secondary"}
                         className={
                           dept.status === "active"
                             ? "bg-eco-green/10 text-eco-green border-eco-green/20"
@@ -161,12 +166,13 @@ export function DepartmentsClient({ departments }: DepartmentsClientProps) {
                         {dept.status}
                       </Badge>
                     </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1">
+                    <TableCell className="px-6 py-4 text-right pr-6">
+                      <div className="flex items-center justify-end gap-1">
                         <Button
                           variant="ghost"
                           size="icon"
                           onClick={() => handleEdit(dept)}
+                          className="h-8 w-8 hover:bg-[#f4f4f5] dark:hover:bg-[#1c1a24] text-muted-foreground hover:text-foreground"
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
@@ -174,7 +180,7 @@ export function DepartmentsClient({ departments }: DepartmentsClientProps) {
                           variant="ghost"
                           size="icon"
                           onClick={() => handleDeleteClick(dept)}
-                          className="text-destructive hover:text-destructive"
+                          className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -190,56 +196,59 @@ export function DepartmentsClient({ departments }: DepartmentsClientProps) {
 
       {/* Create/Edit Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent>
+        <DialogContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl shadow-lg max-w-md">
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className="text-base font-bold text-foreground">
               {editing ? "Edit Department" : "New Department"}
             </DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4 pt-2">
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="name" className="text-xs font-semibold text-foreground">Name</Label>
                 <Input
                   id="name"
                   name="name"
                   defaultValue={editing?.name || ""}
                   placeholder="Engineering"
                   required
+                  className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg h-9 text-sm focus-visible:ring-1 focus-visible:ring-purple-500"
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="code">Code</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="code" className="text-xs font-semibold text-foreground">Code</Label>
                 <Input
                   id="code"
                   name="code"
                   defaultValue={editing?.code || ""}
                   placeholder="ENG"
                   required
+                  className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg h-9 text-sm focus-visible:ring-1 focus-visible:ring-purple-500"
                 />
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="employeeCount">Employee Count</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="employeeCount" className="text-xs font-semibold text-foreground">Employee Count</Label>
                 <Input
                   id="employeeCount"
                   name="employeeCount"
                   type="number"
                   defaultValue={editing?.employeeCount || 0}
                   min={0}
+                  className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg h-9 text-sm focus-visible:ring-1 focus-visible:ring-purple-500"
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="status">Status</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="status" className="text-xs font-semibold text-foreground">Status</Label>
                 <Select
                   name="status"
                   defaultValue={editing?.status || "active"}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg h-9 text-xs">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] text-foreground">
                     <SelectItem value="active">Active</SelectItem>
                     <SelectItem value="inactive">Inactive</SelectItem>
                   </SelectContent>
@@ -247,18 +256,18 @@ export function DepartmentsClient({ departments }: DepartmentsClientProps) {
               </div>
             </div>
             {departments.length > 0 && (
-              <div className="space-y-2">
-                <Label htmlFor="parentDepartmentId">
+              <div className="space-y-1.5">
+                <Label htmlFor="parentDepartmentId" className="text-xs font-semibold text-foreground">
                   Parent Department (optional)
                 </Label>
                 <Select
                   name="parentDepartmentId"
                   defaultValue={editing?.parentDepartmentId || "none"}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg h-9 text-xs">
                     <SelectValue placeholder="None" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] text-foreground">
                     <SelectItem value="none">None</SelectItem>
                     {departments
                       .filter((d) => d.id !== editing?.id)
@@ -271,15 +280,20 @@ export function DepartmentsClient({ departments }: DepartmentsClientProps) {
                 </Select>
               </div>
             )}
-            <DialogFooter>
+            <DialogFooter className="pt-2 gap-2 sm:gap-0">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => setDialogOpen(false)}
+                className="border border-[#ececee] dark:border-[#221f2c] text-foreground hover:bg-[#f4f4f5] dark:hover:bg-[#1c1a24] rounded-[8px] h-9 text-xs"
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={loading}>
+              <Button 
+                type="submit" 
+                disabled={loading}
+                className="bg-purple-600 hover:bg-purple-700 text-white rounded-[8px] h-9 text-xs font-semibold"
+              >
                 {editing ? "Update" : "Create"}
               </Button>
             </DialogFooter>
@@ -289,21 +303,22 @@ export function DepartmentsClient({ departments }: DepartmentsClientProps) {
 
       {/* Delete Dialog */}
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <DialogContent>
+        <DialogContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl shadow-lg max-w-md">
           <DialogHeader>
-            <DialogTitle>Delete Department</DialogTitle>
+            <DialogTitle className="text-base font-bold text-foreground">Delete Department</DialogTitle>
           </DialogHeader>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs text-muted-foreground pt-2">
             Are you sure you want to delete{" "}
-            <span className="font-medium text-foreground">
+            <span className="font-semibold text-foreground">
               {deleting?.name}
             </span>
             ? This action cannot be undone.
           </p>
-          <DialogFooter>
+          <DialogFooter className="pt-4 gap-2 sm:gap-0">
             <Button
               variant="outline"
               onClick={() => setDeleteDialogOpen(false)}
+              className="border border-[#ececee] dark:border-[#221f2c] text-foreground hover:bg-[#f4f4f5] dark:hover:bg-[#1c1a24] rounded-[8px] h-9 text-xs"
             >
               Cancel
             </Button>
@@ -311,6 +326,7 @@ export function DepartmentsClient({ departments }: DepartmentsClientProps) {
               variant="destructive"
               onClick={handleDelete}
               disabled={loading}
+              className="bg-destructive hover:bg-destructive/90 text-white rounded-[8px] h-9 text-xs font-semibold"
             >
               Delete
             </Button>

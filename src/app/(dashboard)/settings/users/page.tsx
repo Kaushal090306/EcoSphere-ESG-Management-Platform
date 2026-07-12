@@ -1,8 +1,6 @@
 import { getUsers } from "@/actions/users";
 import { getDepartments } from "@/actions/departments";
 import { UsersClient } from "./users-client";
-import { Users } from "lucide-react";
-import { PageHeader } from "@/components/shared/page-header";
 import { auth } from "@/auth";
 import { AccessDenied } from "@/components/shared/access-denied";
 
@@ -18,14 +16,5 @@ export default async function UsersPage() {
     getDepartments(),
   ]);
 
-  return (
-    <div className="space-y-6">
-      <PageHeader
-        title="User Management"
-        description="Manage organizational users, assign roles, departments, and track performance scores"
-        icon={Users}
-      />
-      <UsersClient initialUsers={usersList} departments={departments} />
-    </div>
-  );
+  return <UsersClient initialUsers={usersList} departments={departments} />;
 }

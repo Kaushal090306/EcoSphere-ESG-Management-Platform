@@ -14,6 +14,17 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { createBadge, updateBadge, deleteBadge } from "@/actions/badges";
 import type { Badge } from "@/db/schema";
 
+const badgeIconMapping: Record<string, { emoji: string; color: string; bg: string; border: string }> = {
+  award: { emoji: "🏆", color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20" },
+  trophy: { emoji: "🏆", color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20" },
+  star: { emoji: "⭐", color: "text-yellow-500", bg: "bg-yellow-500/10", border: "border-yellow-500/20" },
+  shield: { emoji: "🛡️", color: "text-blue-500", bg: "bg-blue-500/10", border: "border-blue-500/20" },
+  leaf: { emoji: "🌱", color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
+  zap: { emoji: "⚡", color: "text-indigo-500", bg: "bg-indigo-500/10", border: "border-indigo-500/20" },
+  flame: { emoji: "🔥", color: "text-red-500", bg: "bg-red-500/10", border: "border-red-500/20" },
+  sparkles: { emoji: "✨", color: "text-purple-500", bg: "bg-purple-500/10", border: "border-purple-500/20" },
+};
+
 export function BadgesClient({ badges }: { badges: Badge[] }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -65,40 +76,76 @@ export function BadgesClient({ badges }: { badges: Badge[] }) {
       <div className="relative space-y-4">
         {/* Align button in navigation tab row on desktop */}
         <div className="sm:absolute sm:-top-[49px] sm:right-0 z-10 flex justify-end">
-          <Button onClick={() => { setEditing(null); setDialogOpen(true); }} className="gap-2 rounded-lg text-xs h-9">
+          <Button onClick={() => { setEditing(null); setDialogOpen(true); }} className="gap-2 bg-[#09090b] dark:bg-[#fafafa] hover:bg-[#18181b] dark:hover:bg-[#e4e4e7] text-white dark:text-[#09090b] rounded-[8px] h-9 text-xs px-4 transition-all font-semibold border border-transparent shadow-xs">
             <Plus className="h-4 w-4" /> Add Badge
           </Button>
         </div>
 
-        <Card className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl shadow-none py-0">
-          <CardContent className="p-0">
-            {badges.length === 0 ? (
-              <EmptyState title="No badges yet" description="Create badges to reward employee achievements." />
-            ) : (
-              <div className="grid gap-4 p-6 sm:grid-cols-2 lg:grid-cols-3">
-                {badges.map(b => (
-                  <Card key={b.id} className="relative overflow-hidden bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] hover:border-gray-300 dark:hover:border-zinc-800 transition-all rounded-xl shadow-xs">
-                    <CardContent className="p-5">
-                      <div className="flex items-start justify-between">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/10 text-orange-500 border border-orange-500/20 text-2xl">🏆</div>
-                        <div className="flex gap-1">
-                          <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground" onClick={() => { setEditing(b); setDialogOpen(true); }}><Pencil className="h-3 w-3" /></Button>
-                          <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:bg-destructive/10" onClick={() => { setDeleting(b); setDeleteOpen(true); }}><Trash2 className="h-3 w-3" /></Button>
-                        </div>
+        {badges.length === 0 ? (
+          <Card className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl shadow-xs p-8 text-center">
+            <EmptyState title="No badges yet" description="Create badges to reward employee achievements." />
+          </Card>
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {badges.map(b => {
+              const iconStyle = badgeIconMapping[b.icon] || badgeIconMapping.award;
+              return (
+                <Card 
+                  key={b.id} 
+                  className="relative overflow-hidden bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl shadow-xs transition-all duration-300 hover:shadow-md hover:border-purple-500/30 dark:hover:border-purple-500/20 group"
+                >
+                  {/* Corner gradient ambient effect matching unlock criteria */}
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-purple-500/5 to-transparent rounded-bl-full opacity-60 pointer-events-none transition-all duration-300 group-hover:scale-110" />
+
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between">
+                      <div className={`flex h-10 w-10 items-center justify-center rounded-lg border text-xl transition-transform duration-300 group-hover:scale-105 ${iconStyle.bg} ${iconStyle.color} ${iconStyle.border}`}>
+                        {iconStyle.emoji}
                       </div>
-                      <h3 className="mt-3 font-semibold text-sm text-foreground">{b.name}</h3>
-                      <p className="mt-1 text-xs text-muted-foreground line-clamp-2 leading-normal">{b.description}</p>
-                      <div className="mt-3 flex items-center gap-2">
-                        <BadgeUI variant="outline" className="bg-purple-500/10 text-purple-500 border-purple-500/20 text-[10px]">{unlockRule(b)}</BadgeUI>
-                        <BadgeUI variant={b.status === "active" ? "default" : "secondary"} className={b.status === "active" ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20 text-[10px]" : "text-[10px]"}>{b.status}</BadgeUI>
+                      <div className="flex gap-1">
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-[#f4f4f5] dark:hover:bg-[#1c1a24] rounded-lg" 
+                          onClick={() => { setEditing(b); setDialogOpen(true); }}
+                        >
+                          <Pencil className="h-3.5 w-3.5" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-8 w-8 text-destructive hover:bg-destructive/10 rounded-lg" 
+                          onClick={() => { setDeleting(b); setDeleteOpen(true); }}
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </Button>
                       </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+                    </div>
+                    
+                    <h3 className="mt-3 font-bold text-sm text-foreground group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                      {b.name}
+                    </h3>
+                    <p className="mt-1 text-xs text-muted-foreground line-clamp-2 leading-relaxed h-8">
+                      {b.description}
+                    </p>
+                    
+                    <div className="mt-3 pt-2.5 border-t border-dashed border-[#ececee] dark:border-[#221f2c] flex items-center justify-between">
+                      <BadgeUI variant="outline" className="bg-purple-500/10 text-purple-500 border-purple-500/20 text-[9px] font-bold px-2 py-0.5 rounded-md">
+                        Requires {unlockRule(b)}
+                      </BadgeUI>
+                      <BadgeUI 
+                        variant={b.status === "active" ? "default" : "secondary"} 
+                        className={b.status === "active" ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20 text-[9px] font-bold px-2 py-0.5 rounded-md" : "text-[9px] font-bold px-2 py-0.5 rounded-md"}
+                      >
+                        {b.status}
+                      </BadgeUI>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -107,15 +154,62 @@ export function BadgesClient({ badges }: { badges: Badge[] }) {
             <DialogTitle className="text-foreground font-bold">{editing ? "Edit Badge" : "New Badge"}</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2"><Label className="text-xs font-semibold text-muted-foreground">Name</Label><Input name="name" defaultValue={editing?.name || ""} className="bg-[#f4f4f5] dark:bg-[#1c1a24] border border-[#ececee] dark:border-[#2d2f39]" required /></div>
-            <div className="space-y-2"><Label className="text-xs font-semibold text-muted-foreground">Description</Label><Input name="description" defaultValue={editing?.description || ""} className="bg-[#f4f4f5] dark:bg-[#1c1a24] border border-[#ececee] dark:border-[#2d2f39]" required /></div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2"><Label className="text-xs font-semibold text-muted-foreground">Unlock Rule Type</Label><Select name="unlockRuleType" defaultValue={(editing?.unlockRule as { type: string })?.type || "xp"}><SelectTrigger className="bg-[#f4f4f5] dark:bg-[#1c1a24] border border-[#ececee] dark:border-[#2d2f39]"><SelectValue /></SelectTrigger><SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c]"><SelectItem value="xp">XP Threshold</SelectItem><SelectItem value="challenges">Challenges Completed</SelectItem></SelectContent></Select></div>
-              <div className="space-y-2"><Label className="text-xs font-semibold text-muted-foreground">Threshold</Label><Input name="unlockRuleThreshold" type="number" min={1} defaultValue={(editing?.unlockRule as { threshold: number })?.threshold || 100} className="bg-[#f4f4f5] dark:bg-[#1c1a24] border border-[#ececee] dark:border-[#2d2f39]" required /></div>
+            <div className="space-y-2">
+              <Label className="text-xs font-semibold text-muted-foreground">Name</Label>
+              <Input name="name" defaultValue={editing?.name || ""} className="bg-[#f4f4f5] dark:bg-[#1c1a24] border border-[#ececee] dark:border-[#2d2f39]" required />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-xs font-semibold text-muted-foreground">Description</Label>
+              <Input name="description" defaultValue={editing?.description || ""} className="bg-[#f4f4f5] dark:bg-[#1c1a24] border border-[#ececee] dark:border-[#2d2f39]" required />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2"><Label className="text-xs font-semibold text-muted-foreground">Icon</Label><Input name="icon" defaultValue={editing?.icon || "award"} className="bg-[#f4f4f5] dark:bg-[#1c1a24] border border-[#ececee] dark:border-[#2d2f39]" /></div>
-              <div className="space-y-2"><Label className="text-xs font-semibold text-muted-foreground">Status</Label><Select name="status" defaultValue={editing?.status || "active"}><SelectTrigger className="bg-[#f4f4f5] dark:bg-[#1c1a24] border border-[#ececee] dark:border-[#2d2f39]"><SelectValue /></SelectTrigger><SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c]"><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem></SelectContent></Select></div>
+              <div className="space-y-2">
+                <Label className="text-xs font-semibold text-muted-foreground">Unlock Rule Type</Label>
+                <Select name="unlockRuleType" defaultValue={(editing?.unlockRule as { type: string })?.type || "xp"}>
+                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#1c1a24] border border-[#ececee] dark:border-[#2d2f39]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c]">
+                    <SelectItem value="xp">XP Threshold</SelectItem>
+                    <SelectItem value="challenges">Challenges Completed</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs font-semibold text-muted-foreground">Threshold</Label>
+                <Input name="unlockRuleThreshold" type="number" min={1} defaultValue={(editing?.unlockRule as { threshold: number })?.threshold || 100} className="bg-[#f4f4f5] dark:bg-[#1c1a24] border border-[#ececee] dark:border-[#2d2f39]" required />
+              </div>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label className="text-xs font-semibold text-muted-foreground">Badge Icon</Label>
+                <Select name="icon" defaultValue={editing?.icon || "award"}>
+                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#1c1a24] border border-[#ececee] dark:border-[#2d2f39]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c]">
+                    <SelectItem value="award">🏆 Trophy / Award</SelectItem>
+                    <SelectItem value="star">⭐ Star</SelectItem>
+                    <SelectItem value="shield">🛡️ Shield</SelectItem>
+                    <SelectItem value="leaf">🌱 Leaf</SelectItem>
+                    <SelectItem value="zap">⚡ Lightning</SelectItem>
+                    <SelectItem value="flame">🔥 Flame</SelectItem>
+                    <SelectItem value="sparkles">✨ Sparkles</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs font-semibold text-muted-foreground">Status</Label>
+                <Select name="status" defaultValue={editing?.status || "active"}>
+                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#1c1a24] border border-[#ececee] dark:border-[#2d2f39]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c]">
+                    <SelectItem value="active">Active</SelectItem>
+                    <SelectItem value="inactive">Inactive</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
             <DialogFooter className="gap-2">
               <Button type="button" variant="outline" onClick={() => setDialogOpen(false)} className="rounded-lg text-xs h-9">Cancel</Button>

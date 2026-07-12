@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -139,7 +139,7 @@ export function UsersClient({
 
   return (
     <>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-2.5">
         {/* Filters */}
         <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center">
           <div className="relative max-w-sm flex-1">
@@ -148,15 +148,15 @@ export function UsersClient({
               placeholder="Search users name or email..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 bg-white dark:bg-[#18181b] border-[#ececee]"
+              className="pl-9 bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg h-9 text-sm focus-visible:ring-1 focus-visible:ring-purple-500"
             />
           </div>
           <div className="w-full sm:w-48">
             <Select value={roleFilter} onValueChange={(val) => setRoleFilter(val || "all")}>
-              <SelectTrigger className="bg-white dark:bg-[#18181b] border-[#ececee]">
+              <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg h-9 text-xs">
                 <SelectValue placeholder="Filter by Role" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] text-foreground">
                 <SelectItem value="all">All Roles</SelectItem>
                 <SelectItem value="admin">Administrator</SelectItem>
                 <SelectItem value="esg_manager">ESG Manager</SelectItem>
@@ -168,12 +168,15 @@ export function UsersClient({
           </div>
         </div>
 
-        <Button onClick={handleOpenCreate} className="gap-2 bg-[#09090b] hover:bg-[#18181b] text-white">
+        <Button 
+          onClick={handleOpenCreate} 
+          className="gap-2 bg-[#09090b] dark:bg-[#fafafa] hover:bg-[#18181b] dark:hover:bg-[#e4e4e7] text-white dark:text-[#09090b] rounded-[8px] h-9 text-xs px-4 transition-all font-semibold border border-transparent shadow-xs"
+        >
           <Plus className="h-4 w-4" /> Add User
         </Button>
       </div>
 
-      <Card className="glass border-[#ececee]">
+      <Card className="border border-[#ececee] dark:border-[#221f2c] bg-white dark:bg-[#121118] rounded-xl shadow-xs overflow-hidden py-0">
         <CardContent className="p-0">
           {filteredUsers.length === 0 ? (
             <EmptyState
@@ -183,35 +186,35 @@ export function UsersClient({
           ) : (
             <Table>
               <TableHeader>
-                <TableRow>
-                  <TableHead>User Details</TableHead>
-                  <TableHead>System Role</TableHead>
-                  <TableHead>Department</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Gamification</TableHead>
-                  <TableHead className="w-24 text-right">Actions</TableHead>
+                <TableRow className="border-b border-[#ececee] dark:border-[#221f2c] bg-[#f4f4f5] dark:bg-[#121118]">
+                  <TableHead className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider">User Details</TableHead>
+                  <TableHead className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider">System Role</TableHead>
+                  <TableHead className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider">Department</TableHead>
+                  <TableHead className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider">Status</TableHead>
+                  <TableHead className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider">Gamification</TableHead>
+                  <TableHead className="text-right text-foreground font-semibold px-6 py-3 text-[11px] uppercase tracking-wider pr-6">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredUsers.map((u) => {
                   const dept = departments.find((d) => d.id === u.departmentId);
                   return (
-                    <TableRow key={u.id} className="hover:bg-muted/10">
-                      <TableCell>
+                    <TableRow key={u.id} className="border-b border-[#ececee] dark:border-[#221f2c] hover:bg-[#f4f4f5]/50 dark:hover:bg-[#16141f]/50 transition-colors">
+                      <TableCell className="px-6 py-4">
                         <div className="flex flex-col">
-                          <span className="font-semibold text-[#09090b] dark:text-white">{u.name}</span>
+                          <span className="font-semibold text-foreground">{u.name}</span>
                           <span className="text-xs text-muted-foreground">{u.email}</span>
                         </div>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="px-6 py-4">
                         <Badge variant="outline" className={`${roleColors[u.role]} py-0.5`}>
                           {roleLabels[u.role]}
                         </Badge>
                       </TableCell>
-                      <TableCell>
-                        <span className="text-sm">{dept ? `${dept.name} (${dept.code})` : "—"}</span>
+                      <TableCell className="px-6 py-4">
+                        <span className="text-sm font-medium text-foreground">{dept ? `${dept.name} (${dept.code})` : "—"}</span>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="px-6 py-4">
                         <Badge
                           variant={u.status === "active" ? "default" : "secondary"}
                           className={
@@ -223,19 +226,19 @@ export function UsersClient({
                           {u.status}
                         </Badge>
                       </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-1 text-xs text-eco-orange">
+                      <TableCell className="px-6 py-4">
+                        <div className="flex items-center gap-1 text-xs text-eco-orange font-semibold">
                           <Award className="h-3.5 w-3.5" />
                           <span>{u.points} pts / {u.xp} XP</span>
                         </div>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="px-6 py-4 text-right pr-6">
                         <div className="flex items-center justify-end gap-1">
                           <Button
                             variant="ghost"
                             size="icon"
                             onClick={() => handleOpenEdit(u)}
-                            className="h-8 w-8 hover:bg-[#22242f] text-muted-foreground hover:text-[#09090b] dark:text-white"
+                            className="h-8 w-8 hover:bg-[#f4f4f5] dark:hover:bg-[#1c1a24] text-muted-foreground hover:text-foreground"
                           >
                             <Pencil className="h-4 w-4" />
                           </Button>
@@ -243,7 +246,7 @@ export function UsersClient({
                             variant="ghost"
                             size="icon"
                             onClick={() => handleOpenDelete(u)}
-                            className="h-8 w-8 hover:bg-[#22242f] text-destructive hover:text-destructive"
+                            className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -260,30 +263,30 @@ export function UsersClient({
 
       {/* Create / Edit Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="sm:max-w-md bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b] dark:text-white">
+        <DialogContent className="sm:max-w-md bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl shadow-lg text-foreground">
           <DialogHeader>
-            <DialogTitle>{editing ? "Edit User Account" : "Register New User"}</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-base font-bold text-foreground">{editing ? "Edit User Account" : "Register New User"}</DialogTitle>
+            <DialogDescription className="text-xs text-muted-foreground">
               {editing
                 ? "Update access details, roles, or organization department mappings."
                 : "Create an EcoSphere access account. The default password is 'password123'."}
             </DialogDescription>
           </DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-4 pt-2">
-            <div className="space-y-1">
-              <Label htmlFor="name" className="text-muted-foreground">Full Name</Label>
+          <form key={editing?.id || "new"} onSubmit={handleSubmit} className="space-y-4 pt-2">
+            <div className="space-y-1.5">
+              <Label htmlFor="name" className="text-xs font-semibold text-foreground">Full Name</Label>
               <Input
                 id="name"
                 name="name"
                 defaultValue={editing?.name || ""}
                 required
                 placeholder="John Doe"
-                className="bg-[#15161D] border-[#ececee] text-[#09090b] dark:text-[#09090b] dark:text-white"
+                className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg h-9 text-sm focus-visible:ring-1 focus-visible:ring-purple-500"
               />
             </div>
             
-            <div className="space-y-1">
-              <Label htmlFor="email" className="text-muted-foreground">Email Address</Label>
+            <div className="space-y-1.5">
+              <Label htmlFor="email" className="text-xs font-semibold text-foreground">Email Address</Label>
               <Input
                 id="email"
                 name="email"
@@ -291,12 +294,12 @@ export function UsersClient({
                 defaultValue={editing?.email || ""}
                 required
                 placeholder="john.doe@company.com"
-                className="bg-[#15161D] border-[#ececee] text-[#09090b] dark:text-[#09090b] dark:text-white"
+                className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg h-9 text-sm focus-visible:ring-1 focus-visible:ring-purple-500"
               />
             </div>
 
-            <div className="space-y-1">
-              <Label htmlFor="password" className="text-muted-foreground">
+            <div className="space-y-1.5">
+              <Label htmlFor="password" className="text-xs font-semibold text-foreground">
                 Password {editing && "(Leave blank to keep existing)"}
               </Label>
               <Input
@@ -304,18 +307,29 @@ export function UsersClient({
                 name="password"
                 type="password"
                 placeholder={editing ? "••••••••" : "password123"}
-                className="bg-[#15161D] border-[#ececee] text-[#09090b] dark:text-[#09090b] dark:text-white"
+                className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg h-9 text-sm focus-visible:ring-1 focus-visible:ring-purple-500"
               />
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-1">
-                <Label htmlFor="role" className="text-muted-foreground">System Access Role</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="role" className="text-xs font-semibold text-foreground">System Access Role</Label>
                 <Select name="role" defaultValue={editing?.role || "employee"}>
-                  <SelectTrigger id="role" className="bg-[#15161D] border-[#ececee]">
-                    <SelectValue />
+                  <SelectTrigger id="role" className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg h-9 text-xs">
+                    <SelectValue>
+                      {(value) => {
+                        const roles: Record<string, string> = {
+                          admin: "Administrator",
+                          esg_manager: "ESG Manager",
+                          dept_head: "Department Head",
+                          employee: "Employee",
+                          auditor: "Auditor",
+                        };
+                        return roles[value] || value;
+                      }}
+                    </SelectValue>
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b] dark:text-white">
+                  <SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] text-foreground">
                     <SelectItem value="admin">Administrator</SelectItem>
                     <SelectItem value="esg_manager">ESG Manager</SelectItem>
                     <SelectItem value="dept_head">Department Head</SelectItem>
@@ -325,13 +339,21 @@ export function UsersClient({
                 </Select>
               </div>
 
-              <div className="space-y-1">
-                <Label htmlFor="status" className="text-muted-foreground">Status</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="status" className="text-xs font-semibold text-foreground">Status</Label>
                 <Select name="status" defaultValue={editing?.status || "active"}>
-                  <SelectTrigger id="status" className="bg-[#15161D] border-[#ececee]">
-                    <SelectValue />
+                  <SelectTrigger id="status" className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg h-9 text-xs">
+                    <SelectValue>
+                      {(value) => {
+                        const statuses: Record<string, string> = {
+                          active: "Active",
+                          inactive: "Inactive",
+                        };
+                        return statuses[value] || value;
+                      }}
+                    </SelectValue>
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b] dark:text-white">
+                  <SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] text-foreground">
                     <SelectItem value="active">Active</SelectItem>
                     <SelectItem value="inactive">Inactive</SelectItem>
                   </SelectContent>
@@ -339,13 +361,19 @@ export function UsersClient({
               </div>
             </div>
 
-            <div className="space-y-1">
-              <Label htmlFor="departmentId" className="text-muted-foreground">Department Assignment</Label>
+            <div className="space-y-1.5">
+              <Label htmlFor="departmentId" className="text-xs font-semibold text-foreground">Department Assignment</Label>
               <Select name="departmentId" defaultValue={editing?.departmentId || "none"}>
-                <SelectTrigger id="departmentId" className="bg-[#15161D] border-[#ececee]">
-                  <SelectValue />
+                <SelectTrigger id="departmentId" className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg h-9 text-xs">
+                  <SelectValue>
+                    {(value) => {
+                      if (!value || value === "none") return "No Department Assignment";
+                      const dept = departments.find((d) => d.id === value);
+                      return dept ? `${dept.name} (${dept.code})` : value;
+                    }}
+                  </SelectValue>
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b] dark:text-white">
+                <SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] text-foreground">
                   <SelectItem value="none">No Department Assignment</SelectItem>
                   {departments.map((d) => (
                     <SelectItem key={d.id} value={d.id}>
@@ -356,19 +384,19 @@ export function UsersClient({
               </Select>
             </div>
 
-            <DialogFooter className="pt-4">
+            <DialogFooter className="pt-2 gap-2 sm:gap-0">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => setDialogOpen(false)}
-                className="bg-transparent border-[#ececee] hover:bg-muted/10 text-[#09090b] dark:text-white"
+                className="border border-[#ececee] dark:border-[#221f2c] text-foreground hover:bg-[#f4f4f5] dark:hover:bg-[#1c1a24] rounded-[8px] h-9 text-xs"
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
                 disabled={loading}
-                className="bg-[#09090b] hover:bg-[#18181b] text-white"
+                className="bg-purple-600 hover:bg-purple-700 text-white rounded-[8px] h-9 text-xs font-semibold"
               >
                 {editing ? "Save Changes" : "Register"}
               </Button>
@@ -379,27 +407,26 @@ export function UsersClient({
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b] dark:text-white">
+        <DialogContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl shadow-lg max-w-md text-foreground">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-destructive">
-              <ShieldAlert className="h-5 w-5" /> Delete Access Account
+            <DialogTitle className="flex items-center gap-2 text-destructive text-base font-bold">
+              <ShieldAlert className="h-5 w-5 animate-pulse" /> Delete Access Account
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-2 py-2">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs text-muted-foreground">
               Are you sure you want to permanently delete the account for{" "}
-              <span className="font-semibold text-[#09090b] dark:text-white">{deleting?.name}</span> (
-              {deleting?.email})?
+              <span className="font-semibold text-foreground">{deleting?.name}</span> ({deleting?.email})?
             </p>
             <p className="text-xs text-destructive bg-destructive/10 border border-destructive/20 rounded-md p-2">
               Warning: This action is destructive and cannot be undone. Any points/XP or historic activity associations will remain archived in the ledger but the access credentials will be revoked.
             </p>
           </div>
-          <DialogFooter>
+          <DialogFooter className="pt-2 gap-2 sm:gap-0">
             <Button
               variant="outline"
               onClick={() => setDeleteOpen(false)}
-              className="bg-transparent border-[#ececee] hover:bg-muted/10 text-[#09090b] dark:text-white"
+              className="border border-[#ececee] dark:border-[#221f2c] text-foreground hover:bg-[#f4f4f5] dark:hover:bg-[#1c1a24] rounded-[8px] h-9 text-xs"
             >
               Cancel
             </Button>
@@ -407,7 +434,7 @@ export function UsersClient({
               variant="destructive"
               onClick={handleDelete}
               disabled={loading}
-              className="bg-red-600 hover:bg-red-700 text-[#09090b] dark:text-white"
+              className="bg-destructive hover:bg-destructive/90 text-white rounded-[8px] h-9 text-xs font-semibold"
             >
               Delete Account
             </Button>

@@ -49,12 +49,12 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
 
   // Role display mapping
   const roleDisplay = {
-    admin: { label: "System Administrator", color: "bg-[#f4f4f5] dark:bg-[#27272a] text-[#52525b] dark:text-[#a1a1aa] border-[#ececee] dark:border-[#3f3f46]" },
-    esg_manager: { label: "ESG Manager", color: "bg-[#f4f4f5] dark:bg-[#27272a] text-[#52525b] dark:text-[#a1a1aa] border-[#ececee] dark:border-[#3f3f46]" },
-    dept_head: { label: "Department Head", color: "bg-[#f4f4f5] dark:bg-[#27272a] text-[#52525b] dark:text-[#a1a1aa] border-[#ececee] dark:border-[#3f3f46]" },
-    employee: { label: "Employee", color: "bg-[#f4f4f5] dark:bg-[#27272a] text-[#52525b] dark:text-[#a1a1aa] border-[#ececee] dark:border-[#3f3f46]" },
-    auditor: { label: "Auditor", color: "bg-[#f4f4f5] dark:bg-[#27272a] text-[#52525b] dark:text-[#a1a1aa] border-[#ececee] dark:border-[#3f3f46]" },
-  }[initialUser.role] || { label: "Employee", color: "bg-[#f4f4f5] dark:bg-[#27272a] text-[#52525b] dark:text-[#a1a1aa] border-[#ececee] dark:border-[#3f3f46]" };
+    admin: { label: "System Administrator", color: "bg-[#f4f4f5] dark:bg-[#0c0a0e] text-[#09090b] dark:text-white border-[#ececee] dark:border-[#221f2c]" },
+    esg_manager: { label: "ESG Manager", color: "bg-[#f4f4f5] dark:bg-[#0c0a0e] text-[#09090b] dark:text-white border-[#ececee] dark:border-[#221f2c]" },
+    dept_head: { label: "Department Head", color: "bg-[#f4f4f5] dark:bg-[#0c0a0e] text-[#09090b] dark:text-white border-[#ececee] dark:border-[#221f2c]" },
+    employee: { label: "Employee", color: "bg-[#f4f4f5] dark:bg-[#0c0a0e] text-[#09090b] dark:text-white border-[#ececee] dark:border-[#221f2c]" },
+    auditor: { label: "Auditor", color: "bg-[#f4f4f5] dark:bg-[#0c0a0e] text-[#09090b] dark:text-white border-[#ececee] dark:border-[#221f2c]" },
+  }[initialUser.role] || { label: "Employee", color: "bg-[#f4f4f5] dark:bg-[#0c0a0e] text-[#09090b] dark:text-white border-[#ececee] dark:border-[#221f2c]" };
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
@@ -87,126 +87,124 @@ export function ProfileClient({ initialUser }: ProfileClientProps) {
   }
 
   return (
-    <div className="flex justify-start max-w-2xl w-full">
-      {/* Single Unified Profile Card */}
-      <Card className="border border-[#ececee] dark:border-[#27272a] shadow-xs w-full overflow-hidden">
-        
-        {/* Unified Card Header (Avatar, Name, Role inline) */}
-        <div className="p-6 flex flex-col sm:flex-row items-center sm:items-start gap-4">
-          {/* Minimal Avatar */}
-          <div className="h-16 w-16 rounded-full border border-[#ececee] dark:border-[#3f3f46] bg-[#fafafa] dark:bg-[#27272a] flex items-center justify-center text-[#18181b] dark:text-[#fafafa] text-lg font-medium tracking-tight shrink-0">
-            {initials}
-          </div>
-          
-          {/* User Bio and Badges */}
-          <div className="flex-1 text-center sm:text-left space-y-1">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-              <h3 className="text-lg font-bold text-[#09090b] dark:text-[#fafafa] tracking-tight">{name}</h3>
-              <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[10px] font-medium rounded-md border ${roleDisplay.color} w-fit mx-auto sm:mx-0`}>
-                <Shield className="h-3 w-3" />
-                {roleDisplay.label}
-              </span>
+    <form onSubmit={handleSave} className="space-y-6 w-full">
+      <div className="grid gap-6 md:grid-cols-2">
+        {/* Left Column: Personal Information & Organization Mapping */}
+        <Card className="border border-[#ececee] dark:border-[#221f2c] bg-white dark:bg-[#121118] rounded-xl shadow-xs overflow-hidden py-0">
+          <div className="p-6 pb-4 border-b border-[#ececee] dark:border-[#221f2c] flex flex-col sm:flex-row items-center sm:items-start gap-4">
+            {/* Minimal Avatar */}
+            <div className="h-16 w-16 rounded-full border border-[#ececee] dark:border-[#221f2c] bg-[#f4f4f5] dark:bg-[#0c0a0e] flex items-center justify-center text-[#09090b] dark:text-white text-lg font-bold tracking-tight shrink-0">
+              {initials}
             </div>
-            <p className="text-xs text-muted-foreground">{email}</p>
-            <div className="inline-flex items-center gap-1 text-[11px] text-muted-foreground font-medium pt-0.5">
-              <Building2 className="h-3.5 w-3.5" />
-              {initialUser.departmentName}
-            </div>
-          </div>
-        </div>
-
-        <Separator className="border-[#ececee] dark:border-[#27272a]" />
-
-        {/* Unified Card Content: Form details */}
-        <CardContent className="p-6">
-          <form onSubmit={handleSave} className="space-y-6">
             
-            {/* Personal Details */}
-            <div className="space-y-4">
-              <h4 className="text-xs uppercase font-bold tracking-wider text-muted-foreground flex items-center gap-2">
-                <User className="h-3.5 w-3.5" />
-                Personal Details
-              </h4>
-              
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-1.5">
-                  <Label htmlFor="name" className="text-xs">Full Name</Label>
-                  <Input
-                    id="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Jane Doe"
-                    required
-                    className="rounded-[8px] h-9 text-sm"
-                  />
-                </div>
-                
-                <div className="space-y-1.5">
-                  <Label htmlFor="email" className="text-xs">Email Address</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="jane.doe@company.com"
-                    required
-                    className="rounded-[8px] h-9 text-sm"
-                  />
-                </div>
+            {/* User Bio and Badges */}
+            <div className="flex-1 text-center sm:text-left space-y-1">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                <h3 className="text-lg font-bold text-[#09090b] dark:text-white tracking-tight">{name}</h3>
+                <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[10px] font-medium rounded-md border ${roleDisplay.color} w-fit mx-auto sm:mx-0`}>
+                  <Shield className="h-3 w-3 text-purple-500 animate-pulse" />
+                  {roleDisplay.label}
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground">{email}</p>
+              <div className="inline-flex items-center gap-1 text-[11px] text-muted-foreground font-medium pt-0.5">
+                <Building2 className="h-3.5 w-3.5 text-purple-500" />
+                {initialUser.departmentName}
               </div>
             </div>
+          </div>
 
-            <Separator className="border-[#ececee] dark:border-[#27272a]" />
-
-            {/* Change Password */}
+          <CardContent className="p-6 space-y-4">
+            <h4 className="text-xs uppercase font-bold tracking-wider text-muted-foreground flex items-center gap-2 mb-2">
+              <User className="h-3.5 w-3.5 text-purple-500" />
+              Personal Details
+            </h4>
+            
             <div className="space-y-4">
-              <h4 className="text-xs uppercase font-bold tracking-wider text-muted-foreground flex items-center gap-2">
-                <Lock className="h-3.5 w-3.5" />
-                Security
+              <div className="space-y-1.5">
+                <Label htmlFor="name" className="text-xs font-semibold text-foreground">Full Name</Label>
+                <Input
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Jane Doe"
+                  required
+                  className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg h-9 text-sm focus-visible:ring-1 focus-visible:ring-purple-500"
+                />
+              </div>
+              
+              <div className="space-y-1.5">
+                <Label htmlFor="email" className="text-xs font-semibold text-foreground">Email Address</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="jane.doe@company.com"
+                  required
+                  className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg h-9 text-sm focus-visible:ring-1 focus-visible:ring-purple-500"
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Right Column: Security & Credentials */}
+        <Card className="border border-[#ececee] dark:border-[#221f2c] bg-white dark:bg-[#121118] rounded-xl shadow-xs overflow-hidden flex flex-col justify-between py-0">
+          <div>
+            <div className="p-6 pb-4 border-b border-[#ececee] dark:border-[#221f2c]">
+              <h3 className="text-base font-bold text-foreground tracking-tight">Security Settings</h3>
+              <p className="text-xs text-muted-foreground mt-0.5">Manage your credentials and security access.</p>
+            </div>
+            
+            <CardContent className="p-6 space-y-4">
+              <h4 className="text-xs uppercase font-bold tracking-wider text-muted-foreground flex items-center gap-2 mb-1">
+                <Lock className="h-3.5 w-3.5 text-purple-500" />
+                Password Updates
               </h4>
               <p className="text-[11px] text-muted-foreground -mt-2">
                 Leave password fields blank if you do not want to change your credentials.
               </p>
 
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-4 pt-1">
                 <div className="space-y-1.5">
-                  <Label htmlFor="password" className="text-xs">New Password</Label>
+                  <Label htmlFor="password" className="text-xs font-semibold text-foreground">New Password</Label>
                   <Input
                     id="password"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="rounded-[8px] h-9 text-sm"
+                    className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg h-9 text-sm focus-visible:ring-1 focus-visible:ring-purple-500"
                   />
                 </div>
                 
                 <div className="space-y-1.5">
-                  <Label htmlFor="confirm-password" className="text-xs">Confirm Password</Label>
+                  <Label htmlFor="confirm-password" className="text-xs font-semibold text-foreground">Confirm New Password</Label>
                   <Input
                     id="confirm-password"
                     type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="rounded-[8px] h-9 text-sm"
+                    className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] text-[#09090b] dark:text-white rounded-lg h-9 text-sm focus-visible:ring-1 focus-visible:ring-purple-500"
                   />
                 </div>
               </div>
-            </div>
+            </CardContent>
+          </div>
 
-            <div className="flex justify-end pt-2">
-              <Button 
-                type="submit" 
-                disabled={loading} 
-                className="bg-[#09090b] dark:bg-[#fafafa] hover:bg-[#18181b] dark:hover:bg-[#e4e4e7] text-white dark:text-[#09090b] rounded-[8px] h-9 text-xs px-5 transition-all font-medium border border-transparent"
-              >
-                {loading ? "Saving Changes..." : "Save Changes"}
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+          <div className="p-6 bg-[#f4f4f5]/30 dark:bg-[#121118]/50 border-t border-[#ececee] dark:border-[#221f2c] flex justify-end">
+            <Button 
+              type="submit" 
+              disabled={loading} 
+              className="bg-[#09090b] dark:bg-[#fafafa] hover:bg-[#18181b] dark:hover:bg-[#e4e4e7] text-white dark:text-[#09090b] rounded-[8px] h-9 text-xs px-5 transition-all font-semibold border border-transparent shadow-xs"
+            >
+              {loading ? "Saving Changes..." : "Save Profile Changes"}
+            </Button>
+          </div>
+        </Card>
+      </div>
+    </form>
   );
 }
