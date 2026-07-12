@@ -31,6 +31,7 @@ import {
   SidebarMenuItem,
   SidebarMenuAction,
   SidebarFooter,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 
@@ -51,6 +52,8 @@ interface NavItem {
 
 export function AppSidebar({ user }: { user?: { role?: string } }) {
   const pathname = usePathname();
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
   
   // Track collapsible submenu states
   const [expanded, setExpanded] = useState<Record<string, boolean>>({
@@ -222,7 +225,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                         <>
                           <SidebarMenuButton
                             isActive={isActive}
-                            className="w-full text-sidebar-foreground hover:bg-[#121016] px-3 py-2.5 h-11 rounded-xl cursor-pointer"
+                            className="w-full text-sidebar-foreground hover:bg-[#121016] px-3 py-2.5 h-11 rounded-lg cursor-pointer"
                             tooltip={item.title}
                             render={
                               <Link href={item.href || "#"}>
@@ -233,22 +236,24 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                               </Link>
                             }
                           />
-                          <button
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              toggleGroup(item.title);
-                            }}
-                            className="absolute right-3 top-[22px] -translate-y-1/2 flex items-center justify-center h-6 w-6 text-muted-foreground/70 hover:text-white rounded-md transition-all cursor-pointer z-10"
-                          >
-                            {isExpanded ? (
-                              <ChevronUp className="h-4 w-4" />
-                            ) : (
-                              <ChevronDown className="h-4 w-4" />
-                            )}
-                          </button>
+                          {!isCollapsed && (
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                toggleGroup(item.title);
+                              }}
+                              className="absolute right-3 top-[22px] -translate-y-1/2 flex items-center justify-center h-6 w-6 text-muted-foreground/70 hover:text-white rounded-md transition-all cursor-pointer z-10"
+                            >
+                              {isExpanded ? (
+                                <ChevronUp className="h-4 w-4" />
+                              ) : (
+                                <ChevronDown className="h-4 w-4" />
+                              )}
+                            </button>
+                          )}
 
-                          {isExpanded && (
+                          {!isCollapsed && isExpanded && (
                             <div className="pl-6 mt-1 mb-2 space-y-1 border-l border-[#221F2C] ml-5 flex flex-col">
                               {item.items!.map((subItem) => {
                                 const isSubActive = pathname === subItem.href;
@@ -273,7 +278,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                       ) : (
                         <SidebarMenuButton
                           isActive={isActive}
-                          className="w-full flex items-center justify-between px-3 py-2.5 h-11 rounded-xl cursor-pointer hover:bg-[#121016]"
+                          className="w-full flex items-center justify-between px-3 py-2.5 h-11 rounded-lg cursor-pointer hover:bg-[#121016]"
                           tooltip={item.title}
                           render={
                             <Link href={item.href || "#"}>
@@ -299,35 +304,8 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
         ))}
       </SidebarContent>
 
-      <SidebarFooter className="p-4 bg-[#0C0A0E] border-t border-[#1A1822]">
-        {/* Current Plan Banner matching mockup */}
-        <div className="bg-[#121016] border border-[#221F2C] rounded-2xl p-4 space-y-3 group-data-[collapsible=icon]:hidden">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">
-              Current Plan
-            </span>
-            <Crown className="h-4 w-4 text-amber-500" />
-          </div>
-          <div>
-            <h4 className="text-base font-extrabold text-white">
-              Enterprise
-            </h4>
-          </div>
-          <Button 
-            nativeButton={false}
-            className="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs py-2 h-9 rounded-xl font-bold shadow-[0_0_15px_rgba(124,58,237,0.25)] transition-all cursor-pointer border-none"
-            render={
-              <Link href="/settings" />
-            }
-          >
-            Manage Plan
-          </Button>
-        </div>
-        
-        {/* Footer info when collapsed */}
-        <div className="hidden group-data-[collapsible=icon]:flex items-center justify-center py-2 text-muted-foreground">
-          <Crown className="h-4 w-4 text-amber-500" />
-        </div>
+      <SidebarFooter className="p-4 bg-[#0C0A0E] border-t border-[#1A1822] hidden md:block">
+        {/* Removed plan information card */}
       </SidebarFooter>
     </Sidebar>
   );

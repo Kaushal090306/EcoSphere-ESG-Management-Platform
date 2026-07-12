@@ -230,7 +230,7 @@ export default function GovernanceOverviewPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* KPI 1: Policy Compliance */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-[18px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-blue-400">
@@ -265,7 +265,7 @@ export default function GovernanceOverviewPage() {
         </Card>
 
         {/* KPI 2: Active Policies */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-[18px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-blue-400">
@@ -300,7 +300,7 @@ export default function GovernanceOverviewPage() {
         </Card>
 
         {/* KPI 3: Compliance Audits */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-[18px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-blue-400">
@@ -335,7 +335,7 @@ export default function GovernanceOverviewPage() {
         </Card>
 
         {/* KPI 4: Open Issues */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-[18px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-rose-500/10 text-rose-400">
@@ -374,7 +374,7 @@ export default function GovernanceOverviewPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         
         {/* Plot 1: Compliance rates by category */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-[20px] p-5 lg:col-span-6 flex flex-col justify-between">
+        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl p-5 lg:col-span-6 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h4 className="text-sm font-semibold text-white">Policy Compliance by Category</h4>
@@ -407,7 +407,7 @@ export default function GovernanceOverviewPage() {
         </Card>
 
         {/* Card 2: Recent Audit History */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-[20px] p-5 lg:col-span-3 flex flex-col justify-between">
+        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl p-5 lg:col-span-3 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-3">
             <h4 className="text-sm font-semibold text-white">Recent Audits</h4>
             <Button 
@@ -449,7 +449,7 @@ export default function GovernanceOverviewPage() {
         </Card>
 
         {/* Card 3: Active Compliance Alerts */}
-        <Card className="bg-[#181922] border border-[#2d2f39] rounded-[20px] p-5 lg:col-span-3 flex flex-col justify-between">
+        <Card className="bg-[#181922] border border-[#2d2f39] rounded-xl p-5 lg:col-span-3 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-3">
             <h4 className="text-sm font-semibold text-white">Active Alerts</h4>
             <Button 
