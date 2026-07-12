@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -215,68 +215,47 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                     ? pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href))
                     : false;
 
-                  const buttonClasses = `w-full flex items-center justify-between px-3 py-2.5 h-11 rounded-[14px] cursor-pointer transition-all border ${
-                    isActive 
-                      ? "bg-white dark:bg-[#18181b] text-[#09090b] border-[#ececee] shadow-sm font-semibold" 
-                      : "text-[#52525b] border-transparent hover:bg-white dark:bg-[#18181b] hover:text-[#09090b] hover:border-[#ececee] hover:shadow-sm"
-                  }`;
+                  const baseBtn = [
+                    "w-full flex items-center gap-3 px-3 h-11 rounded-[14px] cursor-pointer transition-all text-sm font-medium border",
+                    isActive
+                      ? "bg-white dark:bg-[#27272a] text-[#09090b] dark:text-[#fafafa] border-[#ececee] dark:border-[#3f3f46] shadow-sm font-semibold"
+                      : "text-[#52525b] dark:text-[#a1a1aa] border-transparent hover:bg-white dark:hover:bg-[#27272a] hover:text-[#09090b] dark:hover:text-[#fafafa] hover:border-[#ececee] dark:hover:border-[#3f3f46]",
+                  ].join(" ");
 
                   return (
                     <SidebarMenuItem key={item.title}>
                       {hasSubItems ? (
                         <>
-                          <SidebarMenuButton
-                            isActive={isActive}
-                            className={buttonClasses}
-                            tooltip={item.title}
-                            render={
-                              <Link href={item.href || "#"}>
-                                <div className="flex items-center gap-3">
-                                  <item.icon className="h-4.5 w-4.5" />
-                                  <span className="text-sm font-medium">{item.title}</span>
-                                </div>
-                              </Link>
+                          {/* Single button row with icon + title + chevron inline */}
+                          <button
+                            onClick={() => toggleGroup(item.title)}
+                            className={baseBtn}
+                          >
+                            <item.icon className="h-4 w-4 shrink-0" />
+                            <span className="flex-1 text-left">{item.title}</span>
+                            {isExpanded
+                              ? <ChevronUp className="h-3.5 w-3.5 shrink-0 text-[#a1a1aa]" />
+                              : <ChevronDown className="h-3.5 w-3.5 shrink-0 text-[#a1a1aa]" />
                             }
-                          />
-                          <SidebarMenuAction
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              toggleGroup(item.title);
-                            }}
-                            className="right-2 top-1/2 -translate-y-1/2 flex items-center justify-center h-6 w-6 text-[#71717a] hover:text-[#09090b] rounded-md transition-all cursor-pointer"
-                            render={
-                              <button>
-                                {isExpanded ? (
-                                  <ChevronUp className="h-3.5 w-3.5" />
-                                ) : (
-                                  <ChevronDown className="h-3.5 w-3.5" />
-                                )}
-                              </button>
-                            }
-                          />
+                          </button>
 
                           {isExpanded && (
-                            <div className="pl-6 mt-1 mb-2 space-y-1 border-l border-[#ececee] ml-5 flex flex-col">
+                            <div className="pl-4 mt-0.5 mb-1 ml-5 border-l border-[#ececee] dark:border-[#27272a] flex flex-col gap-0.5">
                               {item.items!.map((subItem) => {
                                 const isSubActive = pathname === subItem.href;
                                 return (
-                                  <SidebarMenuButton
+                                  <Link
                                     key={subItem.href}
-                                    isActive={isSubActive}
-                                    className={`h-9 text-xs justify-start rounded-lg w-full px-3 cursor-pointer transition-all border ${
+                                    href={subItem.href}
+                                    className={[
+                                      "flex items-center h-9 px-3 text-xs rounded-[10px] transition-all border",
                                       isSubActive
-                                        ? "bg-white dark:bg-[#18181b] text-[#09090b] border-[#ececee] shadow-sm font-semibold"
-                                        : "text-[#52525b] border-transparent hover:text-[#09090b] hover:bg-white dark:bg-[#18181b] hover:border-[#ececee]"
-                                    }`}
-                                    render={
-                                      <Link href={subItem.href}>
-                                        <span>
-                                          {subItem.title}
-                                        </span>
-                                      </Link>
-                                    }
-                                  />
+                                        ? "bg-white dark:bg-[#27272a] text-[#09090b] dark:text-[#fafafa] border-[#ececee] dark:border-[#3f3f46] font-semibold shadow-sm"
+                                        : "text-[#71717a] dark:text-[#71717a] border-transparent hover:bg-[#f4f4f5] dark:hover:bg-[#27272a] hover:text-[#09090b] dark:hover:text-[#fafafa]",
+                                    ].join(" ")}
+                                  >
+                                    {subItem.title}
+                                  </Link>
                                 );
                               })}
                             </div>
@@ -285,16 +264,14 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                       ) : (
                         <SidebarMenuButton
                           isActive={isActive}
-                          className={buttonClasses}
+                          className={baseBtn}
                           tooltip={item.title}
                           render={
                             <Link href={item.href || "#"}>
-                              <div className="flex items-center gap-3">
-                                <item.icon className="h-4.5 w-4.5" />
-                                <span className="text-sm font-medium">{item.title}</span>
-                              </div>
+                              <item.icon className="h-4 w-4 shrink-0" />
+                              <span className="flex-1">{item.title}</span>
                               {item.badge !== undefined && (
-                                <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#18181b] px-1 text-[10px] font-bold text-white">
+                                <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-[#18181b] dark:bg-[#fafafa] px-1 text-[10px] font-bold text-white dark:text-[#09090b]">
                                   {item.badge}
                                 </span>
                               )}
@@ -305,6 +282,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                     </SidebarMenuItem>
                   );
                 })}
+
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>

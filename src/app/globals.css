@@ -110,35 +110,35 @@
 
 /* Dark mode overrides — activated by .dark class on <html> via next-themes */
 .dark {
-  --background: #09090b;       /* Deep near-black canvas */
-  --foreground: #fafafa;
-  --card: #18181b;             /* Slightly lighter dark surface */
-  --card-foreground: #fafafa;
-  --popover: #18181b;
-  --popover-foreground: #fafafa;
-  --primary: #fafafa;
-  --primary-foreground: #09090b;
-  --secondary: #27272a;
-  --secondary-foreground: #fafafa;
-  --muted: #27272a;
-  --muted-foreground: #71717a;
-  --accent: #27272a;
-  --accent-foreground: #fafafa;
+  --background: #111113;       /* Deep zinc canvas — not pure black */
+  --foreground: #eeeeef;       /* Slightly warm white */
+  --card: #1c1c1f;             /* Lifted card surface — clearly above canvas */
+  --card-foreground: #eeeeef;
+  --popover: #1c1c1f;
+  --popover-foreground: #eeeeef;
+  --primary: #eeeeef;
+  --primary-foreground: #111113;
+  --secondary: #2a2a2e;
+  --secondary-foreground: #eeeeef;
+  --muted: #2a2a2e;
+  --muted-foreground: #8c8c94;
+  --accent: #2a2a2e;
+  --accent-foreground: #eeeeef;
   --destructive: #f87171;
-  --destructive-foreground: #09090b;
-  --border: #27272a;
-  --input: #27272a;
-  --ring: #a1a1aa;
+  --destructive-foreground: #111113;
+  --border: #2e2e32;           /* Subtle border — visible but not harsh */
+  --input: #2a2a2e;
+  --ring: #8c8c94;
 
-  /* Sidebar dark overrides */
-  --sidebar: #18181b;
-  --sidebar-foreground: #a1a1aa;
-  --sidebar-primary: #fafafa;
-  --sidebar-primary-foreground: #09090b;
-  --sidebar-accent: #27272a;
-  --sidebar-accent-foreground: #fafafa;
-  --sidebar-border: #27272a;
-  --sidebar-ring: #a1a1aa;
+  /* Sidebar dark */
+  --sidebar: #161618;
+  --sidebar-foreground: #8c8c94;
+  --sidebar-primary: #eeeeef;
+  --sidebar-primary-foreground: #111113;
+  --sidebar-accent: #2a2a2e;
+  --sidebar-accent-foreground: #eeeeef;
+  --sidebar-border: #2e2e32;
+  --sidebar-ring: #8c8c94;
 }
 
 @layer base {
