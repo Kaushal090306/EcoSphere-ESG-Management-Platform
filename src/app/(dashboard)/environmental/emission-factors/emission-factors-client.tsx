@@ -36,7 +36,8 @@ const scopeColors: Record<string, string> = {
   scope_3: "bg-eco-blue/10 text-eco-blue border-eco-blue/20",
 };
 
-export function EmissionFactorsClient({ factors }: { factors: EmissionFactor[] }) {
+export function EmissionFactorsClient({ factors, userRole }: { factors: EmissionFactor[]; userRole?: string }) {
+  const isReadOnly = userRole === "auditor" || userRole === "employee";
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editing, setEditing] = useState<EmissionFactor | null>(null);
@@ -150,9 +151,11 @@ export function EmissionFactorsClient({ factors }: { factors: EmissionFactor[] }
           </Select>
         </div>
 
-        <Button onClick={() => { setEditing(null); setDialogOpen(true); }} className="gap-2 rounded-lg text-xs h-9">
-          <Plus className="h-4 w-4" /> Add Factor
-        </Button>
+        {!isReadOnly && (
+          <Button onClick={() => { setEditing(null); setDialogOpen(true); }} className="gap-2 rounded-lg text-xs h-9">
+            <Plus className="h-4 w-4" /> Add Factor
+          </Button>
+        )}
       </div>
 
       <Card className="border-[#2d2f39] bg-[#181922] rounded-md overflow-hidden shadow-none">
@@ -214,7 +217,7 @@ export function EmissionFactorsClient({ factors }: { factors: EmissionFactor[] }
                     </div>
                   </TableHead>
                   <TableHead className="text-white">Status</TableHead>
-                  <TableHead className="w-24 text-right pr-4 text-white">Actions</TableHead>
+                  {!isReadOnly && <TableHead className="w-24 text-right pr-4 text-white">Actions</TableHead>}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -226,12 +229,14 @@ export function EmissionFactorsClient({ factors }: { factors: EmissionFactor[] }
                     <TableCell className="font-mono text-white">{f.factorValue}</TableCell>
                     <TableCell><Badge variant="outline" className={scopeColors[f.scope]}>{f.scope.replace("_", " ")}</Badge></TableCell>
                     <TableCell><Badge variant={f.status === "active" ? "default" : "secondary"} className={f.status === "active" ? "bg-eco-green/10 text-eco-green border-eco-green/20" : ""}>{f.status}</Badge></TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1 justify-end pr-2">
-                        <Button variant="ghost" size="icon" onClick={() => { setEditing(f); setDialogOpen(true); }}><Pencil className="h-4 w-4" /></Button>
-                        <Button variant="ghost" size="icon" onClick={() => { setDeleting(f); setDeleteOpen(true); }} className="text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
-                      </div>
-                    </TableCell>
+                    {!isReadOnly && (
+                      <TableCell>
+                        <div className="flex items-center gap-1 justify-end pr-2">
+                          <Button variant="ghost" size="icon" onClick={() => { setEditing(f); setDialogOpen(true); }}><Pencil className="h-4 w-4" /></Button>
+                          <Button variant="ghost" size="icon" onClick={() => { setDeleting(f); setDeleteOpen(true); }} className="text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                        </div>
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))}
               </TableBody>

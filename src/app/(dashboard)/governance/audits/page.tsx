@@ -4,8 +4,18 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Shield } from "lucide-react";
+import { auth } from "@/auth";
+import { AccessDenied } from "@/components/shared/access-denied";
 
 export default async function AuditsPage() {
+  const session = await auth();
+  const allowedRoles = ["admin", "esg_manager", "auditor"];
+  const user = session?.user as any;
+
+  if (!user?.role || !allowedRoles.includes(user.role)) {
+    return <AccessDenied />;
+  }
+
   const [audits, departments] = await Promise.all([
     getAudits(),
     getDepartments(),

@@ -3,8 +3,18 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FileText, Download, Eye } from "lucide-react";
+import { auth } from "@/auth";
+import { AccessDenied } from "@/components/shared/access-denied";
 
-export default function ReportsPage() {
+export default async function ReportsPage() {
+  const session = await auth();
+  const allowedRoles = ["admin", "esg_manager", "auditor"];
+
+  const user = session?.user as any;
+  if (!user?.role || !allowedRoles.includes(user.role)) {
+    return <AccessDenied />;
+  }
+
   const reportsList = [
     { name: "2026 ESG Impact Assessment (PDF)", type: "Annual Impact", date: "2026-06-30", size: "4.8 MB", status: "Ready" },
     { name: "Scope 1 & 2 Emissions Audit (XLSX)", type: "Carbon Accounting", date: "2026-05-15", size: "1.2 MB", status: "Ready" },

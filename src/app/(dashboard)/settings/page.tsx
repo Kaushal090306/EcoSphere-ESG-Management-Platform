@@ -2,8 +2,16 @@ import { getEsgSettings } from "@/actions/esg-settings";
 import { SettingsClient } from "./settings-client";
 import { SlidersHorizontal } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
+import { auth } from "@/auth";
+import { AccessDenied } from "@/components/shared/access-denied";
 
 export default async function SettingsPage() {
+  const session = await auth();
+
+  if ((session?.user as any)?.role !== "admin") {
+    return <AccessDenied />;
+  }
+
   const settings = await getEsgSettings();
   return (
     <div className="space-y-6">

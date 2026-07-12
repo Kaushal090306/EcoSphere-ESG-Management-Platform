@@ -21,5 +21,15 @@ export const badges = pgTable("badges", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export const userBadges = pgTable("user_badges", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull(),
+  badgeId: uuid("badge_id").notNull(),
+  unlockedAt: timestamp("unlocked_at").defaultNow().notNull(),
+});
+
 export type Badge = typeof badges.$inferSelect;
 export type NewBadge = typeof badges.$inferInsert;
+export type UserBadge = typeof userBadges.$inferSelect;
+export type NewUserBadge = typeof userBadges.$inferInsert;
+

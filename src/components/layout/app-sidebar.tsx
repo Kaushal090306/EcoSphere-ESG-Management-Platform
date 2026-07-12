@@ -11,7 +11,6 @@ import {
   Trophy,
   BarChart3,
   Settings,
-  SlidersHorizontal,
   ChevronDown,
   ChevronUp,
   Crown,
@@ -38,17 +37,19 @@ import { Button } from "@/components/ui/button";
 interface SubItem {
   title: string;
   href: string;
+  roles?: string[];
 }
 
 interface NavItem {
   title: string;
   href?: string;
-  icon: any;
+  icon: React.ComponentType<{ className?: string }>;
   items?: SubItem[];
   badge?: number;
+  roles?: string[];
 }
 
-export function AppSidebar() {
+export function AppSidebar({ user }: { user?: { role?: string } }) {
   const pathname = usePathname();
   
   // Track collapsible submenu states
@@ -60,24 +61,7 @@ export function AppSidebar() {
     Settings: false,
   });
 
-  // Automatically expand group if pathname matches a subitem
-  useEffect(() => {
-    const activeGroup = Object.keys(expanded).find((groupName) => {
-      const items = navGroups.find((g) => g.label === "MAIN MENU" || g.label === "OTHER")?.items || [];
-      const parent = items.find((item) => item.title === groupName);
-      return parent?.items?.some((sub) => pathname === sub.href || pathname.startsWith(sub.href + "/")) || false;
-    });
-
-    if (activeGroup) {
-      setExpanded((prev) => ({ ...prev, [activeGroup]: true }));
-    }
-  }, [pathname]);
-
-  const toggleGroup = (name: string) => {
-    setExpanded((prev) => ({ ...prev, [name]: !prev[name] }));
-  };
-
-  const navGroups = [
+  const rawNavGroups = [
     {
       label: "MAIN MENU",
       items: [
@@ -88,7 +72,7 @@ export function AppSidebar() {
           href: "/environmental",
           items: [
             { title: "Overview", href: "/environmental" },
-            { title: "Emission Factors", href: "/environmental/emission-factors" },
+            { title: "Emission Factors", href: "/environmental/emission-factors", roles: ["admin", "esg_manager", "auditor"] },
             { title: "Product ESG Profiles", href: "/environmental/product-profiles" },
             { title: "Carbon Transactions", href: "/environmental/carbon-transactions" },
             { title: "Environmental Goals", href: "/environmental/goals" },
@@ -111,7 +95,7 @@ export function AppSidebar() {
           items: [
             { title: "Overview", href: "/governance" },
             { title: "ESG Policies", href: "/governance/policies" },
-            { title: "Audits", href: "/governance/audits" },
+            { title: "Audits", href: "/governance/audits", roles: ["admin", "esg_manager", "auditor"] },
             { title: "Compliance Issues", href: "/governance/compliance-issues" },
           ],
         },
@@ -128,8 +112,8 @@ export function AppSidebar() {
             { title: "Leaderboard", href: "/gamification/leaderboard" },
           ],
         },
-        { title: "Reports", href: "/reports", icon: BarChart3 },
-        { title: "Integrations", href: "/settings", icon: Sparkles },
+        { title: "Reports", href: "/reports", icon: BarChart3, roles: ["admin", "esg_manager", "auditor"] },
+        { title: "Integrations", href: "/settings", icon: Sparkles, roles: ["admin"] },
       ] as NavItem[],
     },
     {
@@ -140,11 +124,13 @@ export function AppSidebar() {
         {
           title: "Settings",
           icon: Settings,
+          roles: ["admin"],
           href: "/settings",
           items: [
-            { title: "Configuration", href: "/settings" },
-            { title: "Departments", href: "/settings/departments" },
-            { title: "Categories", href: "/settings/categories" },
+            { title: "Configuration", href: "/settings", roles: ["admin"] },
+            { title: "User Management", href: "/settings/users", roles: ["admin"] },
+            { title: "Departments", href: "/settings/departments", roles: ["admin"] },
+            { title: "Categories", href: "/settings/categories", roles: ["admin"] },
           ],
         },
         { title: "Help & Support", href: "/settings", icon: HelpCircle },
@@ -152,32 +138,75 @@ export function AppSidebar() {
     },
   ];
 
+  // Filter groups and items based on role
+  const navGroups = rawNavGroups.map(group => {
+    const filteredItems = group.items.map(item => {
+      if (item.items) {
+        const filteredSubs = item.items.filter(sub => !sub.roles || sub.roles.includes(user?.role || ""));
+        if (filteredSubs.length === 0) return null;
+        return { ...item, items: filteredSubs };
+      }
+      if (item.roles && !item.roles.includes(user?.role || "")) {
+        return null;
+      }
+      return item;
+    }).filter(Boolean) as NavItem[];
+
+    return { ...group, items: filteredItems };
+  }).filter(group => group.items.length > 0);
+
+  // Automatically expand group if pathname matches a subitem
+  useEffect(() => {
+    const activeGroup = Object.keys(expanded).find((groupName) => {
+      const items = navGroups.find((g) => g.label === "MAIN MENU" || g.label === "OTHER")?.items || [];
+      const parent = items.find((item) => item.title === groupName);
+      return parent?.items?.some((sub) => pathname.startsWith(sub.href)) || false;
+    });
+
+    if (activeGroup && !expanded[activeGroup]) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setExpanded((prev) => ({ ...prev, [activeGroup]: true }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+
+  const toggleGroup = (name: string) => {
+    setExpanded((prev) => ({ ...prev, [name]: !prev[name] }));
+  };
   return (
-    <Sidebar collapsible="icon" className="border-r border-sidebar-border bg-[#15161D]">
-      <SidebarHeader className="px-6 py-6 group-data-[collapsible=icon]:p-2 bg-[#15161D]">
+    <Sidebar collapsible="icon" className="border-r border-[#1A1822] bg-[#0C0A0E]">
+      <SidebarHeader className="px-6 py-6 group-data-[collapsible=icon]:p-2 bg-[#0C0A0E]">
         <Link href="/" className="flex flex-col group-data-[collapsible=icon]:items-center">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <Leaf className="h-4 w-4" />
+          <div className="flex items-center gap-3">
+            {/* Custom 4-circle logo arrange in clover style */}
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#121016] border border-[#221F2C]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="3" width="7" height="7" rx="2" fill="#9B5CF6" />
+                <rect x="14" y="3" width="7" height="7" rx="2" fill="#9B5CF6" />
+                <rect x="3" y="14" width="7" height="7" rx="2" fill="#9B5CF6" />
+                <rect x="14" y="14" width="7" height="7" rx="2" fill="#7C3AED" />
+              </svg>
             </div>
-            <span className="text-2xl font-bold text-white group-data-[collapsible=icon]:hidden">
-              EcoSphere
-            </span>
+            <div className="flex flex-col group-data-[collapsible=icon]:hidden">
+              <span className="text-lg font-extrabold text-white tracking-tight leading-none">
+                EcoSphere
+              </span>
+              <span className="text-[10px] text-muted-foreground font-semibold mt-0.5 tracking-wider uppercase">
+                ESG Platform
+              </span>
+            </div>
           </div>
-          <span className="text-xs text-muted-foreground mt-1.5 pl-10 group-data-[collapsible=icon]:hidden">
-            ESG Platform
-          </span>
         </Link>
       </SidebarHeader>
 
-      <SidebarContent className="bg-[#15161D]">
+      <SidebarContent className="bg-[#0C0A0E] px-3 space-y-1">
         {navGroups.map((group) => (
-          <SidebarGroup key={group.label} className="px-3">
-            <SidebarGroupLabel className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground/60 px-3">
+          <SidebarGroup key={group.label} className="px-0 py-2">
+            <SidebarGroupLabel className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground/40 px-3 mb-2">
               {group.label}
             </SidebarGroupLabel>
             <SidebarGroupContent>
-              <SidebarMenu>
+              <SidebarMenu className="space-y-0.5">
                 {group.items.map((item) => {
                   const hasSubItems = !!item.items;
                   const isExpanded = expanded[item.title];
@@ -193,13 +222,13 @@ export function AppSidebar() {
                         <>
                           <SidebarMenuButton
                             isActive={isActive}
-                            className="w-full text-sidebar-foreground hover:bg-[#22242f] px-3 py-2 h-10 rounded-xl cursor-pointer"
+                            className="w-full text-sidebar-foreground hover:bg-[#121016] px-3 py-2.5 h-11 rounded-xl cursor-pointer"
                             tooltip={item.title}
                             render={
                               <Link href={item.href || "#"}>
                                 <div className="flex items-center gap-3">
-                                  <item.icon className="h-4 w-4" />
-                                  <span>{item.title}</span>
+                                  <item.icon className="h-4.5 w-4.5" />
+                                  <span className="text-sm font-medium">{item.title}</span>
                                 </div>
                               </Link>
                             }
@@ -223,14 +252,14 @@ export function AppSidebar() {
                           />
 
                           {isExpanded && (
-                            <div className="pl-6 mt-1 mb-2 space-y-1 border-l border-sidebar-border/30 ml-5 flex flex-col">
+                            <div className="pl-6 mt-1 mb-2 space-y-1 border-l border-[#221F2C] ml-5 flex flex-col">
                               {item.items!.map((subItem) => {
                                 const isSubActive = pathname === subItem.href;
                                 return (
                                   <SidebarMenuButton
                                     key={subItem.href}
                                     isActive={isSubActive}
-                                    className="h-8 text-xs justify-start rounded-lg hover:bg-[#22242f] w-full px-3 cursor-pointer"
+                                    className="h-9 text-xs justify-start rounded-lg hover:bg-[#121016] w-full px-3 cursor-pointer"
                                     render={
                                       <Link href={subItem.href}>
                                         <span className={isSubActive ? "text-white font-semibold" : "text-muted-foreground"}>
@@ -247,16 +276,16 @@ export function AppSidebar() {
                       ) : (
                         <SidebarMenuButton
                           isActive={isActive}
-                          className="w-full flex items-center justify-between px-3 py-2 h-10 rounded-xl cursor-pointer"
+                          className="w-full flex items-center justify-between px-3 py-2.5 h-11 rounded-xl cursor-pointer hover:bg-[#121016]"
                           tooltip={item.title}
                           render={
                             <Link href={item.href || "#"}>
                               <div className="flex items-center gap-3">
-                                <item.icon className="h-4 w-4" />
-                                <span>{item.title}</span>
+                                <item.icon className="h-4.5 w-4.5" />
+                                <span className="text-sm font-medium">{item.title}</span>
                               </div>
                               {item.badge !== undefined && (
-                                <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#7C3AED] px-1 text-[10px] font-bold text-white">
+                                <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#7C3AED] px-1 text-[10px] font-bold text-white shadow-[0_0_10px_rgba(124,58,237,0.4)]">
                                   {item.badge}
                                 </span>
                               )}
@@ -273,23 +302,23 @@ export function AppSidebar() {
         ))}
       </SidebarContent>
 
-      <SidebarFooter className="p-4 bg-[#15161D] border-t border-sidebar-border/20">
-        {/* Current Plan Banner */}
-        <div className="bg-[#181922] border border-[#2d2f39] rounded-2xl p-4 space-y-3 group-data-[collapsible=icon]:hidden">
+      <SidebarFooter className="p-4 bg-[#0C0A0E] border-t border-[#1A1822]">
+        {/* Current Plan Banner matching mockup */}
+        <div className="bg-[#121016] border border-[#221F2C] rounded-2xl p-4 space-y-3 group-data-[collapsible=icon]:hidden">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-muted-foreground uppercase font-semibold tracking-wider">
+            <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">
               Current Plan
             </span>
-            <Crown className="h-4 w-4 text-amber-500 animate-pulse" />
+            <Crown className="h-4 w-4 text-amber-500" />
           </div>
           <div>
-            <h4 className="text-sm font-bold text-white flex items-center gap-1.5">
+            <h4 className="text-base font-extrabold text-white">
               Enterprise
             </h4>
           </div>
           <Button 
             nativeButton={false}
-            className="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs py-1.5 h-8 rounded-xl font-medium shadow-[0_0_15px_rgba(124,58,237,0.3)] transition-all cursor-pointer"
+            className="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs py-2 h-9 rounded-xl font-bold shadow-[0_0_15px_rgba(124,58,237,0.25)] transition-all cursor-pointer border-none"
             render={
               <Link href="/settings" />
             }
