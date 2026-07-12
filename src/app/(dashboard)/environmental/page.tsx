@@ -384,6 +384,7 @@ export default function EnvironmentDashboard() {
             <h4 className="text-sm font-semibold text-white">Recent Activities</h4>
             <Button 
               render={<Link href="/social/participation" />}
+              nativeButton={false}
               variant="ghost" 
               className="text-[10px] text-[#7C3AED] hover:text-[#6D28D9] p-0 h-auto cursor-pointer"
             >
@@ -448,6 +449,7 @@ export default function EnvironmentDashboard() {
             <h4 className="text-sm font-semibold text-white">Emissions by Source</h4>
             <Button 
               render={<Link href="/environmental/carbon-transactions" />}
+              nativeButton={false}
               variant="ghost" 
               className="text-[10px] text-muted-foreground hover:text-white p-0 h-auto cursor-pointer"
             >
@@ -501,6 +503,7 @@ export default function EnvironmentDashboard() {
             <h4 className="text-sm font-semibold text-white">Top Emitters (Departments)</h4>
             <Button 
               render={<Link href="/settings/departments" />}
+              nativeButton={false}
               variant="ghost" 
               className="text-[10px] text-muted-foreground hover:text-white p-0 h-auto cursor-pointer"
             >
