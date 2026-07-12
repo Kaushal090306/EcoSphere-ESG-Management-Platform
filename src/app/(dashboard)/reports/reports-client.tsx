@@ -258,7 +258,7 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
           <p className="text-xs text-purple-400 font-bold uppercase tracking-wider mb-1">
             Analytics & Disclosures
           </p>
-          <h1 className="text-3xl font-extrabold tracking-tight text-white">
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#09090b] dark:text-white">
             ESG Compliance Reports
           </h1>
           <p className="text-xs text-muted-foreground mt-1 max-w-xl">
@@ -270,13 +270,13 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => handleExport("csv")}
-            className="flex items-center gap-2 px-3 py-2 bg-[#121118] border border-[#221f2c] hover:bg-[#1c1a24] text-xs font-semibold text-white rounded-lg transition-all cursor-pointer"
+            className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] hover:bg-[#f4f4f5] dark:hover:bg-[#1c1a24] text-xs font-semibold text-[#09090b] dark:text-white rounded-lg transition-all cursor-pointer"
           >
             <Download className="h-3.5 w-3.5" /> CSV
           </button>
           <button
             onClick={() => handleExport("excel")}
-            className="flex items-center gap-2 px-3 py-2 bg-[#121118] border border-[#221f2c] hover:bg-[#1c1a24] text-xs font-semibold text-white rounded-lg transition-all cursor-pointer"
+            className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] hover:bg-[#f4f4f5] dark:hover:bg-[#1c1a24] text-xs font-semibold text-[#09090b] dark:text-white rounded-lg transition-all cursor-pointer"
           >
             <Download className="h-3.5 w-3.5" /> Excel
           </button>
@@ -306,7 +306,7 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
       </div>
 
       {/* Navigation tabs */}
-      <div className="flex flex-wrap border-b border-[#221f2c] gap-1 print:hidden">
+      <div className="flex flex-wrap border-b border-[#ececee] dark:border-[#221f2c] gap-1 print:hidden">
         {[
           { id: "esg-summary", label: "ESG Summary Assessment", icon: BarChart3 },
           { id: "environmental", label: "Environmental (E) Report", icon: Leaf },
@@ -322,8 +322,8 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
               onClick={() => setReportType(tab.id)}
               className={`flex items-center gap-2 px-4 py-3 text-xs font-bold transition-all border-b-2 -mb-px cursor-pointer ${
                 active 
-                  ? "border-purple-500 text-white bg-purple-500/5" 
-                  : "border-transparent text-muted-foreground hover:text-white"
+                  ? "border-purple-500 text-purple-600 dark:text-purple-400 bg-purple-500/5" 
+                  : "border-transparent text-muted-foreground hover:text-[#09090b] dark:hover:text-white"
               }`}
             >
               <Icon className={`h-4 w-4 ${active ? "text-purple-500" : "text-muted-foreground"}`} />

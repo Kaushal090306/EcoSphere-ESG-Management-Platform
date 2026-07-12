@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { Plus, Edit2, Trash2 } from "lucide-react";
@@ -118,7 +118,7 @@ export function DiversityClient({ metrics, departments, userRole }: any) {
             )}
             {metrics.map((m: any) => (
               <TableRow key={m.id}>
-                <TableCell className="font-medium text-white">{deptName(m.departmentId)}</TableCell>
+                <TableCell className="font-medium text-[#09090b] dark:text-white">{deptName(m.departmentId)}</TableCell>
                 <TableCell>{m.period}</TableCell>
                 <TableCell className="text-xs">
                   M: {m.genderBreakdown?.male || 0}, F: {m.genderBreakdown?.female || 0}, O: {m.genderBreakdown?.other || 0}

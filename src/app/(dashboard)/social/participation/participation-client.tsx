@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { CheckCircle2, XCircle, FileText } from "lucide-react";
@@ -77,10 +77,10 @@ export function ParticipationClient({ participations, activities, userRole, user
                   <TableCell className="text-muted-foreground">
                     {p.createdAt ? new Date(p.createdAt).toISOString().split('T')[0] : "—"}
                   </TableCell>
-                  <TableCell className="font-medium text-white">
+                  <TableCell className="font-medium text-[#09090b] dark:text-white">
                     {activityName(p.activityId)}
                   </TableCell>
-                  <TableCell className="font-mono text-white font-semibold">
+                  <TableCell className="font-mono text-[#09090b] dark:text-white font-semibold">
                     +{p.pointsEarned || 0} XP
                   </TableCell>
                   <TableCell>

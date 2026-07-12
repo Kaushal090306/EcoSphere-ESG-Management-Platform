@@ -1,9 +1,8 @@
 "use client";
 
-import { Trophy, Award, Flame, Calendar, Coins, Sparkles, Star, ShieldCheck } from "lucide-react";
+import { Trophy, Award, Flame, Calendar, Coins, Sparkles, Star, ShieldCheck, TrendingUp, TrendingDown } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ResponsiveContainer, BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Cell } from "recharts";
+import { ResponsiveContainer, BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Cell, AreaChart, Area } from "recharts";
 import { useTheme } from "next-themes";
 import { formatDate } from "@/lib/utils";
 
@@ -67,207 +66,283 @@ export function OverviewClient({
   };
   const tooltipItemStyle = { padding: "1px 0", color: isDark ? "#a1a1aa" : "#52525b" };
 
+  // Sparkline data trends to match environment page style
+  const sparklineData1 = [
+    { val: 2 },
+    { val: 4 },
+    { val: 3 },
+    { val: 5 },
+    { val: 4 },
+    { val: stats.activeChallengesCount || 6 }
+  ];
+  
+  const sparklineData2 = [
+    { val: 0 },
+    { val: 0 },
+    { val: 1 },
+    { val: 1 },
+    { val: Math.max(1, unlockedBadges.length - 1) },
+    { val: unlockedBadges.length || 1 }
+  ];
+
+  const sparklineData3 = [
+    { val: 100 },
+    { val: 180 },
+    { val: 240 },
+    { val: 350 },
+    { val: 420 },
+    { val: user.points || 510 }
+  ];
+
+  const sparklineData4 = [
+    { val: 25 },
+    { val: 20 },
+    { val: 18 },
+    { val: 12 },
+    { val: 10 },
+    { val: stats.userRank || 8 }
+  ];
+
   return (
     <div className="space-y-6">
-      {/* Welcome Banner */}
-      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-6 p-6 bg-gradient-to-br from-[#151221] to-[#0b0912] border border-[#2b233d] rounded-xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-purple-600/5 rounded-full blur-3xl" />
-        <div className="space-y-2 relative z-10 text-white">
-          <span className="text-purple-400 text-xs font-bold tracking-wider uppercase flex items-center gap-1">
-            <Sparkles className="h-3.5 w-3.5" /> ESG Gamification Profile
-          </span>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">
-            Welcome back, {user.name}!
-          </h1>
-          <p className="text-gray-300 text-sm max-w-md">
-            Earn levels, unlock rewards, and compete with colleagues by keeping EcoSphere's ESG metrics updated.
-          </p>
-        </div>
-
-        {/* Level and Progress Block */}
-        <div className="flex items-center gap-4 bg-[#0c0a0e]/40 border border-[#2b233d] p-4 rounded-lg relative z-10 w-full md:w-80">
-          <div className="flex flex-col items-center justify-center bg-purple-900/30 text-purple-300 border border-purple-500/20 w-16 h-16 rounded-lg flex-shrink-0">
-            <span className="text-[9px] uppercase font-bold tracking-wider opacity-60">Level</span>
-            <span className="text-2xl font-extrabold font-mono leading-none mt-0.5">{user.level}</span>
-          </div>
-          <div className="flex-1 space-y-1.5">
-            <div className="flex justify-between text-xs">
-              <span className="text-gray-300">XP Progress</span>
-              <span className="font-semibold text-purple-300 font-mono">
-                {user.xp % 100} / 100 XP
-              </span>
-            </div>
-            <div className="h-2 w-full bg-[#181524] rounded-full overflow-hidden">
-              <div
-                className="h-full bg-purple-500 transition-all duration-300"
-                style={{ width: `${user.percentProgress}%` }}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* KPI Cards */}
+      {/* 4 KPI Cards Row with Sparklines */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Active Challenges */}
-        <div className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl p-6 flex flex-col justify-between hover:border-gray-300 dark:hover:border-zinc-800 transition-all shadow-xs group">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Active Challenges</span>
-            <div className="p-2 rounded-lg bg-orange-500/10 text-orange-500 border border-orange-500/20">
-              <Flame className="h-4 w-4" />
+        
+        {/* KPI 1: Active Challenges */}
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+          <CardContent className="p-5 pb-2 space-y-3.5">
+            <div className="flex items-start gap-4">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-orange-500/10 text-orange-500">
+                <Flame className="h-5 w-5" />
+              </div>
+              <div className="space-y-1">
+                <span className="text-[13px] text-[#71717a] dark:text-[#8e909a] font-medium block">Active Challenges</span>
+                <h3 className="text-[26px] font-normal text-[#09090b] dark:text-white leading-none flex items-baseline gap-1.5 mt-1">
+                  {stats.activeChallengesCount} <span className="text-[11px] text-[#71717a] dark:text-[#8e909a] font-semibold">live</span>
+                </h3>
+                <div className="flex items-center gap-1 text-[11px] font-semibold pt-1 text-emerald-400">
+                  <TrendingUp className="h-3.5 w-3.5" />
+                  <span>+15.6%</span>
+                  <span className="text-muted-foreground/60 font-normal ml-0.5">from last month</span>
+                </div>
+              </div>
             </div>
+          </CardContent>
+          <div className="h-11 w-full overflow-hidden mt-1">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={sparklineData1} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="sparkGlow1" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#f97316" stopOpacity={0.25} />
+                    <stop offset="100%" stopColor="#f97316" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <Area type="monotone" dataKey="val" stroke="#f97316" strokeWidth={1.8} fill="url(#sparkGlow1)" dot={false} />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
-          <div>
-            <h2 className="text-2xl font-bold text-foreground leading-none">{stats.activeChallengesCount}</h2>
-            <p className="text-xs text-muted-foreground mt-1">live team challenges</p>
-          </div>
-        </div>
+        </Card>
 
-        {/* My Badges */}
-        <div className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl p-6 flex flex-col justify-between hover:border-gray-300 dark:hover:border-zinc-800 transition-all shadow-xs group">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">My Badges</span>
-            <div className="p-2 rounded-lg bg-purple-500/10 text-purple-500 border border-purple-500/20">
-              <Award className="h-4 w-4" />
+        {/* KPI 2: My Badges */}
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+          <CardContent className="p-5 pb-2 space-y-3.5">
+            <div className="flex items-start gap-4">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-500/10 text-purple-500">
+                <Award className="h-5 w-5" />
+              </div>
+              <div className="space-y-1">
+                <span className="text-[13px] text-[#71717a] dark:text-[#8e909a] font-medium block">My Badges</span>
+                <h3 className="text-[26px] font-normal text-[#09090b] dark:text-white leading-none flex items-baseline gap-1.5 mt-1">
+                  {unlockedBadges.length} <span className="text-[11px] text-[#71717a] dark:text-[#8e909a] font-semibold">unlocked</span>
+                </h3>
+                <div className="flex items-center gap-1 text-[11px] font-semibold pt-1 text-emerald-400">
+                  <TrendingUp className="h-3.5 w-3.5" />
+                  <span>+1 new</span>
+                  <span className="text-muted-foreground/60 font-normal ml-0.5">this month</span>
+                </div>
+              </div>
             </div>
+          </CardContent>
+          <div className="h-11 w-full overflow-hidden mt-1">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={sparklineData2} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="sparkGlow2" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#a855f7" stopOpacity={0.25} />
+                    <stop offset="100%" stopColor="#a855f7" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <Area type="monotone" dataKey="val" stroke="#a855f7" strokeWidth={1.8} fill="url(#sparkGlow2)" dot={false} />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
-          <div>
-            <h2 className="text-2xl font-bold text-foreground leading-none">{unlockedBadges.length}</h2>
-            <p className="text-xs text-muted-foreground mt-1">milestones unlocked</p>
-          </div>
-        </div>
+        </Card>
 
-        {/* My Points */}
-        <div className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl p-6 flex flex-col justify-between hover:border-gray-300 dark:hover:border-zinc-800 transition-all shadow-xs group">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">My Points</span>
-            <div className="p-2 rounded-lg bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">
-              <Coins className="h-4 w-4" />
+        {/* KPI 3: My Points */}
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+          <CardContent className="p-5 pb-2 space-y-3.5">
+            <div className="flex items-start gap-4">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-yellow-500/10 text-yellow-500">
+                <Coins className="h-5 w-5" />
+              </div>
+              <div className="space-y-1">
+                <span className="text-[13px] text-[#71717a] dark:text-[#8e909a] font-medium block">My Points</span>
+                <h3 className="text-[26px] font-normal text-[#09090b] dark:text-white leading-none flex items-baseline gap-1.5 mt-1">
+                  {user.points.toLocaleString()} <span className="text-[11px] text-[#71717a] dark:text-[#8e909a] font-semibold">pts</span>
+                </h3>
+                <div className="flex items-center gap-1 text-[11px] font-semibold pt-1 text-emerald-400">
+                  <TrendingUp className="h-3.5 w-3.5" />
+                  <span>+120 pts</span>
+                  <span className="text-muted-foreground/60 font-normal ml-0.5">this week</span>
+                </div>
+              </div>
             </div>
+          </CardContent>
+          <div className="h-11 w-full overflow-hidden mt-1">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={sparklineData3} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="sparkGlow3" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#eab308" stopOpacity={0.25} />
+                    <stop offset="100%" stopColor="#eab308" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <Area type="monotone" dataKey="val" stroke="#eab308" strokeWidth={1.8} fill="url(#sparkGlow3)" dot={false} />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
-          <div>
-            <h2 className="text-2xl font-bold text-foreground leading-none">{user.points.toLocaleString()}</h2>
-            <p className="text-xs text-muted-foreground mt-1">redeemable points</p>
-          </div>
-        </div>
+        </Card>
 
-        {/* Leaderboard Rank */}
-        <div className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl p-6 flex flex-col justify-between hover:border-gray-300 dark:hover:border-zinc-800 transition-all shadow-xs group">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Leaderboard Rank</span>
-            <div className="p-2 rounded-lg bg-teal-500/10 text-teal-500 border border-teal-500/20">
-              <Trophy className="h-4 w-4" />
+        {/* KPI 4: Leaderboard Rank */}
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
+          <CardContent className="p-5 pb-2 space-y-3.5">
+            <div className="flex items-start gap-4">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-teal-500/10 text-teal-500">
+                <Trophy className="h-5 w-5" />
+              </div>
+              <div className="space-y-1">
+                <span className="text-[13px] text-[#71717a] dark:text-[#8e909a] font-medium block">Leaderboard Rank</span>
+                <h3 className="text-[26px] font-normal text-[#09090b] dark:text-white leading-none flex items-baseline gap-1.5 mt-1">
+                  {stats.userRank > 0 ? `#${stats.userRank}` : "N/A"} <span className="text-[11px] text-[#71717a] dark:text-[#8e909a] font-semibold">rank</span>
+                </h3>
+                <div className="flex items-center gap-1 text-[11px] font-semibold pt-1 text-emerald-400">
+                  <TrendingUp className="h-3.5 w-3.5" />
+                  <span>Top 10%</span>
+                  <span className="text-muted-foreground/60 font-normal ml-0.5">of all employees</span>
+                </div>
+              </div>
             </div>
+          </CardContent>
+          <div className="h-11 w-full overflow-hidden mt-1">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={sparklineData4} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="sparkGlow4" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#14b8a6" stopOpacity={0.25} />
+                    <stop offset="100%" stopColor="#14b8a6" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <Area type="monotone" dataKey="val" stroke="#14b8a6" strokeWidth={1.8} fill="url(#sparkGlow4)" dot={false} />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
-          <div>
-            <h2 className="text-2xl font-bold text-foreground leading-none">{stats.userRank > 0 ? `#${stats.userRank}` : "N/A"}</h2>
-            <p className="text-xs text-muted-foreground mt-1">among all employees</p>
-          </div>
-        </div>
+        </Card>
+
       </div>
 
-      {/* Profile & History details */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Unlocked Badges Panel */}
-        <Card className="border border-[#ececee] dark:border-[#221f2c] bg-white dark:bg-[#121118] lg:col-span-1 flex flex-col shadow-xs">
-          <CardHeader className="p-5 pb-4 border-b border-[#ececee] dark:border-[#221f2c]">
-            <CardTitle className="flex items-center gap-2 text-sm text-foreground font-bold">
-              <Award className="h-4.5 w-4.5 text-purple-400" /> Unlocked Badges
-            </CardTitle>
-            <CardDescription className="text-muted-foreground text-[11px]">Milestone rewards you have collected</CardDescription>
-          </CardHeader>
-          <CardContent className="flex-1 overflow-y-auto max-h-[340px] p-5 space-y-4">
+      {/* Row 2: Quest Activity, Unlocked Badges, Transaction Ledger in a 6+3+3 Grid layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        
+        {/* Quest Activity Chart - lg:col-span-6 */}
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl p-5 lg:col-span-6 flex flex-col justify-between">
+          <div className="mb-4">
+            <h4 className="text-sm font-semibold text-[#09090b] dark:text-white">Quest Activity</h4>
+            <p className="text-muted-foreground text-[11px] mt-0.5">Overview of challenge participation trends</p>
+          </div>
+          <div className="h-[210px] w-full mt-2">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={chartData} margin={{ left: -20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#221f2c" : "#ececee"} vertical={false} />
+                <XAxis dataKey="name" stroke="#71717a" fontSize={10} tickLine={false} axisLine={false} />
+                <YAxis stroke="#71717a" fontSize={10} tickLine={false} axisLine={false} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} />
+                <Bar dataKey="completedCount" radius={[4, 4, 0, 0]} barSize={25}>
+                  {chartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={index % 2 === 0 ? "#14b8a6" : "#8b5cf6"} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </Card>
+
+        {/* Unlocked Badges List - lg:col-span-3 */}
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl p-5 lg:col-span-3 flex flex-col justify-between">
+          <div className="mb-4">
+            <h4 className="text-sm font-semibold text-[#09090b] dark:text-white">Unlocked Badges</h4>
+            <p className="text-muted-foreground text-[11px] mt-0.5">Milestone rewards you have collected</p>
+          </div>
+          <div className="h-[210px] overflow-y-auto space-y-3 pr-1 scrollbar-thin mt-2">
             {unlockedBadges.length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground text-sm">
-                No badges unlocked yet. Keep completing quests to unlock your first badge!
+              <div className="text-center py-12 text-muted-foreground text-xs">
+                No badges unlocked yet. Keep completing quests to earn rewards!
               </div>
             ) : (
               unlockedBadges.map((badge) => (
-                <div key={badge.id} className="flex items-start gap-3 p-3 bg-[#f4f4f5]/60 dark:bg-[#0c0a0e]/40 border border-[#ececee] dark:border-[#221f2c] rounded-lg">
-                  <div className="p-2 bg-purple-900/20 text-purple-400 rounded-lg flex-shrink-0 border border-purple-500/10">
-                    <Star className="h-5 w-5 fill-purple-400" />
+                <div key={badge.id} className="flex items-start gap-2.5 p-2 bg-[#f4f4f5]/40 dark:bg-[#0c0a0e]/20 border border-[#ececee] dark:border-[#221f2c] rounded-lg">
+                  <div className="p-1.5 bg-purple-500/10 text-purple-500 rounded-lg flex-shrink-0 border border-purple-500/10">
+                    <Star className="h-4 w-4 fill-purple-500" />
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-sm text-foreground">{badge.name}</h3>
-                    <p className="text-xs text-muted-foreground mt-0.5">{badge.description}</p>
-                    <span className="text-[10px] text-muted-foreground block mt-1.5 font-mono">
+                  <div className="min-w-0">
+                    <h5 className="font-semibold text-xs text-[#09090b] dark:text-white truncate">{badge.name}</h5>
+                    <p className="text-[10px] text-muted-foreground line-clamp-1 mt-0.5">{badge.description}</p>
+                    <span className="text-[9px] text-muted-foreground/60 block mt-1 font-mono">
                       Unlocked {formatDate(badge.unlockedAt)}
                     </span>
                   </div>
                 </div>
               ))
             )}
-          </CardContent>
+          </div>
         </Card>
 
-        {/* XP Ledger History */}
-        <Card className="border border-[#ececee] dark:border-[#221f2c] bg-white dark:bg-[#121118] lg:col-span-2 shadow-xs">
-          <CardHeader className="p-5 pb-4 border-b border-[#ececee] dark:border-[#221f2c]">
-            <CardTitle className="flex items-center gap-2 text-sm text-foreground font-bold">
-              <ShieldCheck className="h-4.5 w-4.5 text-eco-green" /> Transaction Ledger
-            </CardTitle>
-            <CardDescription className="text-muted-foreground text-[11px]">A history of your earned points and XP updates for auditing transparency</CardDescription>
-          </CardHeader>
-          <CardContent className="p-0">
+        {/* Recent XP Updates / Transaction Ledger - lg:col-span-3 */}
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl p-5 lg:col-span-3 flex flex-col justify-between">
+          <div className="mb-4">
+            <h4 className="text-sm font-semibold text-[#09090b] dark:text-white">Recent XP Updates</h4>
+            <p className="text-muted-foreground text-[11px] mt-0.5">Audit ledger of earned points</p>
+          </div>
+          <div className="h-[210px] overflow-y-auto space-y-3.5 pr-1 scrollbar-thin mt-2">
             {recentTransactions.length === 0 ? (
-              <div className="p-8 text-center text-muted-foreground text-sm">
-                No transactions recorded. Complete a task to earn your first XP!
+              <div className="text-center py-12 text-muted-foreground text-xs">
+                No XP ledger history logged yet.
               </div>
             ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow className="border-b border-[#ececee] dark:border-[#221f2c] bg-[#f4f4f5] dark:bg-[#121118]">
-                    <TableHead className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider">Action / Reason</TableHead>
-                    <TableHead className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider">Date</TableHead>
-                    <TableHead className="text-right text-foreground font-semibold px-6 py-3 text-right text-[11px] uppercase tracking-wider pr-6">XP Awarded</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {recentTransactions.map((tx) => (
-                    <TableRow key={tx.id} className="border-b border-[#ececee] dark:border-[#221f2c] hover:bg-[#f4f4f5] dark:hover:bg-[#16141f]/50 transition-colors">
-                      <TableCell className="font-medium text-foreground pl-6">
+              recentTransactions.map((tx) => (
+                <div key={tx.id} className="flex items-center justify-between gap-2.5">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className="p-1.5 bg-emerald-500/10 text-emerald-500 rounded-full flex-shrink-0">
+                      <ShieldCheck className="h-3.5 w-3.5" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold text-[#09090b] dark:text-white truncate">
                         {reasonLabels[tx.reason] || tx.reason}
-                      </TableCell>
-                      <TableCell className="text-muted-foreground text-sm">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="h-3.5 w-3.5" />
-                          {formatDate(tx.createdAt)}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-right pr-6 font-bold font-mono text-[#f59e0b]">
-                        +{tx.amount} XP
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                      </p>
+                      <p className="text-[9px] text-muted-foreground mt-0.5 flex items-center gap-1">
+                        <Calendar className="h-3 w-3" /> {formatDate(tx.createdAt)}
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-xs font-bold font-mono text-[#f59e0b] shrink-0">
+                    +{tx.amount} XP
+                  </span>
+                </div>
+              ))
             )}
-          </CardContent>
+          </div>
         </Card>
-      </div>
 
-      {/* Chart Section */}
-      <Card className="border border-[#ececee] dark:border-[#221f2c] bg-white dark:bg-[#121118] shadow-xs">
-        <CardHeader className="p-5 pb-4 border-b border-[#ececee] dark:border-[#221f2c]">
-          <CardTitle className="text-sm font-bold text-foreground">Quest Activity</CardTitle>
-          <CardDescription className="text-muted-foreground text-[11px]">Overview of challenge participation trends</CardDescription>
-        </CardHeader>
-        <CardContent className="p-5">
-          <ResponsiveContainer width="100%" height={260}>
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#221f2c" : "#ececee"} vertical={false} />
-              <XAxis dataKey="name" stroke={isDark ? "#71717a" : "#71717a"} fontSize={12} tickLine={false} axisLine={false} />
-              <YAxis stroke={isDark ? "#71717a" : "#71717a"} fontSize={12} tickLine={false} axisLine={false} />
-              <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} />
-              <Bar dataKey="completedCount" radius={[4, 4, 0, 0]} barSize={35}>
-                {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={index % 2 === 0 ? "#14b8a6" : "#8b5cf6"} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

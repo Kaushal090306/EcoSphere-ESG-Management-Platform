@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { Plus, Edit2, Trash2 } from "lucide-react";
@@ -91,7 +91,7 @@ export function TrainingClient({ records, users, userRole }: any) {
             )}
             {records.map((r: any) => (
               <TableRow key={r.id}>
-                <TableCell className="font-medium text-white">{userName(r.employeeId)}</TableCell>
+                <TableCell className="font-medium text-[#09090b] dark:text-white">{userName(r.employeeId)}</TableCell>
                 <TableCell>{r.courseName}</TableCell>
                 <TableCell>
                   <Badge variant="outline" className={
