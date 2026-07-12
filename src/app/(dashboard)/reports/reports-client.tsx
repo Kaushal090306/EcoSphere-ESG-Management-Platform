@@ -252,37 +252,52 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
 
   return (
     <div className="space-y-6 pb-12 print:p-8 print:bg-white print:text-black">
-      {/* Top Banner (Header) */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 print:hidden">
-        <div>
-          <p className="text-xs text-purple-400 font-bold uppercase tracking-wider mb-1">
-            Analytics & Disclosures
-          </p>
-          <h1 className="text-3xl font-extrabold tracking-tight text-[#09090b] dark:text-white">
-            ESG Compliance Reports
-          </h1>
-          <p className="text-xs text-muted-foreground mt-1 max-w-xl">
-            Build, filter, and export corporate ESG audits. System accesses are scoped automatically to your workspace profile ({user.role}).
-          </p>
-        </div>
+      {/* Navigation & Export Actions Top Row */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 print:hidden">
+        <nav className="flex flex-wrap items-center gap-1.5 p-1 bg-[#e4e4e7]/60 dark:bg-[#121118] border border-[#ececee] dark:border-[#2d2f39] rounded-lg w-fit">
+          {[
+            { id: "esg-summary", label: "ESG Summary Assessment", icon: BarChart3 },
+            { id: "environmental", label: "Environmental (E) Report", icon: Leaf },
+            { id: "social", label: "Social (S) Report", icon: Users },
+            { id: "governance", label: "Governance (G) Report", icon: ShieldCheck },
+            { id: "custom", label: "Custom Report Builder", icon: SlidersHorizontal },
+          ].map((tab) => {
+            const Icon = tab.icon;
+            const active = reportType === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setReportType(tab.id)}
+                className={`flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 border border-transparent cursor-pointer ${
+                  active 
+                    ? "bg-white dark:bg-[#1c1a24] text-purple-600 dark:text-purple-400 shadow-xs border-[#ececee] dark:border-[#2d2f39]" 
+                    : "text-muted-foreground hover:text-[#09090b] dark:hover:text-white"
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+                {tab.label}
+              </button>
+            );
+          })}
+        </nav>
 
         {/* Global Export actions */}
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => handleExport("csv")}
-            className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] hover:bg-[#f4f4f5] dark:hover:bg-[#1c1a24] text-xs font-semibold text-[#09090b] dark:text-white rounded-lg transition-all cursor-pointer"
+            className="flex items-center gap-2 px-3 py-1.5 h-8.5 bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] hover:bg-[#f4f4f5] dark:hover:bg-[#1c1a24] text-xs font-semibold text-[#09090b] dark:text-white rounded-lg transition-all cursor-pointer shadow-none"
           >
             <Download className="h-3.5 w-3.5" /> CSV
           </button>
           <button
             onClick={() => handleExport("excel")}
-            className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] hover:bg-[#f4f4f5] dark:hover:bg-[#1c1a24] text-xs font-semibold text-[#09090b] dark:text-white rounded-lg transition-all cursor-pointer"
+            className="flex items-center gap-2 px-3 py-1.5 h-8.5 bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] hover:bg-[#f4f4f5] dark:hover:bg-[#1c1a24] text-xs font-semibold text-[#09090b] dark:text-white rounded-lg transition-all cursor-pointer shadow-none"
           >
             <Download className="h-3.5 w-3.5" /> Excel
           </button>
           <button
             onClick={() => handleExport("pdf")}
-            className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-xs font-semibold text-white rounded-lg shadow-[0_0_15px_rgba(155,92,246,0.3)] transition-all cursor-pointer"
+            className="flex items-center gap-2 px-4 py-1.5 h-8.5 bg-purple-600 hover:bg-purple-700 text-xs font-semibold text-white rounded-lg shadow-[0_0_15px_rgba(155,92,246,0.3)] transition-all cursor-pointer"
           >
             <FileText className="h-3.5 w-3.5" /> PDF / Print
           </button>
@@ -303,34 +318,6 @@ export function ReportsClient({ user, options }: ReportsClientProps) {
             <p><strong>Employee Scope:</strong> {getEmployeeName(employeeId)}</p>
           </div>
         </div>
-      </div>
-
-      {/* Navigation tabs */}
-      <div className="flex flex-wrap border-b border-[#ececee] dark:border-[#221f2c] gap-1 print:hidden">
-        {[
-          { id: "esg-summary", label: "ESG Summary Assessment", icon: BarChart3 },
-          { id: "environmental", label: "Environmental (E) Report", icon: Leaf },
-          { id: "social", label: "Social (S) Report", icon: Users },
-          { id: "governance", label: "Governance (G) Report", icon: ShieldCheck },
-          { id: "custom", label: "Custom Report Builder", icon: SlidersHorizontal },
-        ].map((tab) => {
-          const Icon = tab.icon;
-          const active = reportType === tab.id;
-          return (
-            <button
-              key={tab.id}
-              onClick={() => setReportType(tab.id)}
-              className={`flex items-center gap-2 px-4 py-3 text-xs font-bold transition-all border-b-2 -mb-px cursor-pointer ${
-                active 
-                  ? "border-purple-500 text-purple-600 dark:text-purple-400 bg-purple-500/5" 
-                  : "border-transparent text-muted-foreground hover:text-[#09090b] dark:hover:text-white"
-              }`}
-            >
-              <Icon className={`h-4 w-4 ${active ? "text-purple-500" : "text-muted-foreground"}`} />
-              {tab.label}
-            </button>
-          );
-        })}
       </div>
 
       {/* Filter panel */}

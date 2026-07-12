@@ -265,7 +265,7 @@ export function OverviewClient({
                 <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#221f2c" : "#ececee"} vertical={false} />
                 <XAxis dataKey="name" stroke="#71717a" fontSize={10} tickLine={false} axisLine={false} />
                 <YAxis stroke="#71717a" fontSize={10} tickLine={false} axisLine={false} />
-                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} cursor={false} />
                 <Bar dataKey="completedCount" radius={[4, 4, 0, 0]} barSize={25}>
                   {chartData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={index % 2 === 0 ? "#14b8a6" : "#8b5cf6"} />

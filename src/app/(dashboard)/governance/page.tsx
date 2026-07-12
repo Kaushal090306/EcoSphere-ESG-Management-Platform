@@ -396,7 +396,7 @@ export default function GovernanceOverviewPage() {
               <CartesianGrid strokeDasharray="3 3" stroke="#252731" vertical={false} />
               <XAxis dataKey="category" stroke="#4b5563" fontSize={10} tickLine={false} axisLine={false} />
               <YAxis stroke="#4b5563" fontSize={10} tickLine={false} axisLine={false} domain={[0, 100]} />
-              <Tooltip contentStyle={{ backgroundColor: "var(--card)", border: "1px solid var(--border)", borderRadius: "12px" }} />
+              <Tooltip contentStyle={{ backgroundColor: "var(--card)", border: "1px solid var(--border)", borderRadius: "12px" }} cursor={false} />
               <Bar dataKey="compliance" fill="url(#barGlow)" radius={[4, 4, 0, 0]} barSize={28}>
                 {kpiData.chart.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={index % 2 === 0 ? "url(#barGlow)" : "#3b82f6"} />

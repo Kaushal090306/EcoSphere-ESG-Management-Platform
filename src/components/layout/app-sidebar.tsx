@@ -163,22 +163,6 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
     return item;
   }).filter(Boolean) as NavItem[];
 
-  // Automatically expand group if pathname matches a subitem
-  useEffect(() => {
-    const activeGroup = Object.keys(expanded).find((groupName) => {
-      const navItems = navGroups.flatMap((g) => g.items);
-      const items = [...navItems, ...footerItems];
-      const parent = items.find((item) => item.title === groupName);
-      return parent?.items?.some((sub) => pathname.startsWith(sub.href)) || false;
-    });
-
-    if (activeGroup && !expanded[activeGroup]) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setExpanded((prev) => ({ ...prev, [activeGroup]: true }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
-
   const toggleGroup = (name: string) => {
     setExpanded((prev) => ({ ...prev, [name]: !prev[name] }));
   };
@@ -319,46 +303,57 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
               ? pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href))
               : false;
 
-            const baseBtn = [
-              "w-full flex items-center gap-3 px-3 h-11 rounded-lg cursor-pointer transition-all text-sm font-medium border",
-              isActive
-                ? "bg-white dark:bg-[#1c1a24] text-[#09090b] dark:text-white border-[#ececee] dark:border-[#221f2c] shadow-xs font-semibold"
-                : "text-[#52525b] dark:text-[#a1a1aa] border-transparent hover:bg-white dark:hover:bg-[#1c1a24] hover:text-[#09090b] dark:hover:text-white hover:border-[#ececee] dark:hover:border-[#221f2c]",
-            ].join(" ");
-
             return (
-              <SidebarMenuItem key={item.title}>
+              <SidebarMenuItem key={item.title} className="relative">
                 {hasSubItems ? (
                   <>
-                    <button
-                      onClick={() => toggleGroup(item.title)}
-                      className={baseBtn}
-                    >
-                      <item.icon className="h-4 w-4 shrink-0" />
-                      <span className="flex-1 text-left">{item.title}</span>
-                      {isExpanded
-                        ? <ChevronUp className="h-3.5 w-3.5 shrink-0 text-[#a1a1aa]" />
-                        : <ChevronDown className="h-3.5 w-3.5 shrink-0 text-[#a1a1aa]" />
+                    <SidebarMenuButton
+                      isActive={isActive}
+                      className="w-full text-sidebar-foreground hover:bg-white dark:bg-[#121016] px-3 py-2.5 h-11 rounded-lg cursor-pointer"
+                      tooltip={item.title}
+                      render={
+                        <Link href={item.href || "#"}>
+                          <div className="flex items-center gap-3">
+                            <item.icon className="h-4.5 w-4.5" />
+                            <span className="text-sm font-medium">{item.title}</span>
+                          </div>
+                        </Link>
                       }
-                    </button>
+                    />
+                    {!isCollapsed && (
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          toggleGroup(item.title);
+                        }}
+                        className="absolute right-3 top-[22px] -translate-y-1/2 flex items-center justify-center h-6 w-6 text-muted-foreground/70 hover:text-[#09090b] dark:hover:text-white rounded-md transition-all cursor-pointer z-10"
+                      >
+                        {isExpanded ? (
+                          <ChevronUp className="h-4 w-4" />
+                        ) : (
+                          <ChevronDown className="h-4 w-4" />
+                        )}
+                      </button>
+                    )}
 
-                    {isExpanded && (
-                      <div className="pl-4 mt-0.5 mb-1 ml-5 border-l border-[#ececee] dark:border-[#221f2c] flex flex-col gap-0.5">
+                    {!isCollapsed && isExpanded && (
+                      <div className="pl-6 mt-1 mb-2 space-y-1 border-l border-[#ececee] dark:border-[#221F2C] ml-5 flex flex-col">
                         {item.items!.map((subItem) => {
                           const isSubActive = pathname === subItem.href;
                           return (
-                            <Link
+                            <SidebarMenuButton
                               key={subItem.href}
-                              href={subItem.href}
-                              className={[
-                                "flex items-center h-9 px-3 text-xs rounded-md transition-all border",
-                                isSubActive
-                                  ? "bg-white dark:bg-[#1c1a24] text-[#09090b] dark:text-white border-[#ececee] dark:border-[#221f2c] font-semibold shadow-xs"
-                                  : "text-[#71717a] dark:text-[#71717a] border-transparent hover:bg-[#f4f4f5] dark:hover:bg-[#1c1a24] hover:text-[#09090b] dark:hover:text-white",
-                              ].join(" ")}
-                            >
-                              {subItem.title}
-                            </Link>
+                              isActive={isSubActive}
+                              className="h-9 text-xs justify-start rounded-lg hover:bg-white dark:bg-[#121016] w-full px-3 cursor-pointer"
+                              render={
+                                <Link href={subItem.href}>
+                                  <span className={isSubActive ? "text-[#09090b] dark:text-white font-semibold" : "text-muted-foreground"}>
+                                    {subItem.title}
+                                  </span>
+                                </Link>
+                              }
+                            />
                           );
                         })}
                       </div>
@@ -367,12 +362,14 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                 ) : (
                   <SidebarMenuButton
                     isActive={isActive}
-                    className={baseBtn}
+                    className="w-full flex items-center justify-between px-3 py-2.5 h-11 rounded-lg cursor-pointer hover:bg-white dark:bg-[#121016]"
                     tooltip={item.title}
                     render={
                       <Link href={item.href || "#"}>
-                        <item.icon className="h-4 w-4 shrink-0" />
-                        <span className="flex-1">{item.title}</span>
+                        <div className="flex items-center gap-3">
+                          <item.icon className="h-4.5 w-4.5" />
+                          <span className="text-sm font-medium">{item.title}</span>
+                        </div>
                       </Link>
                     }
                   />
