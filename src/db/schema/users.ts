@@ -5,6 +5,7 @@ import {
   text,
   timestamp,
   pgEnum,
+  integer,
 } from "drizzle-orm/pg-core";
 
 export const userRoleEnum = pgEnum("user_role", [
@@ -25,6 +26,8 @@ export const users = pgTable("users", {
   role: userRoleEnum("role").notNull().default("employee"),
   departmentId: uuid("department_id"),
   status: statusEnum("status").notNull().default("active"),
+  points: integer("points").notNull().default(0),
+  xp: integer("xp").notNull().default(0),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

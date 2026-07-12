@@ -37,3 +37,12 @@ export type { Reward, NewReward } from "./rewards";
 
 export { esgSettings } from "./esg-settings";
 export type { EsgSettings, NewEsgSettings } from "./esg-settings";
+
+// --- New Exports Below ---
+
+export * from "./environmental";
+export * from "./social";
+export * from "./governance";
+export * from "./gamification";
+export * from "./scoring";
+export * from "./notifications";
