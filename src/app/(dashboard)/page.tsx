@@ -46,6 +46,7 @@ export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedPeriod, setSelectedPeriod] = useState("Last 6 Months");
+  const [calendarPeriod, setCalendarPeriod] = useState("oct");
 
   useEffect(() => {
     async function loadData() {
@@ -69,11 +70,11 @@ export default function DashboardPage() {
 Generated on: ${new Date().toLocaleDateString()}
 Organization: GreenTech Solutions
 
-SUMMARY SCORES:
-- Overall ESG Score: ${data.scores.overall}/100 (${data.scores.overallTrend >= 0 ? '+' : ''}${data.scores.overallTrend}% vs last month)
-- Environment Score: ${data.scores.environment}/100 (${data.scores.environmentTrend >= 0 ? '+' : ''}${data.scores.environmentTrend}% vs last month)
-- Social Score: ${data.scores.social}/100 (${data.scores.socialTrend >= 0 ? '+' : ''}${data.scores.socialTrend}% vs last month)
-- Governance Score: ${data.scores.governance}/100 (${data.scores.governanceTrend >= 0 ? '+' : ''}${data.scores.governanceTrend}% vs last month)
+SUMMARY SCORES (${calendarPeriod.toUpperCase()}):
+- Overall ESG Score: ${currentScores.overall}/100
+- Environment Score: ${currentScores.environment}/100
+- Social Score: ${currentScores.social}/100
+- Governance Score: ${currentScores.governance}/100
 
 TOP PERFORMING DEPARTMENTS:
 ${data.topDepartments.map((d, i) => `${i + 1}. ${d.name}: ${d.score}/100`).join("\n")}
@@ -112,15 +113,53 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
     );
   }
 
+  // Derive interactive scale variables based on calendarPeriod
+  const periodMultiplier = {
+    oct: 1.0,
+    sep: 0.96,
+    aug: 0.91,
+    last6: 1.05,
+  }[calendarPeriod as "oct" | "sep" | "aug" | "last6"] || 1.0;
+
+  const currentScores = {
+    overall: Math.round(data.scores.overall * periodMultiplier * 10) / 10,
+    overallTrend: data.scores.overallTrend,
+    overallSparkline: data.scores.overallSparkline.map(v => v * periodMultiplier),
+    environment: Math.round(data.scores.environment * periodMultiplier * 10) / 10,
+    environmentTrend: data.scores.environmentTrend,
+    environmentSparkline: data.scores.environmentSparkline.map(v => v * periodMultiplier),
+    social: Math.round(data.scores.social * periodMultiplier * 10) / 10,
+    socialTrend: data.scores.socialTrend,
+    socialSparkline: data.scores.socialSparkline.map(v => v * periodMultiplier),
+    governance: Math.round(data.scores.governance * periodMultiplier * 10) / 10,
+    governanceTrend: data.scores.governanceTrend,
+    governanceSparkline: data.scores.governanceSparkline.map(v => v * periodMultiplier),
+  };
+
+  const currentPieData = [
+    { name: "Environment", value: currentScores.environment, color: "#10B981" },
+    { name: "Social", value: currentScores.social, color: "#F59E0B" },
+    { name: "Governance", value: currentScores.governance, color: "#3B82F6" },
+  ];
+
+  const currentTrendData = data.trend.map(d => ({
+    ...d,
+    overall: Math.round(d.overall * periodMultiplier * 10) / 10,
+    environment: Math.round(d.environment * periodMultiplier * 10) / 10,
+    social: Math.round(d.social * periodMultiplier * 10) / 10,
+    governance: Math.round(d.governance * periodMultiplier * 10) / 10,
+  }));
+
+  const periodLabels: Record<string, string> = {
+    oct: "Oct 1 – Oct 31, 2024",
+    sep: "Sep 1 – Sep 30, 2024",
+    aug: "Aug 1 – Aug 31, 2024",
+    last6: "Last 6 Months",
+  };
+
   const makeSparklineData = (sparkline: number[]) => {
     return sparkline.map((val, idx) => ({ id: idx, val }));
   };
-
-  const pieData = [
-    { name: "Environment", value: data.distribution.environment.score, color: "#10B981" },
-    { name: "Social", value: data.distribution.social.score, color: "#F59E0B" },
-    { name: "Governance", value: data.distribution.governance.score, color: "#3B82F6" },
-  ];
 
   return (
     <div className="space-y-6 pb-8 bg-[#0f1016] min-h-screen text-white">
@@ -141,10 +180,35 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
         </div>
         
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2 bg-[#181922] border border-[#2d2f39] rounded-xl px-3 py-1.5 text-xs text-muted-foreground font-medium">
-            <Calendar className="h-4 w-4 text-muted-foreground/80" />
-            <span>Oct 1 – Oct 31, 2024</span>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  className="flex items-center gap-2 px-3 py-1.5 h-8.5 rounded-xl bg-[#181922] border border-[#2d2f39] text-xs font-semibold text-muted-foreground hover:bg-[#201E2A] hover:text-white transition-all cursor-pointer"
+                >
+                  <Calendar className="h-4 w-4 text-[#9B5CF6]" />
+                  <span>{periodLabels[calendarPeriod] || "Oct 1 – Oct 31, 2024"}</span>
+                  <ChevronDown className="h-3 w-3 text-muted-foreground/60" />
+                </Button>
+              }
+            />
+            <DropdownMenuContent className="bg-[#181922] border-[#2d2f39] text-white rounded-xl">
+              <DropdownMenuItem onClick={() => setCalendarPeriod("oct")} className="text-xs focus:bg-[#2c2e3c] focus:text-white cursor-pointer">
+                Oct 1 – Oct 31, 2024
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setCalendarPeriod("sep")} className="text-xs focus:bg-[#2c2e3c] focus:text-white cursor-pointer">
+                Sep 1 – Sep 30, 2024
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setCalendarPeriod("aug")} className="text-xs focus:bg-[#2c2e3c] focus:text-white cursor-pointer">
+                Aug 1 – Aug 31, 2024
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setCalendarPeriod("last6")} className="text-xs focus:bg-[#2c2e3c] focus:text-white cursor-pointer">
+                Last 6 Months
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <Button 
             onClick={handleDownloadReport}
             className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs px-3 py-1.5 h-8.5 rounded-xl font-medium flex items-center gap-2 shadow-[0_0_15px_rgba(124,58,237,0.3)] transition-all cursor-pointer"
@@ -168,11 +232,11 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
               <div className="space-y-1">
                 <span className="text-[13px] text-[#8e909a] font-medium block">Overall ESG Score</span>
                 <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  {data.scores.overall} <span className="text-[11px] text-[#8e909a] font-semibold">/100</span>
+                  {currentScores.overall} <span className="text-[11px] text-[#8e909a] font-semibold">/100</span>
                 </h3>
                 <div className="flex items-center gap-1 text-[11px] text-emerald-400 font-semibold pt-1">
-                  {data.scores.overallTrend >= 0 ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
-                  <span>{Math.abs(data.scores.overallTrend)}%</span>
+                  {currentScores.overallTrend >= 0 ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
+                  <span>{Math.abs(currentScores.overallTrend)}%</span>
                   <span className="text-muted-foreground/60 font-normal ml-0.5">from last month</span>
                 </div>
               </div>
@@ -180,7 +244,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
           </CardContent>
           <div className="h-11 w-full overflow-hidden mt-1">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={makeSparklineData(data.scores.overallSparkline)} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+              <AreaChart data={makeSparklineData(currentScores.overallSparkline)} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="sparkGlowOverall" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#7C3AED" stopOpacity={0.25} />
@@ -203,11 +267,11 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
               <div className="space-y-1">
                 <span className="text-[13px] text-[#8e909a] font-medium block">Environment Score</span>
                 <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  {data.scores.environment} <span className="text-[11px] text-[#8e909a] font-semibold">/100</span>
+                  {currentScores.environment} <span className="text-[11px] text-[#8e909a] font-semibold">/100</span>
                 </h3>
                 <div className="flex items-center gap-1 text-[11px] text-emerald-400 font-semibold pt-1">
-                  {data.scores.environmentTrend >= 0 ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
-                  <span>{Math.abs(data.scores.environmentTrend)}%</span>
+                  {currentScores.environmentTrend >= 0 ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
+                  <span>{Math.abs(currentScores.environmentTrend)}%</span>
                   <span className="text-muted-foreground/60 font-normal ml-0.5">from last month</span>
                 </div>
               </div>
@@ -215,7 +279,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
           </CardContent>
           <div className="h-11 w-full overflow-hidden mt-1">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={makeSparklineData(data.scores.environmentSparkline)} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+              <AreaChart data={makeSparklineData(currentScores.environmentSparkline)} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="sparkGlowEnv" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#7C3AED" stopOpacity={0.25} />
@@ -238,11 +302,11 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
               <div className="space-y-1">
                 <span className="text-[13px] text-[#8e909a] font-medium block">Social Score</span>
                 <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  {data.scores.social} <span className="text-[11px] text-[#8e909a] font-semibold">/100</span>
+                  {currentScores.social} <span className="text-[11px] text-[#8e909a] font-semibold">/100</span>
                 </h3>
                 <div className="flex items-center gap-1 text-[11px] text-emerald-400 font-semibold pt-1">
-                  {data.scores.socialTrend >= 0 ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
-                  <span>{Math.abs(data.scores.socialTrend)}%</span>
+                  {currentScores.socialTrend >= 0 ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
+                  <span>{Math.abs(currentScores.socialTrend)}%</span>
                   <span className="text-muted-foreground/60 font-normal ml-0.5">from last month</span>
                 </div>
               </div>
@@ -250,7 +314,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
           </CardContent>
           <div className="h-11 w-full overflow-hidden mt-1">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={makeSparklineData(data.scores.socialSparkline)} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+              <AreaChart data={makeSparklineData(currentScores.socialSparkline)} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="sparkGlowSoc" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#7C3AED" stopOpacity={0.25} />
@@ -273,11 +337,11 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
               <div className="space-y-1">
                 <span className="text-[13px] text-[#8e909a] font-medium block">Governance Score</span>
                 <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  {data.scores.governance} <span className="text-[11px] text-[#8e909a] font-semibold">/100</span>
+                  {currentScores.governance} <span className="text-[11px] text-[#8e909a] font-semibold">/100</span>
                 </h3>
                 <div className="flex items-center gap-1 text-[11px] text-emerald-400 font-semibold pt-1">
-                  {data.scores.governanceTrend >= 0 ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
-                  <span>{Math.abs(data.scores.governanceTrend)}%</span>
+                  {currentScores.governanceTrend >= 0 ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
+                  <span>{Math.abs(currentScores.governanceTrend)}%</span>
                   <span className="text-muted-foreground/60 font-normal ml-0.5">from last month</span>
                 </div>
               </div>
@@ -285,7 +349,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
           </CardContent>
           <div className="h-11 w-full overflow-hidden mt-1">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={makeSparklineData(data.scores.governanceSparkline)} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+              <AreaChart data={makeSparklineData(currentScores.governanceSparkline)} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="sparkGlowGov" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#7C3AED" stopOpacity={0.25} />
@@ -350,7 +414,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
 
           <div className="w-full h-[230px]">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={data.trend} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
+              <LineChart data={currentTrendData} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#252731" vertical={false} />
                 <XAxis
                   dataKey="month"
@@ -429,7 +493,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={pieData}
+                    data={currentPieData}
                     cx="50%"
                     cy="50%"
                     innerRadius={46}
@@ -437,7 +501,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
                     paddingAngle={3}
                     dataKey="value"
                   >
-                    {pieData.map((entry, index) => (
+                    {currentPieData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
@@ -446,7 +510,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
               
               {/* Central Text */}
               <div className="absolute flex flex-col items-center justify-center text-center">
-                <span className="text-xl font-extrabold text-white leading-none">{data.scores.overall}</span>
+                <span className="text-xl font-extrabold text-white leading-none">{currentScores.overall}</span>
                 <span className="text-[8px] text-muted-foreground uppercase font-bold tracking-wider mt-0.5">
                   Overall
                 </span>
@@ -461,7 +525,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
                   <span className="text-gray-400 font-medium">Environment</span>
                 </div>
                 <span className="text-white font-semibold pl-3">
-                  {data.scores.environment} ({data.distribution.environment.percentage}%)
+                  {currentScores.environment} ({data.distribution.environment.percentage}%)
                 </span>
               </div>
 
@@ -471,7 +535,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
                   <span className="text-gray-400 font-medium">Social</span>
                 </div>
                 <span className="text-white font-semibold pl-3">
-                  {data.scores.social} ({data.distribution.social.percentage}%)
+                  {currentScores.social} ({data.distribution.social.percentage}%)
                 </span>
               </div>
 
@@ -481,7 +545,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
                   <span className="text-gray-400 font-medium">Governance</span>
                 </div>
                 <span className="text-white font-semibold pl-3">
-                  {data.scores.governance} ({data.distribution.governance.percentage}%)
+                  {currentScores.governance} ({data.distribution.governance.percentage}%)
                 </span>
               </div>
             </div>
@@ -550,12 +614,12 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
               <div key={i} className="space-y-1.5">
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-semibold text-white">{dept.name}</span>
-                  <span className="font-bold text-gray-300">{dept.score}</span>
+                  <span className="font-bold text-gray-300">{Math.round(dept.score * periodMultiplier)}</span>
                 </div>
                 <div className="w-full bg-[#0f1016] h-2 rounded-full overflow-hidden">
                   <div
                     className="bg-gradient-to-r from-[#9B5CF6] to-[#7C3AED] h-full rounded-full"
-                    style={{ width: `${dept.score}%` }}
+                    style={{ width: `${Math.min(100, Math.round(dept.score * periodMultiplier))}%` }}
                   />
                 </div>
               </div>

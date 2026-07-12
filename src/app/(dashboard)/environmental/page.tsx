@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { 
   Leaf, 
   Zap, 
@@ -34,7 +35,7 @@ import {
   Tooltip 
 } from "recharts";
 
-// Static data matching image plots
+// Static sparkline data templates
 const sparklineData1 = [
   { val: 30 }, { val: 25 }, { val: 35 }, { val: 20 }, { val: 40 }, 
   { val: 30 }, { val: 45 }, { val: 35 }, { val: 50 }, { val: 40 }, { val: 55 }
@@ -67,21 +68,201 @@ const emissionsTrendData = [
   { month: "Dec", thisYear: 950, lastYear: 800 },
 ];
 
-const scopePieData = [
-  { name: "Scope 1", value: 561.5, percentage: 45, color: "#9B5CF6" },
-  { name: "Scope 2", value: 436.0, percentage: 35, color: "#10b981" },
-  { name: "Scope 3", value: 248.1, percentage: 20, color: "#3b82f6" },
-];
-
-const sourcePieData = [
-  { name: "Electricity", value: 498.2, percentage: 40, color: "#9B5CF6" },
-  { name: "Fuel Combustion", value: 311.4, percentage: 25, color: "#10b981" },
-  { name: "Transportation", value: 186.8, percentage: 15, color: "#f59e0b" },
-  { name: "Industrial Processes", value: 124.6, percentage: 10, color: "#f97316" },
-  { name: "Waste", value: 124.6, percentage: 10, color: "#ef4444" },
-];
-
 export default function EnvironmentDashboard() {
+  const searchParams = useSearchParams();
+  const period = searchParams.get("period") || "oct";
+
+  // Configuration mapping based on chosen period selection
+  const kpiData = {
+    oct: {
+      emissions: "1,245.6",
+      emissionsTrend: "12.4%",
+      emissionsUp: false,
+      energy: "2,450.8",
+      energyTrend: "8.7%",
+      energyUp: false,
+      water: "8,320.5",
+      waterTrend: "3.2%",
+      waterUp: true,
+      waste: "245.6",
+      wasteTrend: "15.6%",
+      wasteUp: false,
+      sparkMult1: 1.0,
+      sparkMult2: 1.0,
+      sparkMult3: 1.0,
+      sparkMult4: 1.0,
+      scope1: 561.5,
+      scope2: 436.0,
+      scope3: 248.1,
+      electricity: 498.2,
+      fuel: 311.4,
+      transport: 186.8,
+      industrial: 124.6,
+      wasteVal: 124.6,
+      topDepts: [
+        { name: "Manufacturing", value: 456.2, percent: "36.6%" },
+        { name: "Operations", value: 324.8, percent: "26.1%" },
+        { name: "Logistics", value: 248.1, percent: "19.9%" },
+        { name: "Facilities", value: 142.3, percent: "11.4%" },
+      ]
+    },
+    sep: {
+      emissions: "1,385.2",
+      emissionsTrend: "8.5%",
+      emissionsUp: true,
+      energy: "2,684.5",
+      energyTrend: "5.3%",
+      energyUp: true,
+      water: "8,060.2",
+      waterTrend: "2.1%",
+      waterUp: true,
+      waste: "291.0",
+      wasteTrend: "8.4%",
+      wasteUp: true,
+      sparkMult1: 1.12,
+      sparkMult2: 1.10,
+      sparkMult3: 0.97,
+      sparkMult4: 1.18,
+      scope1: 620.4,
+      scope2: 480.8,
+      scope3: 284.0,
+      electricity: 554.0,
+      fuel: 346.3,
+      transport: 207.8,
+      industrial: 138.5,
+      wasteVal: 138.5,
+      topDepts: [
+        { name: "Manufacturing", value: 507.0, percent: "36.6%" },
+        { name: "Operations", value: 361.5, percent: "26.1%" },
+        { name: "Logistics", value: 275.6, percent: "19.9%" },
+        { name: "Facilities", value: 157.9, percent: "11.4%" },
+      ]
+    },
+    aug: {
+      emissions: "1,180.4",
+      emissionsTrend: "4.1%",
+      emissionsUp: false,
+      energy: "2,548.0",
+      energyTrend: "1.2%",
+      energyUp: true,
+      water: "8,240.0",
+      waterTrend: "0.8%",
+      waterUp: false,
+      waste: "268.4",
+      wasteTrend: "3.1%",
+      wasteUp: false,
+      sparkMult1: 0.95,
+      sparkMult2: 1.04,
+      sparkMult3: 0.99,
+      sparkMult4: 1.09,
+      scope1: 531.2,
+      scope2: 413.1,
+      scope3: 236.1,
+      electricity: 472.2,
+      fuel: 295.1,
+      transport: 177.1,
+      industrial: 118.0,
+      wasteVal: 118.0,
+      topDepts: [
+        { name: "Manufacturing", value: 432.0, percent: "36.6%" },
+        { name: "Operations", value: 308.1, percent: "26.1%" },
+        { name: "Logistics", value: 234.9, percent: "19.9%" },
+        { name: "Facilities", value: 134.6, percent: "11.4%" },
+      ]
+    },
+    last6: {
+      emissions: "7,246.8",
+      emissionsTrend: "14.2%",
+      emissionsUp: false,
+      energy: "15,482.5",
+      energyTrend: "6.8%",
+      energyUp: false,
+      water: "49,320.4",
+      waterTrend: "4.5%",
+      waterUp: true,
+      waste: "1,624.5",
+      wasteTrend: "11.2%",
+      wasteUp: false,
+      sparkMult1: 5.8,
+      sparkMult2: 6.3,
+      sparkMult3: 5.9,
+      sparkMult4: 6.6,
+      scope1: 3261.0,
+      scope2: 2536.4,
+      scope3: 1449.4,
+      electricity: 2898.7,
+      fuel: 1811.7,
+      transport: 1087.0,
+      industrial: 724.7,
+      wasteVal: 724.7,
+      topDepts: [
+        { name: "Manufacturing", value: 2652.3, percent: "36.6%" },
+        { name: "Operations", value: 1891.4, percent: "26.1%" },
+        { name: "Logistics", value: 1442.1, percent: "19.9%" },
+        { name: "Facilities", value: 826.1, percent: "11.4%" },
+      ]
+    }
+  }[period as "oct" | "sep" | "aug" | "last6"] || {
+    emissions: "1,245.6",
+    emissionsTrend: "12.4%",
+    emissionsUp: false,
+    energy: "2,450.8",
+    energyTrend: "8.7%",
+    energyUp: false,
+    water: "8,320.5",
+    waterTrend: "3.2%",
+    waterUp: true,
+    waste: "245.6",
+    wasteTrend: "15.6%",
+    wasteUp: false,
+    sparkMult1: 1.0,
+    sparkMult2: 1.0,
+    sparkMult3: 1.0,
+    sparkMult4: 1.0,
+    scope1: 561.5,
+    scope2: 436.0,
+    scope3: 248.1,
+    electricity: 498.2,
+    fuel: 311.4,
+    transport: 186.8,
+    industrial: 124.6,
+    wasteVal: 124.6,
+    topDepts: [
+      { name: "Manufacturing", value: 456.2, percent: "36.6%" },
+      { name: "Operations", value: 324.8, percent: "26.1%" },
+      { name: "Logistics", value: 248.1, percent: "19.9%" },
+      { name: "Facilities", value: 142.3, percent: "11.4%" },
+    ]
+  };
+
+  // Sparklines mapped
+  const currentSparkline1 = sparklineData1.map(d => ({ val: Math.round(d.val * kpiData.sparkMult1) }));
+  const currentSparkline2 = sparklineData2.map(d => ({ val: Math.round(d.val * kpiData.sparkMult2) }));
+  const currentSparkline3 = sparklineData3.map(d => ({ val: Math.round(d.val * kpiData.sparkMult3) }));
+  const currentSparkline4 = sparklineData4.map(d => ({ val: Math.round(d.val * kpiData.sparkMult4) }));
+
+  // Pie charts mapped
+  const currentScopePieData = [
+    { name: "Scope 1", value: kpiData.scope1, percentage: 45, color: "#9B5CF6" },
+    { name: "Scope 2", value: kpiData.scope2, percentage: 35, color: "#10b981" },
+    { name: "Scope 3", value: kpiData.scope3, percentage: 20, color: "#3b82f6" },
+  ];
+
+  const currentSourcePieData = [
+    { name: "Electricity", value: kpiData.electricity, percentage: 40, color: "#9B5CF6" },
+    { name: "Fuel Combustion", value: kpiData.fuel, percentage: 25, color: "#10b981" },
+    { name: "Transportation", value: kpiData.transport, percentage: 15, color: "#f59e0b" },
+    { name: "Industrial Processes", value: kpiData.industrial, percentage: 10, color: "#f97316" },
+    { name: "Waste", value: kpiData.wasteVal, percentage: 10, color: "#ef4444" },
+  ];
+
+  // Adjust trend charts
+  const currentEmissionsTrendData = emissionsTrendData.map(d => ({
+    ...d,
+    thisYear: Math.round(d.thisYear * kpiData.sparkMult1),
+    lastYear: Math.round(d.lastYear * kpiData.sparkMult1),
+  }));
+
   return (
     <div className="space-y-6 text-white bg-[#0f1016]">
       {/* Row 1: KPI Cards */}
@@ -91,28 +272,25 @@ export default function EnvironmentDashboard() {
         <Card className="bg-[#181922] border border-[#2d2f39] rounded-[18px] overflow-hidden flex flex-col justify-between shadow-none [--card-spacing:0px] py-0">
           <CardContent className="p-5 pb-2 space-y-3.5">
             <div className="flex items-start gap-4">
-              {/* Left circle icon */}
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400">
                 <Leaf className="h-5 w-5" />
               </div>
-              {/* Right text stack */}
               <div className="space-y-1">
                 <span className="text-[13px] text-[#8e909a] font-medium block">Total Emissions</span>
                 <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  1,245.6 <span className="text-[11px] text-[#8e909a] font-semibold">tCO₂e</span>
+                  {kpiData.emissions} <span className="text-[11px] text-[#8e909a] font-semibold">tCO₂e</span>
                 </h3>
-                <div className="flex items-center gap-1 text-[11px] text-emerald-400 font-semibold pt-1">
-                  <TrendingDown className="h-3.5 w-3.5" />
-                  <span>12.4%</span>
+                <div className="flex items-center gap-1 text-[11px] font-semibold pt-1 text-emerald-400">
+                  {kpiData.emissionsUp ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
+                  <span>{kpiData.emissionsTrend}</span>
                   <span className="text-muted-foreground/60 font-normal ml-0.5">from last month</span>
                 </div>
               </div>
             </div>
           </CardContent>
-          {/* Sparkline area */}
           <div className="h-11 w-full overflow-hidden mt-1">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={sparklineData1} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+              <AreaChart data={currentSparkline1} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="sparkGlow1" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#7C3AED" stopOpacity={0.25} />
@@ -135,11 +313,11 @@ export default function EnvironmentDashboard() {
               <div className="space-y-1">
                 <span className="text-[13px] text-[#8e909a] font-medium block">Energy Consumption</span>
                 <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  2,450.8 <span className="text-[11px] text-[#8e909a] font-semibold">MWh</span>
+                  {kpiData.energy} <span className="text-[11px] text-[#8e909a] font-semibold">MWh</span>
                 </h3>
-                <div className="flex items-center gap-1 text-[11px] text-emerald-400 font-semibold pt-1">
-                  <TrendingDown className="h-3.5 w-3.5" />
-                  <span>8.7%</span>
+                <div className="flex items-center gap-1 text-[11px] font-semibold pt-1 text-emerald-400">
+                  {kpiData.energyUp ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
+                  <span>{kpiData.energyTrend}</span>
                   <span className="text-muted-foreground/60 font-normal ml-0.5">from last month</span>
                 </div>
               </div>
@@ -147,7 +325,7 @@ export default function EnvironmentDashboard() {
           </CardContent>
           <div className="h-11 w-full overflow-hidden mt-1">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={sparklineData2} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+              <AreaChart data={currentSparkline2} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="sparkGlow2" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#7C3AED" stopOpacity={0.25} />
@@ -170,11 +348,11 @@ export default function EnvironmentDashboard() {
               <div className="space-y-1">
                 <span className="text-[13px] text-[#8e909a] font-medium block">Water Usage</span>
                 <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  8,320.5 <span className="text-[11px] text-[#8e909a] font-semibold">m³</span>
+                  {kpiData.water} <span className="text-[11px] text-[#8e909a] font-semibold">m³</span>
                 </h3>
-                <div className="flex items-center gap-1 text-[11px] text-rose-500 font-semibold pt-1">
-                  <TrendingUp className="h-3.5 w-3.5" />
-                  <span>3.2%</span>
+                <div className="flex items-center gap-1 text-[11px] font-semibold pt-1 text-rose-500">
+                  {kpiData.waterUp ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
+                  <span>{kpiData.waterTrend}</span>
                   <span className="text-muted-foreground/60 font-normal ml-0.5">from last month</span>
                 </div>
               </div>
@@ -182,7 +360,7 @@ export default function EnvironmentDashboard() {
           </CardContent>
           <div className="h-11 w-full overflow-hidden mt-1">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={sparklineData3} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+              <AreaChart data={currentSparkline3} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="sparkGlow3" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#7C3AED" stopOpacity={0.25} />
@@ -205,11 +383,11 @@ export default function EnvironmentDashboard() {
               <div className="space-y-1">
                 <span className="text-[13px] text-[#8e909a] font-medium block">Waste Generated</span>
                 <h3 className="text-[26px] font-normal text-white leading-none flex items-baseline gap-1.5 mt-1">
-                  245.6 <span className="text-[11px] text-[#8e909a] font-semibold">tons</span>
+                  {kpiData.waste} <span className="text-[11px] text-[#8e909a] font-semibold">tons</span>
                 </h3>
-                <div className="flex items-center gap-1 text-[11px] text-emerald-400 font-semibold pt-1">
-                  <TrendingDown className="h-3.5 w-3.5" />
-                  <span>15.6%</span>
+                <div className="flex items-center gap-1 text-[11px] font-semibold pt-1 text-emerald-400">
+                  {kpiData.wasteUp ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
+                  <span>{kpiData.wasteTrend}</span>
                   <span className="text-muted-foreground/60 font-normal ml-0.5">from last month</span>
                 </div>
               </div>
@@ -217,7 +395,7 @@ export default function EnvironmentDashboard() {
           </CardContent>
           <div className="h-11 w-full overflow-hidden mt-1">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={sparklineData4} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+              <AreaChart data={currentSparkline4} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="sparkGlow4" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#7C3AED" stopOpacity={0.25} />
@@ -256,7 +434,7 @@ export default function EnvironmentDashboard() {
             </div>
           </div>
           <ResponsiveContainer width="100%" height={210}>
-            <AreaChart data={emissionsTrendData} margin={{ left: -20 }}>
+            <AreaChart data={currentEmissionsTrendData} margin={{ left: -20 }}>
               <defs>
                 <linearGradient id="trendArea" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#7C3AED" stopOpacity={0.25} />
@@ -304,7 +482,7 @@ export default function EnvironmentDashboard() {
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={scopePieData}
+                  data={currentScopePieData}
                   cx="50%"
                   cy="50%"
                   innerRadius={46}
@@ -312,7 +490,7 @@ export default function EnvironmentDashboard() {
                   paddingAngle={3}
                   dataKey="value"
                 >
-                  {scopePieData.map((entry, index) => (
+                  {currentScopePieData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
@@ -320,14 +498,14 @@ export default function EnvironmentDashboard() {
             </ResponsiveContainer>
             {/* Center Text overlay */}
             <div className="absolute flex flex-col items-center justify-center text-center">
-              <span className="text-base font-bold text-white leading-none">1,245.6</span>
+              <span className="text-base font-bold text-white leading-none">{kpiData.emissions}</span>
               <span className="text-[8px] text-muted-foreground mt-0.5 uppercase tracking-wider font-semibold">tCO₂e</span>
             </div>
           </div>
 
           {/* Right/Bottom Legends */}
           <div className="space-y-1.5 mt-2">
-            {scopePieData.map((s) => (
+            {currentScopePieData.map((s) => (
               <div key={s.name} className="flex items-center justify-between text-[11px]">
                 <div className="flex items-center gap-1.5">
                   <span className="h-2 w-2 rounded-full" style={{ backgroundColor: s.color }} />
@@ -335,7 +513,7 @@ export default function EnvironmentDashboard() {
                 </div>
                 <div className="text-right space-x-1.5">
                   <span className="font-semibold text-white">{s.percentage}%</span>
-                  <span className="text-muted-foreground text-[10px]">{s.value} t</span>
+                  <span className="text-muted-foreground text-[10px]">{s.value.toFixed(1)} t</span>
                 </div>
               </div>
             ))}
@@ -362,7 +540,7 @@ export default function EnvironmentDashboard() {
               </div>
               <div className="text-[11px]">
                 <p className="font-medium text-white leading-normal">New energy data imported</p>
-                <p className="text-muted-foreground leading-normal mt-0.5">2,450.8 MWh added</p>
+                <p className="text-muted-foreground leading-normal mt-0.5">{kpiData.energy} MWh added</p>
                 <span className="text-[9px] text-muted-foreground/60 mt-1 block">2 hours ago</span>
               </div>
             </div>
@@ -373,7 +551,7 @@ export default function EnvironmentDashboard() {
               </div>
               <div className="text-[11px]">
                 <p className="font-medium text-white leading-normal">Water usage data updated</p>
-                <p className="text-muted-foreground leading-normal mt-0.5">8,320.5 m³ recorded</p>
+                <p className="text-muted-foreground leading-normal mt-0.5">{kpiData.water} m³ recorded</p>
                 <span className="text-[9px] text-muted-foreground/60 mt-1 block">5 hours ago</span>
               </div>
             </div>
@@ -384,7 +562,7 @@ export default function EnvironmentDashboard() {
               </div>
               <div className="text-[11px]">
                 <p className="font-medium text-white leading-normal">Waste management data added</p>
-                <p className="text-muted-foreground leading-normal mt-0.5">245.6 tons recorded</p>
+                <p className="text-muted-foreground leading-normal mt-0.5">{kpiData.waste} tons recorded</p>
                 <span className="text-[9px] text-muted-foreground/60 mt-1 block">1 day ago</span>
               </div>
             </div>
@@ -423,7 +601,7 @@ export default function EnvironmentDashboard() {
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={sourcePieData}
+                  data={currentSourcePieData}
                   cx="50%"
                   cy="50%"
                   innerRadius={44}
@@ -431,20 +609,20 @@ export default function EnvironmentDashboard() {
                   paddingAngle={2}
                   dataKey="value"
                 >
-                  {sourcePieData.map((entry, index) => (
+                  {currentSourcePieData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
               </PieChart>
             </ResponsiveContainer>
             <div className="absolute flex flex-col items-center justify-center text-center">
-              <span className="text-base font-bold text-white leading-none">1,245.6</span>
+              <span className="text-base font-bold text-white leading-none">{kpiData.emissions}</span>
               <span className="text-[8px] text-muted-foreground mt-0.5 uppercase tracking-wider font-semibold">tCO₂e</span>
             </div>
           </div>
 
           <div className="space-y-1 mt-3">
-            {sourcePieData.map((s) => (
+            {currentSourcePieData.map((s) => (
               <div key={s.name} className="flex items-center justify-between text-[11px]">
                 <div className="flex items-center gap-1.5">
                   <span className="h-2 w-2 rounded-full" style={{ backgroundColor: s.color }} />
@@ -452,7 +630,7 @@ export default function EnvironmentDashboard() {
                 </div>
                 <div className="text-right space-x-1.5">
                   <span className="font-semibold text-white">{s.percentage}%</span>
-                  <span className="text-muted-foreground text-[10px]">{s.value} t</span>
+                  <span className="text-muted-foreground text-[10px]">{s.value.toFixed(1)} t</span>
                 </div>
               </div>
             ))}
@@ -473,49 +651,17 @@ export default function EnvironmentDashboard() {
           </div>
 
           <div className="space-y-3.5 my-auto">
-            {/* Dept 1: Manufacturing */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                <span className="font-semibold text-white">Manufacturing</span>
-                <span className="font-semibold">456.2 t <span className="font-normal text-muted-foreground/60">(36.6%)</span></span>
+            {kpiData.topDepts.map((d) => (
+              <div key={d.name} className="space-y-1.5">
+                <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                  <span className="font-semibold text-white">{d.name}</span>
+                  <span className="font-semibold">{d.value.toFixed(1)} t <span className="font-normal text-muted-foreground/60">({d.percent})</span></span>
+                </div>
+                <div className="h-1.5 w-full bg-[#0f1016] rounded-full overflow-hidden">
+                  <div className="h-full bg-[#7C3AED] rounded-full" style={{ width: d.percent }} />
+                </div>
               </div>
-              <div className="h-1.5 w-full bg-[#0f1016] rounded-full overflow-hidden">
-                <div className="h-full bg-[#7C3AED] rounded-full" style={{ width: "36.6%" }} />
-              </div>
-            </div>
-
-            {/* Dept 2: Operations */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                <span className="font-semibold text-white">Operations</span>
-                <span className="font-semibold">324.8 t <span className="font-normal text-muted-foreground/60">(26.1%)</span></span>
-              </div>
-              <div className="h-1.5 w-full bg-[#0f1016] rounded-full overflow-hidden">
-                <div className="h-full bg-[#7C3AED] rounded-full" style={{ width: "26.1%" }} />
-              </div>
-            </div>
-
-            {/* Dept 3: Logistics */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                <span className="font-semibold text-white">Logistics</span>
-                <span className="font-semibold">248.1 t <span className="font-normal text-muted-foreground/60">(19.9%)</span></span>
-              </div>
-              <div className="h-1.5 w-full bg-[#0f1016] rounded-full overflow-hidden">
-                <div className="h-full bg-[#7C3AED] rounded-full" style={{ width: "19.9%" }} />
-              </div>
-            </div>
-
-            {/* Dept 4: Facilities */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                <span className="font-semibold text-white">Facilities</span>
-                <span className="font-semibold">142.3 t <span className="font-normal text-muted-foreground/60">(11.4%)</span></span>
-              </div>
-              <div className="h-1.5 w-full bg-[#0f1016] rounded-full overflow-hidden">
-                <div className="h-full bg-[#7C3AED] rounded-full" style={{ width: "11.4%" }} />
-              </div>
-            </div>
+            ))}
           </div>
         </Card>
 

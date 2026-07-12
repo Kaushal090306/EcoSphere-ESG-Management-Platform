@@ -217,7 +217,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                     : false;
 
                   return (
-                    <SidebarMenuItem key={item.title}>
+                    <SidebarMenuItem key={item.title} className="relative">
                       {hasSubItems ? (
                         <>
                           <SidebarMenuButton
@@ -239,7 +239,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                               e.stopPropagation();
                               toggleGroup(item.title);
                             }}
-                            className="right-2 top-1/2 -translate-y-1/2 flex items-center justify-center h-6 w-6 text-muted-foreground/70 hover:text-white rounded-md transition-all cursor-pointer"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center h-6 w-6 text-muted-foreground/70 hover:text-white rounded-md transition-all cursor-pointer"
                             render={
                               <button>
                                 {isExpanded ? (
