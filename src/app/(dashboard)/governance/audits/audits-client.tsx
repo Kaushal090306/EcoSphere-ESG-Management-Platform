@@ -92,13 +92,13 @@ export function AuditsClient({
           placeholder="Search audits..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs"
+          className="max-w-xs bg-[#f4f4f5] dark:bg-[#121118] border-[#ececee] dark:border-[#221f2c] text-foreground rounded-lg h-9 text-xs"
         />
         <Select value={statusFilter} onValueChange={(val) => setStatusFilter(val || "")}>
-          <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-[#09090b] dark:text-white rounded-lg h-9 text-xs">
+          <SelectTrigger className="w-36 bg-[#f4f4f5] dark:bg-[#121118] border-[#ececee] dark:border-[#221f2c] text-foreground rounded-lg h-9 text-xs">
             <SelectValue placeholder="All Statuses" />
           </SelectTrigger>
-          <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">
+          <SelectContent className="bg-white dark:bg-[#121118] border-[#ececee] dark:border-[#221f2c] text-foreground">
             <SelectItem value="all">All Statuses</SelectItem>
             <SelectItem value="scheduled">Scheduled</SelectItem>
             <SelectItem value="in_progress">In Progress</SelectItem>
@@ -106,10 +106,10 @@ export function AuditsClient({
           </SelectContent>
         </Select>
         <Select value={deptFilter} onValueChange={(val) => setDeptFilter(val || "")}>
-          <SelectTrigger className="w-44 bg-[#181922] border-[#2d2f39] text-[#09090b] dark:text-white rounded-lg h-9 text-xs">
+          <SelectTrigger className="w-44 bg-[#f4f4f5] dark:bg-[#121118] border-[#ececee] dark:border-[#221f2c] text-foreground rounded-lg h-9 text-xs">
             <SelectValue placeholder="All Departments" />
           </SelectTrigger>
-          <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">
+          <SelectContent className="bg-white dark:bg-[#121118] border-[#ececee] dark:border-[#221f2c] text-foreground">
             <SelectItem value="all">All Departments</SelectItem>
             {departments.map((d) => (
               <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
@@ -118,16 +118,16 @@ export function AuditsClient({
         </Select>
       </div>
 
-      <Card className="border border-[#ececee] dark:border-[#2d2f39] bg-white dark:bg-[#181922] rounded-md overflow-hidden shadow-none py-0">
+      <Card className="border border-[#ececee] dark:border-[#221f2c] bg-white dark:bg-[#121118] rounded-xl overflow-hidden shadow-none py-0">
         <CardContent className="p-0">
           {filteredAudits.length === 0 ? (
             <EmptyState title="No compliance audits found" description="Adjust search query or select filters." />
           ) : (
             <Table>
               <TableHeader>
-                <TableRow>
+                <TableRow className="border-b border-[#ececee] dark:border-[#221f2c] bg-[#f4f4f5] dark:bg-[#121118]">
                   <TableHead 
-                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
+                    className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("title")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -137,7 +137,7 @@ export function AuditsClient({
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
+                    className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("dept")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -147,7 +147,7 @@ export function AuditsClient({
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
+                    className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("auditor")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -157,7 +157,7 @@ export function AuditsClient({
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-foreground cursor-pointer hover:bg-muted/10 transition-colors"
+                    className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider cursor-pointer hover:bg-muted/10 transition-colors"
                     onClick={() => handleSortClick("date")}
                   >
                     <div className="flex items-center gap-1.5">
@@ -167,10 +167,10 @@ export function AuditsClient({
                     </div>
                   </TableHead>
                   <TableHead 
-                    className="text-white cursor-pointer hover:bg-white/5 transition-colors text-right pr-4"
+                    className="text-foreground font-semibold px-6 py-3 text-[11px] uppercase tracking-wider cursor-pointer hover:bg-muted/10 transition-colors text-right pr-6"
                     onClick={() => handleSortClick("status")}
                   >
-                    <div className="flex items-center gap-1.5 justify-end pr-2">
+                    <div className="flex items-center gap-1.5 justify-end">
                       <span>Status</span>
                       {sortBy === "status-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
                       {sortBy === "status-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
@@ -180,14 +180,14 @@ export function AuditsClient({
               </TableHeader>
               <TableBody>
                 {filteredAudits.map((a) => (
-                  <TableRow key={a.id}>
-                    <TableCell className="font-medium text-white">{a.title}</TableCell>
+                  <TableRow key={a.id} className="border-b border-[#ececee] dark:border-[#221f2c] last:border-0 hover:bg-[#f4f4f5] dark:hover:bg-[#16141f]/50 transition-colors">
+                    <TableCell className="font-semibold text-foreground pl-6">{a.title}</TableCell>
                     <TableCell className="text-muted-foreground">{deptName(a.departmentId)}</TableCell>
                     <TableCell className="font-mono text-xs text-muted-foreground">{a.auditorId.substring(0, 8)}...</TableCell>
                     <TableCell className="text-muted-foreground">
                       {formatDate(a.scheduledDate)}
                     </TableCell>
-                    <TableCell className="text-right pr-4">
+                    <TableCell className="text-right pr-6">
                       <Badge variant="outline" className={statusColors[a.status] || "bg-muted text-muted-foreground"}>
                         {a.status.replace("_", " ")}
                       </Badge>

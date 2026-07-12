@@ -46,6 +46,51 @@ export async function seedDatabase() {
         xp: 1500,
       },
       {
+        name: "kaushal",
+        email: "kaushal@ecosphere.com",
+        passwordHash,
+        role: "admin",
+        status: "active",
+        points: 1500,
+        xp: 4500,
+      },
+      {
+        name: "harsh",
+        email: "harsh@ecosphere.com",
+        passwordHash,
+        role: "esg_manager",
+        status: "active",
+        points: 1000,
+        xp: 3000,
+      },
+      {
+        name: "krish",
+        email: "krish@ecosphere.com",
+        passwordHash,
+        role: "dept_head",
+        status: "active",
+        points: 800,
+        xp: 2200,
+      },
+      {
+        name: "devanshu",
+        email: "devanshu@ecosphere.com",
+        passwordHash,
+        role: "employee",
+        status: "active",
+        points: 1200,
+        xp: 3400,
+      },
+      {
+        name: "kaushal-1",
+        email: "kaushal-1@ecosphere.com",
+        passwordHash,
+        role: "auditor",
+        status: "active",
+        points: 900,
+        xp: 2500,
+      },
+      {
         name: "Jane Doe",
         email: "jane.doe@ecosphere.com",
         passwordHash,
@@ -67,9 +112,9 @@ export async function seedDatabase() {
     .onConflictDoNothing()
     .returning();
 
-  const admin = userList.find((u) => u.role === "admin") || await db.select().from(users).where(eq(users.email, "admin@ecosphere.com")).then(res => res[0]);
-  const employee = userList.find((u) => u.role === "employee") || await db.select().from(users).where(eq(users.email, "jane.doe@ecosphere.com")).then(res => res[0]);
-  const manager = userList.find((u) => u.role === "dept_head") || await db.select().from(users).where(eq(users.email, "manager@ecosphere.com")).then(res => res[0]);
+  const admin = userList.find((u) => u.email === "kaushal@ecosphere.com") || await db.select().from(users).where(eq(users.email, "kaushal@ecosphere.com")).then(res => res[0]);
+  const employee = userList.find((u) => u.email === "devanshu@ecosphere.com") || await db.select().from(users).where(eq(users.email, "devanshu@ecosphere.com")).then(res => res[0]);
+  const manager = userList.find((u) => u.email === "krish@ecosphere.com") || await db.select().from(users).where(eq(users.email, "krish@ecosphere.com")).then(res => res[0]);
 
   console.log("✅ Users created");
 
@@ -308,5 +353,5 @@ export async function seedDatabase() {
     ]).onConflictDoNothing();
   }
 
-  console.log("\n🎉 Seed complete! Login with:\n- Admin: admin@ecosphere.com / password123\n- Employee: jane.doe@ecosphere.com / password123\n- Manager: manager@ecosphere.com / password123");
+  console.log("\n🎉 Seed complete! Login with:\n- Admin (Kaushal): kaushal@ecosphere.com / password123\n- ESG Manager (Harsh): harsh@ecosphere.com / password123\n- Manager (Krish): krish@ecosphere.com / password123\n- Employee (Devanshu): devanshu@ecosphere.com / password123\n- Auditor (Kaushal-1): kaushal-1@ecosphere.com / password123\n\nAlternative fallback users:\n- Admin User: admin@ecosphere.com / password123\n- Employee Jane: jane.doe@ecosphere.com / password123\n- Manager John: manager@ecosphere.com / password123");
 }

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -89,13 +89,48 @@ export default function GovernanceLayout({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button 
-            onClick={() => window.print()}
-            className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs px-3 py-1.5 h-8.5 rounded-lg font-medium flex items-center gap-2 shadow-[0_0_15px_rgba(124,58,237,0.3)] transition-all cursor-pointer"
-          >
-            <Download className="h-4 w-4" />
-            <span>Export Report</span>
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={
+                <Button 
+                  className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs px-3 py-1.5 h-8.5 rounded-lg font-medium flex items-center gap-2 shadow-[0_0_15px_rgba(124,58,237,0.3)] transition-all cursor-pointer"
+                >
+                  <Download className="h-4 w-4" />
+                  <span>Export Report</span>
+                </Button>
+              }
+            />
+            <DropdownMenuContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-lg z-50">
+              <DropdownMenuItem 
+                onClick={() => window.print()}
+                className="text-xs text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#1c1a24] cursor-pointer"
+              >
+                Download PDF Report
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  const headers = "Category,Metric,Value,Unit,Period\n";
+                  const rows = [
+                    ["Governance", "Total Policies Published", "14", "documents", "October 2024"],
+                    ["Governance", "Signed Policy Acknowlegements", "94", "%", "October 2024"],
+                    ["Governance", "Pending Audits", "2", "audits", "October 2024"],
+                    ["Governance", "Open Compliance Issues", "5", "issues", "October 2024"],
+                  ].map(row => row.join(",")).join("\n");
+                  const blob = new Blob([headers + rows], { type: "text/csv;charset=utf-8;" });
+                  const url = URL.createObjectURL(blob);
+                  const link = document.createElement("a");
+                  link.setAttribute("href", url);
+                  link.setAttribute("download", "governance_esg_report.csv");
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
+                className="text-xs text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#1c1a24] cursor-pointer"
+              >
+                Download CSV Dataset
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 

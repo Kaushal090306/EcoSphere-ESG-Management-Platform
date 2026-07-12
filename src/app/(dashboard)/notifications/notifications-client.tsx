@@ -111,7 +111,7 @@ export function NotificationsClient({ initialNotifications }: NotificationsClien
       </div>
 
       {/* Main Notification Card */}
-      <Card className="border border-[#ececee] dark:border-[#27272a] shadow-xs">
+      <Card className="border border-[#ececee] dark:border-[#27272a] shadow-xs overflow-hidden">
         <CardContent className="p-0">
           
           {list.length === 0 ? (

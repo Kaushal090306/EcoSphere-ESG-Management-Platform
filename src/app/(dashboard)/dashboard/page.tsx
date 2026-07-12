@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import {
@@ -185,36 +185,7 @@ export default function DashboardPage() {
     }
   };
 
-  const handleDownloadReport = () => {
-    if (!data) return;
-    
-    const reportText = `EcoSphere ESG Performance Summary Report
-Generated on: ${new Date().toLocaleDateString()}
-Organization: GreenTech Solutions
 
-SUMMARY SCORES (${calendarPeriod.toUpperCase()}):
-- Overall ESG Score: ${currentScores.overall}/100
-- Environment Score: ${currentScores.environment}/100
-- Social Score: ${currentScores.social}/100
-- Governance Score: ${currentScores.governance}/100
-
-TOP PERFORMING DEPARTMENTS:
-${data.topDepartments.map((d, i) => `${i + 1}. ${d.name}: ${d.score}/100`).join("\n")}
-
-PEND TASK DETAILS:
-${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).join("\n")}
-`;
-
-    const blob = new Blob([reportText], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `ESG-Report-GreenTech-${new Date().toISOString().slice(0, 10)}.txt`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    toast.success("ESG Report downloaded successfully!");
-  };
 
   if (loading) {
     return (
@@ -1256,13 +1227,64 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
             </DropdownMenu>
           )}
 
-          <Button 
-            onClick={handleDownloadReport}
-            className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs px-3 py-1.5 h-8.5 rounded-lg font-medium flex items-center gap-2 shadow-[0_0_15px_rgba(124,58,237,0.3)] transition-all cursor-pointer"
-          >
-            <Download className="h-4 w-4" />
-            <span>Export Report</span>
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={
+                <Button 
+                  className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs px-3 py-1.5 h-8.5 rounded-lg font-medium flex items-center gap-2 shadow-[0_0_15px_rgba(124,58,237,0.3)] transition-all cursor-pointer"
+                >
+                  <Download className="h-4 w-4" />
+                  <span>Export Report</span>
+                </Button>
+              }
+            />
+            <DropdownMenuContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-lg z-50">
+              <DropdownMenuItem 
+                onClick={() => window.print()}
+                className="text-xs text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#1c1a24] cursor-pointer"
+              >
+                Download PDF Report
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  if (!data) return;
+                  const headers = "Section,Metric,Value,Unit,Period\n";
+                  const rows = [
+                    ["Dashboard Summary", "Overall ESG Score", `${currentScores.overall}`, "/100", calendarPeriod.toUpperCase()],
+                    ["Dashboard Summary", "Environment Score", `${currentScores.environment}`, "/100", calendarPeriod.toUpperCase()],
+                    ["Dashboard Summary", "Social Score", `${currentScores.social}`, "/100", calendarPeriod.toUpperCase()],
+                    ["Dashboard Summary", "Governance Score", `${currentScores.governance}`, "/100", calendarPeriod.toUpperCase()],
+                    ...data.topDepartments.map((d, i) => [
+                      "Top Departments",
+                      `Rank #${i + 1} - ${d.name}`,
+                      `${d.score}`,
+                      "/100",
+                      calendarPeriod.toUpperCase(),
+                    ]),
+                    ...data.pendingTasks.map((t) => [
+                      "Pending Tasks",
+                      t.title,
+                      "Pending",
+                      t.dueDate,
+                      calendarPeriod.toUpperCase(),
+                    ]),
+                  ].map(row => row.map(cell => `"${cell.replace(/"/g, '""')}"`).join(",")).join("\n");
+                  const blob = new Blob([headers + rows], { type: "text/csv;charset=utf-8;" });
+                  const url = URL.createObjectURL(blob);
+                  const link = document.createElement("a");
+                  link.setAttribute("href", url);
+                  link.setAttribute("download", `esg_dashboard_report_${calendarPeriod}.csv`);
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                  toast.success("CSV Dataset downloaded successfully!");
+                }}
+                className="text-xs text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#1c1a24] cursor-pointer"
+              >
+                Download CSV Dataset
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
