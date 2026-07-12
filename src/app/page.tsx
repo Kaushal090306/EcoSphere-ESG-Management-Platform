@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Sparkles, Shield, Users, Leaf, ArrowUpRight } from "lucide-react";
 import { auth } from "@/auth";
@@ -354,17 +354,17 @@ export default async function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-[#ececee] bg-white dark:bg-[#18181b] py-12 text-[13px] text-[#71717a]">
+      <footer className="border-t border-[#ececee] dark:border-[#2e2e32] bg-white dark:bg-[#1c1c1f] py-12 text-[13px] text-[#71717a] dark:text-[#8c8c94]">
         <div className="max-w-[1200px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <span className="font-bold text-[#09090b] dark:text-white">EcoSphere</span>
+            <span className="font-bold text-[#09090b] dark:text-[#eeeeef]">EcoSphere</span>
             <span>© {new Date().getFullYear()} EcoSphere. All rights reserved.</span>
           </div>
           
           <div className="flex items-center gap-6">
-            <a href="#" className="hover:text-[#09090b] dark:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-[#09090b] dark:text-white transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-[#09090b] dark:text-white transition-colors">Security</a>
+            <Link href="/privacy" className="hover:text-[#09090b] dark:hover:text-[#eeeeef] transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-[#09090b] dark:hover:text-[#eeeeef] transition-colors">Terms of Service</Link>
+            <Link href="/security" className="hover:text-[#09090b] dark:hover:text-[#eeeeef] transition-colors">Security</Link>
           </div>
         </div>
       </footer>

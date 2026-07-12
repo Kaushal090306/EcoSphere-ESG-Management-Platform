@@ -54,6 +54,7 @@ const routeLabels: Record<string, string> = {
   "/gamification/badges": "Badges",
   "/gamification/rewards": "Rewards",
   "/gamification/leaderboard": "Leaderboard",
+  "/esg-scoring": "ESG Scoring",
   "/reports": "Reports",
   "/settings": "Configuration",
   "/settings/users": "User Management",
