@@ -531,7 +531,17 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
   // --- SUB-RENDER 2: MANAGER DASHBOARD ---
   const renderManagerDashboard = () => {
     const stats = data.managerStats;
-    if (!stats) return null;
+    if (!stats) {
+      return (
+        <Card className="bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] rounded-xl p-8 text-center shadow-none flex flex-col items-center justify-center min-h-[300px]">
+          <AlertCircle className="h-10 w-10 text-amber-500 mb-3 animate-pulse" />
+          <h3 className="text-base font-bold text-[#09090b] dark:text-white">Department Mapping Required</h3>
+          <p className="text-xs text-muted-foreground mt-1.5 max-w-sm mx-auto leading-relaxed">
+            You are logged in as a Department Manager, but your account is not yet assigned to a department. Please ask the administrator to assign your profile to a department in user settings to unlock your metrics.
+          </p>
+        </Card>
+      );
+    }
 
     return (
       <div className="space-y-6">

@@ -31,9 +31,9 @@ import bcrypt from "bcryptjs";
 export async function seedDatabase() {
   console.log("🌱 Seeding database...");
 
-  // 1. Admin user & regular user
+  // 1. Admin, regular user & department manager user
   const passwordHash = await bcrypt.hash("password123", 10);
-  const [admin, employee] = await db
+  const userList = await db
     .insert(users)
     .values([
       {
@@ -53,10 +53,24 @@ export async function seedDatabase() {
         status: "active",
         points: 1200,
         xp: 3400,
+      },
+      {
+        name: "John Manager",
+        email: "manager@ecosphere.com",
+        passwordHash,
+        role: "dept_head",
+        status: "active",
+        points: 600,
+        xp: 2000,
       }
     ])
     .onConflictDoNothing()
     .returning();
+
+  const admin = userList.find((u) => u.role === "admin") || await db.select().from(users).where(eq(users.email, "admin@ecosphere.com")).then(res => res[0]);
+  const employee = userList.find((u) => u.role === "employee") || await db.select().from(users).where(eq(users.email, "jane.doe@ecosphere.com")).then(res => res[0]);
+  const manager = userList.find((u) => u.role === "dept_head") || await db.select().from(users).where(eq(users.email, "manager@ecosphere.com")).then(res => res[0]);
+
   console.log("✅ Users created");
 
   // 2. Departments
@@ -74,9 +88,14 @@ export async function seedDatabase() {
     .returning();
   console.log(`✅ ${insertedDepts.length} departments created`);
 
-  // Update employee department
-  if (insertedDepts.length > 0 && employee) {
-    await db.update(users).set({ departmentId: insertedDepts[0].id }).where(eq(users.id, employee.id));
+  // Update employee & manager department
+  if (insertedDepts.length > 0) {
+    if (employee) {
+      await db.update(users).set({ departmentId: insertedDepts[0].id }).where(eq(users.id, employee.id));
+    }
+    if (manager) {
+      await db.update(users).set({ departmentId: insertedDepts[0].id }).where(eq(users.id, manager.id));
+    }
   }
 
   // 3. Categories
@@ -289,5 +308,5 @@ export async function seedDatabase() {
     ]).onConflictDoNothing();
   }
 
-  console.log("\n🎉 Seed complete! Login with admin@ecosphere.com / password123");
+  console.log("\n🎉 Seed complete! Login with:\n- Admin: admin@ecosphere.com / password123\n- Employee: jane.doe@ecosphere.com / password123\n- Manager: manager@ecosphere.com / password123");
 }
