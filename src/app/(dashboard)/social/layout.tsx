@@ -14,6 +14,8 @@ export default function SocialLayout({
     { name: "Overview", href: "/social" },
     { name: "CSR Activities", href: "/social/csr-activities" },
     { name: "Employee Participation", href: "/social/participation" },
+    { name: "Diversity Metrics", href: "/social/diversity" },
+    { name: "Training Records", href: "/social/training" },
   ];
 
   return (

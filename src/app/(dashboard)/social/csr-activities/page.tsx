@@ -1,18 +1,16 @@
 ﻿import { getCsrActivities } from "@/actions/csr-activities";
 import { getDepartments } from "@/actions/departments";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { HandHeart } from "lucide-react";
+import { getCategories } from "@/actions/categories";
+import { CsrActivitiesClient } from "./csr-activities-client";
+import { auth } from "@/auth";
 
 export default async function CsrActivitiesPage() {
-  const [activities, departments] = await Promise.all([
+  const [activities, departments, categories, session] = await Promise.all([
     getCsrActivities(),
     getDepartments(),
+    getCategories(),
+    auth(),
   ]);
-
-  const deptName = (id: string | null) =>
-    id ? departments.find((d) => d.id === id)?.name || "All Departments" : "All Departments";
 
   return (
     <div className="space-y-6">

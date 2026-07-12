@@ -5,13 +5,12 @@ import { Badge } from "@/components/ui/badge";
 import { Users } from "lucide-react";
 
 export default async function EmployeeParticipationPage() {
-  const [participations, activities] = await Promise.all([
+  const [participations, activities, settings, session] = await Promise.all([
     getEmployeeParticipations(),
     getCsrActivities(),
+    getEsgSettings(),
+    auth(),
   ]);
-
-  const activityName = (id: string) =>
-    activities.find((a) => a.id === id)?.title || "Unknown Event";
 
   return (
     <div className="space-y-6">
