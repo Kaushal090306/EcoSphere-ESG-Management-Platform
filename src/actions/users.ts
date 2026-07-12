@@ -1,11 +1,11 @@
 "use server";
 
 import { db } from "@/db";
-import { users } from "@/db/schema";
+import { users, departments } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
-import { checkRole } from "@/lib/auth-utils";
+import { checkRole, getSessionUser } from "@/lib/auth-utils";
 
 export async function getUsers() {
   try {
@@ -138,5 +138,78 @@ export async function deleteUser(id: string) {
     return { success: true };
   } catch (error: any) {
     return { error: error.message || "Failed to delete user." };
+  }
+}
+
+export async function getCurrentUserProfile() {
+  const sessionUser = await getSessionUser();
+  if (!sessionUser?.id) {
+    throw new Error("Unauthorized");
+  }
+
+  const [result] = await db
+    .select({
+      user: users,
+      departmentName: departments.name,
+    })
+    .from(users)
+    .leftJoin(departments, eq(users.departmentId, departments.id))
+    .where(eq(users.id, sessionUser.id))
+    .limit(1);
+
+  if (!result) {
+    throw new Error("User not found");
+  }
+
+  return {
+    ...result.user,
+    departmentName: result.departmentName || "Unassigned",
+  };
+}
+
+export async function updateUserProfile(data: {
+  name: string;
+  email: string;
+  password?: string;
+}) {
+  const sessionUser = await getSessionUser();
+  if (!sessionUser?.id) {
+    return { error: "Unauthorized" };
+  }
+
+  if (!data.name || !data.email) {
+    return { error: "Name and email are required." };
+  }
+
+  try {
+    // Check if email taken by someone else
+    const [existing] = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, data.email.toLowerCase()))
+      .limit(1);
+
+    if (existing && existing.id !== sessionUser.id) {
+      return { error: "This email address is already in use by another account." };
+    }
+
+    const updateData: any = {
+      name: data.name,
+      email: data.email.toLowerCase(),
+      updatedAt: new Date(),
+    };
+
+    if (data.password && data.password.trim() !== "") {
+      updateData.passwordHash = await bcrypt.hash(data.password, 10);
+    }
+
+    await db.update(users).set(updateData).where(eq(users.id, sessionUser.id));
+
+    revalidatePath("/settings/profile");
+    revalidatePath("/settings");
+    revalidatePath("/dashboard");
+    return { success: true };
+  } catch (error: any) {
+    return { error: error.message || "Failed to update profile." };
   }
 }
