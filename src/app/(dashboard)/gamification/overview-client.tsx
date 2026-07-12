@@ -88,43 +88,6 @@ export function OverviewClient({
 
   return (
     <div className="space-y-6">
-      {/* Welcome Banner */}
-      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-6 p-6 bg-gradient-to-br from-[#151221] to-[#0b0912] border border-[#2b233d] rounded-xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-purple-600/5 rounded-full blur-3xl" />
-        <div className="space-y-2 relative z-10 text-white">
-          <span className="text-purple-400 text-xs font-bold tracking-wider uppercase flex items-center gap-1">
-            <Sparkles className="h-3.5 w-3.5" /> ESG Gamification Profile
-          </span>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">
-            Welcome back, {user.name}!
-          </h1>
-          <p className="text-gray-300 text-sm max-w-md">
-            Earn levels, unlock rewards, and compete with colleagues by keeping EcoSphere's ESG metrics updated.
-          </p>
-        </div>
-
-        {/* Level and Progress Block */}
-        <div className="flex items-center gap-4 bg-[#0c0a0e]/40 border border-[#2b233d] p-4 rounded-lg relative z-10 w-full md:w-80">
-          <div className="flex flex-col items-center justify-center bg-purple-900/30 text-purple-300 border border-purple-500/20 w-16 h-16 rounded-lg flex-shrink-0">
-            <span className="text-[9px] uppercase font-bold tracking-wider opacity-60">Level</span>
-            <span className="text-2xl font-extrabold font-mono leading-none mt-0.5">{user.level}</span>
-          </div>
-          <div className="flex-1 space-y-1.5">
-            <div className="flex justify-between text-xs">
-              <span className="text-gray-300">XP Progress</span>
-              <span className="font-semibold text-purple-300 font-mono">
-                {user.xp % 100} / 100 XP
-              </span>
-            </div>
-            <div className="h-2 w-full bg-[#181524] rounded-full overflow-hidden">
-              <div
-                className="h-full bg-purple-500 transition-all duration-300"
-                style={{ width: `${user.percentProgress}%` }}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* KPI Cards Row with Sparklines */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
