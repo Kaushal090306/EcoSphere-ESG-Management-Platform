@@ -13,7 +13,6 @@ import {
   Settings,
   ChevronDown,
   ChevronUp,
-  Crown,
   Bell,
   ClipboardCheck,
   HelpCircle,
@@ -29,10 +28,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuAction,
   SidebarFooter,
 } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
 
 interface SubItem {
   title: string;
@@ -121,22 +118,25 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
       items: [
         { title: "Tasks", href: "/environmental/goals", icon: ClipboardCheck, badge: 8 },
         { title: "Notifications", href: "/settings", icon: Bell, badge: 5 },
-        {
-          title: "Settings",
-          icon: Settings,
-          roles: ["admin"],
-          href: "/settings",
-          items: [
-            { title: "Configuration", href: "/settings", roles: ["admin"] },
-            { title: "User Management", href: "/settings/users", roles: ["admin"] },
-            { title: "Departments", href: "/settings/departments", roles: ["admin"] },
-            { title: "Categories", href: "/settings/categories", roles: ["admin"] },
-          ],
-        },
-        { title: "Help & Support", href: "/settings", icon: HelpCircle },
       ] as NavItem[],
     },
   ];
+
+  const rawFooterItems = [
+    {
+      title: "Settings",
+      icon: Settings,
+      href: "/settings/profile",
+      items: [
+        { title: "Profile", href: "/settings/profile" },
+        { title: "Configuration", href: "/settings", roles: ["admin"] },
+        { title: "User Management", href: "/settings/users", roles: ["admin"] },
+        { title: "Departments", href: "/settings/departments", roles: ["admin"] },
+        { title: "Categories", href: "/settings/categories", roles: ["admin"] },
+      ],
+    },
+    { title: "Help & Support", href: "/settings/profile", icon: HelpCircle },
+  ] as NavItem[];
 
   // Filter groups and items based on role
   const navGroups = rawNavGroups.map(group => {
@@ -155,10 +155,23 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
     return { ...group, items: filteredItems };
   }).filter(group => group.items.length > 0);
 
+  const footerItems = rawFooterItems.map(item => {
+    if (item.items) {
+      const filteredSubs = item.items.filter(sub => !sub.roles || sub.roles.includes(user?.role || ""));
+      if (filteredSubs.length === 0) return null;
+      return { ...item, items: filteredSubs };
+    }
+    if (item.roles && !item.roles.includes(user?.role || "")) {
+      return null;
+    }
+    return item;
+  }).filter(Boolean) as NavItem[];
+
   // Automatically expand group if pathname matches a subitem
   useEffect(() => {
     const activeGroup = Object.keys(expanded).find((groupName) => {
-      const items = navGroups.find((g) => g.label === "MAIN MENU" || g.label === "OTHER")?.items || [];
+      const navItems = navGroups.flatMap((g) => g.items);
+      const items = [...navItems, ...footerItems];
       const parent = items.find((item) => item.title === groupName);
       return parent?.items?.some((sub) => pathname.startsWith(sub.href)) || false;
     });
@@ -289,36 +302,79 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
         ))}
       </SidebarContent>
 
-      <SidebarFooter className="p-4 bg-[#fafafa] dark:bg-[#18181b] border-t border-[#ececee] dark:border-[#27272a]">
-        {/* Current Plan Banner */}
-        <div className="bg-white dark:bg-[#27272a] border border-[#ececee] dark:border-[#3f3f46] rounded-[20px] p-4 space-y-3 group-data-[collapsible=icon]:hidden">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] text-[#71717a] uppercase font-bold tracking-widest">
-              Current Plan
-            </span>
-            <Crown className="h-4 w-4 text-amber-500" />
-          </div>
-          <div>
-            <h4 className="text-base font-bold text-[#09090b] dark:text-[#fafafa]">
-              Enterprise
-            </h4>
-          </div>
-          <Button 
-            nativeButton={false}
-            className="w-full bg-[#09090b] dark:bg-[#fafafa] hover:bg-[#18181b] dark:hover:bg-[#e4e4e7] text-white dark:text-[#09090b] text-xs py-2 h-9 rounded-[14px] font-medium transition-all border-none"
-            render={
-              <Link href="/settings" />
-            }
-          >
-            Manage Plan
-          </Button>
-        </div>
-        
-        {/* Footer info when collapsed */}
-        <div className="hidden group-data-[collapsible=icon]:flex items-center justify-center py-2 text-muted-foreground">
-          <Crown className="h-4 w-4 text-amber-500" />
-        </div>
+      <SidebarFooter className="p-3 bg-[#fafafa] dark:bg-[#18181b] border-t border-[#ececee] dark:border-[#27272a]">
+        <SidebarMenu className="space-y-0.5">
+          {footerItems.map((item) => {
+            const hasSubItems = !!item.items;
+            const isExpanded = expanded[item.title];
+            const isActive = item.href
+              ? pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href))
+              : false;
+
+            const baseBtn = [
+              "w-full flex items-center gap-3 px-3 h-11 rounded-[14px] cursor-pointer transition-all text-sm font-medium border",
+              isActive
+                ? "bg-white dark:bg-[#27272a] text-[#09090b] dark:text-[#fafafa] border-[#ececee] dark:border-[#3f3f46] shadow-sm font-semibold"
+                : "text-[#52525b] dark:text-[#a1a1aa] border-transparent hover:bg-white dark:hover:bg-[#27272a] hover:text-[#09090b] dark:hover:text-[#fafafa] hover:border-[#ececee] dark:hover:border-[#3f3f46]",
+            ].join(" ");
+
+            return (
+              <SidebarMenuItem key={item.title}>
+                {hasSubItems ? (
+                  <>
+                    <button
+                      onClick={() => toggleGroup(item.title)}
+                      className={baseBtn}
+                    >
+                      <item.icon className="h-4 w-4 shrink-0" />
+                      <span className="flex-1 text-left">{item.title}</span>
+                      {isExpanded
+                        ? <ChevronUp className="h-3.5 w-3.5 shrink-0 text-[#a1a1aa]" />
+                        : <ChevronDown className="h-3.5 w-3.5 shrink-0 text-[#a1a1aa]" />
+                      }
+                    </button>
+
+                    {isExpanded && (
+                      <div className="pl-4 mt-0.5 mb-1 ml-5 border-l border-[#ececee] dark:border-[#27272a] flex flex-col gap-0.5">
+                        {item.items!.map((subItem) => {
+                          const isSubActive = pathname === subItem.href;
+                          return (
+                            <Link
+                              key={subItem.href}
+                              href={subItem.href}
+                              className={[
+                                "flex items-center h-9 px-3 text-xs rounded-[10px] transition-all border",
+                                isSubActive
+                                  ? "bg-white dark:bg-[#27272a] text-[#09090b] dark:text-[#fafafa] border-[#ececee] dark:border-[#3f3f46] font-semibold shadow-sm"
+                                  : "text-[#71717a] dark:text-[#71717a] border-transparent hover:bg-[#f4f4f5] dark:hover:bg-[#27272a] hover:text-[#09090b] dark:hover:text-[#fafafa]",
+                              ].join(" ")}
+                            >
+                              {subItem.title}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <SidebarMenuButton
+                    isActive={isActive}
+                    className={baseBtn}
+                    tooltip={item.title}
+                    render={
+                      <Link href={item.href || "#"}>
+                        <item.icon className="h-4 w-4 shrink-0" />
+                        <span className="flex-1">{item.title}</span>
+                      </Link>
+                    }
+                  />
+                )}
+              </SidebarMenuItem>
+            );
+          })}
+        </SidebarMenu>
       </SidebarFooter>
+
     </Sidebar>
   );
 }

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
@@ -24,7 +24,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const roleDisplayNames: Record<string, string> = {
@@ -213,20 +213,16 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
                 className="flex items-center gap-2.5 p-1.5 pr-3 h-10 rounded-[12px] hover:bg-[#f4f4f5] border border-transparent hover:border-[#ececee] text-left cursor-pointer transition-all"
               >
                 <Avatar className="h-7 w-7 border border-[#ececee]">
-                  <AvatarImage
-                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
-                    alt={user?.name || currentUser.name}
-                  />
                   <AvatarFallback className="bg-[#f4f4f5] text-[#52525b] text-xs font-semibold">
                     {initials}
                   </AvatarFallback>
                 </Avatar>
                 <div className="hidden md:flex flex-col">
                   <span className="text-sm font-semibold text-[#09090b] leading-tight">
-                    {currentUser.name}
+                    {user?.name || currentUser.name}
                   </span>
                   <span className="text-[11px] text-[#71717a]">
-                    {currentUser.role}
+                    {user?.role ? (roleDisplayNames[user.role] || user.role) : currentUser.role}
                   </span>
                 </div>
                 <ChevronDown className="h-3.5 w-3.5 text-[#a1a1aa] hidden md:block" />

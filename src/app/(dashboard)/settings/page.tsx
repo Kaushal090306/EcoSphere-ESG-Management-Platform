@@ -3,13 +3,13 @@ import { SettingsClient } from "./settings-client";
 import { SlidersHorizontal } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { auth } from "@/auth";
-import { AccessDenied } from "@/components/shared/access-denied";
+import { redirect } from "next/navigation";
 
 export default async function SettingsPage() {
   const session = await auth();
 
   if ((session?.user as any)?.role !== "admin") {
-    return <AccessDenied />;
+    redirect("/settings/profile");
   }
 
   const settings = await getEsgSettings();
