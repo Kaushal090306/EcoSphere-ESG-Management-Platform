@@ -193,17 +193,17 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
                 </Button>
               }
             />
-            <DropdownMenuContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white rounded-xl">
-              <DropdownMenuItem onClick={() => setCalendarPeriod("oct")} className="text-xs focus:bg-[#2c2e3c] focus:text-white cursor-pointer">
+            <DropdownMenuContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-[#09090b] dark:text-white rounded-lg">
+              <DropdownMenuItem onClick={() => setCalendarPeriod("oct")} className="text-xs text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#2c2e3c] cursor-pointer">
                 Oct 1 – Oct 31, 2024
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setCalendarPeriod("sep")} className="text-xs focus:bg-[#2c2e3c] focus:text-white cursor-pointer">
+              <DropdownMenuItem onClick={() => setCalendarPeriod("sep")} className="text-xs text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#2c2e3c] cursor-pointer">
                 Sep 1 – Sep 30, 2024
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setCalendarPeriod("aug")} className="text-xs focus:bg-[#2c2e3c] focus:text-white cursor-pointer">
+              <DropdownMenuItem onClick={() => setCalendarPeriod("aug")} className="text-xs text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#2c2e3c] cursor-pointer">
                 Aug 1 – Aug 31, 2024
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setCalendarPeriod("last6")} className="text-xs focus:bg-[#2c2e3c] focus:text-white cursor-pointer">
+              <DropdownMenuItem onClick={() => setCalendarPeriod("last6")} className="text-xs text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#2c2e3c] cursor-pointer">
                 Last 6 Months
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -385,9 +385,9 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
                     </Button>
                   }
                 />
-                <DropdownMenuContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-white">
-                  <DropdownMenuItem onClick={() => setSelectedPeriod("Last 6 Months")} className="text-xs focus:bg-[#f4f4f5] dark:focus:bg-[#221F2C]">Last 6 Months</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setSelectedPeriod("Last Year")} className="text-xs focus:bg-[#f4f4f5] dark:focus:bg-[#221F2C]">Last Year</DropdownMenuItem>
+                <DropdownMenuContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-[#09090b] dark:text-white rounded-lg">
+                  <DropdownMenuItem onClick={() => setSelectedPeriod("Last 6 Months")} className="text-xs text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#2c2e3c] cursor-pointer">Last 6 Months</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setSelectedPeriod("Last Year")} className="text-xs text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#2c2e3c] cursor-pointer">Last Year</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>

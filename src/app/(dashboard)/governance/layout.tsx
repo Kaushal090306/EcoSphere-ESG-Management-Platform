@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -68,9 +68,9 @@ export default function GovernanceLayout({
           <DropdownMenu>
             <DropdownMenuTrigger
               render={
-                <Button
+            <Button
                   variant="ghost"
-                  className="flex items-center gap-2 px-3 py-1.5 h-8.5 rounded-xl bg-[#181922] border border-[#2d2f39] text-xs font-semibold text-muted-foreground hover:bg-[#201E2A] hover:text-white transition-all cursor-pointer"
+                  className="flex items-center gap-2 px-3 py-1.5 h-8.5 rounded-lg bg-white dark:bg-[#181922] border border-[#ececee] dark:border-[#2d2f39] text-xs font-semibold text-muted-foreground hover:bg-[#f4f4f5] dark:hover:bg-[#201E2A] hover:text-[#09090b] dark:hover:text-white transition-all cursor-pointer"
                 >
                   <CalendarIcon className="h-4 w-4 text-[#9B5CF6]" />
                   <span>{periodLabels[period] || "Oct 1 – Oct 31, 2024"}</span>
@@ -78,24 +78,24 @@ export default function GovernanceLayout({
                 </Button>
               }
             />
-            <DropdownMenuContent className="bg-[#181922] border-[#2d2f39] text-white rounded-xl">
-              <DropdownMenuItem onClick={() => handlePeriodChange("oct")} className="text-xs focus:bg-[#2c2e3c] focus:text-white cursor-pointer">
+            <DropdownMenuContent className="bg-white dark:bg-[#181922] border-[#ececee] dark:border-[#2d2f39] text-[#09090b] dark:text-white rounded-lg">
+              <DropdownMenuItem onClick={() => handlePeriodChange("oct")} className="text-xs text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#2c2e3c] cursor-pointer">
                 Oct 1 – Oct 31, 2024
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handlePeriodChange("sep")} className="text-xs focus:bg-[#2c2e3c] focus:text-white cursor-pointer">
+              <DropdownMenuItem onClick={() => handlePeriodChange("sep")} className="text-xs text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#2c2e3c] cursor-pointer">
                 Sep 1 – Sep 30, 2024
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handlePeriodChange("aug")} className="text-xs focus:bg-[#2c2e3c] focus:text-white cursor-pointer">
+              <DropdownMenuItem onClick={() => handlePeriodChange("aug")} className="text-xs text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#2c2e3c] cursor-pointer">
                 Aug 1 – Aug 31, 2024
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handlePeriodChange("last6")} className="text-xs focus:bg-[#2c2e3c] focus:text-white cursor-pointer">
+              <DropdownMenuItem onClick={() => handlePeriodChange("last6")} className="text-xs text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#2c2e3c] cursor-pointer">
                 Last 6 Months
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <Button 
             onClick={() => window.print()}
-            className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs px-3 py-1.5 h-8.5 rounded-xl font-medium flex items-center gap-2 shadow-[0_0_15px_rgba(124,58,237,0.3)] transition-all cursor-pointer"
+            className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs px-3 py-1.5 h-8.5 rounded-lg font-medium flex items-center gap-2 shadow-[0_0_15px_rgba(124,58,237,0.3)] transition-all cursor-pointer"
           >
             <Download className="h-4 w-4" />
             <span>Export Report</span>

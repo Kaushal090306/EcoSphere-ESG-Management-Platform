@@ -106,6 +106,10 @@
   --eco-orange: #d97706;
   --eco-ember: #ff5a00;
   --eco-red: #dc2626;
+
+  /* Scrollbar theme values */
+  --scrollbar-thumb: #d4d4d8;
+  --scrollbar-thumb-hover: #a1a1aa;
 }
 
 /* Dark mode overrides — activated by .dark class on <html> via next-themes */
@@ -139,6 +143,10 @@
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: #1a1822;
   --sidebar-ring: #8e909a;
+
+  /* Scrollbar dark theme values */
+  --scrollbar-thumb: #3f3f46;
+  --scrollbar-thumb-hover: #52525b;
 }
 
 @layer base {
@@ -165,11 +173,11 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #7C3AED;
+    background: var(--scrollbar-thumb);
     border-radius: 20px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #9B5CF6;
+    background: var(--scrollbar-thumb-hover);
   }
 }
 
