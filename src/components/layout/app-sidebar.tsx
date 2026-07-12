@@ -37,6 +37,7 @@ import { Button } from "@/components/ui/button";
 interface SubItem {
   title: string;
   href: string;
+  roles?: string[];
 }
 
 interface NavItem {
@@ -45,9 +46,10 @@ interface NavItem {
   icon: any;
   items?: SubItem[];
   badge?: number;
+  roles?: string[];
 }
 
-export function AppSidebar() {
+export function AppSidebar({ user }: { user?: { role?: string } }) {
   const pathname = usePathname();
   
   // Track collapsible submenu states
@@ -76,7 +78,7 @@ export function AppSidebar() {
     setExpanded((prev) => ({ ...prev, [name]: !prev[name] }));
   };
 
-  const navGroups = [
+  const rawNavGroups = [
     {
       label: "MAIN MENU",
       items: [
@@ -86,7 +88,7 @@ export function AppSidebar() {
           icon: Leaf,
           items: [
             { title: "Overview", href: "/environmental" },
-            { title: "Emission Factors", href: "/environmental/emission-factors" },
+            { title: "Emission Factors", href: "/environmental/emission-factors", roles: ["admin", "esg_manager", "auditor"] },
             { title: "Product ESG Profiles", href: "/environmental/product-profiles" },
             { title: "Carbon Transactions", href: "/environmental/carbon-transactions" },
             { title: "Environmental Goals", href: "/environmental/goals" },
@@ -107,7 +109,7 @@ export function AppSidebar() {
           items: [
             { title: "Overview", href: "/governance" },
             { title: "ESG Policies", href: "/governance/policies" },
-            { title: "Audits", href: "/governance/audits" },
+            { title: "Audits", href: "/governance/audits", roles: ["admin", "esg_manager", "auditor"] },
             { title: "Compliance Issues", href: "/governance/compliance-issues" },
           ],
         },
@@ -123,8 +125,8 @@ export function AppSidebar() {
             { title: "Leaderboard", href: "/gamification/leaderboard" },
           ],
         },
-        { title: "Reports", href: "/reports", icon: BarChart3 },
-        { title: "Integrations", href: "/settings", icon: Sparkles },
+        { title: "Reports", href: "/reports", icon: BarChart3, roles: ["admin", "esg_manager", "auditor"] },
+        { title: "Integrations", href: "/settings", icon: Sparkles, roles: ["admin"] },
       ] as NavItem[],
     },
     {
@@ -135,16 +137,35 @@ export function AppSidebar() {
         {
           title: "Settings",
           icon: Settings,
+          roles: ["admin"],
           items: [
-            { title: "Configuration", href: "/settings" },
-            { title: "Departments", href: "/settings/departments" },
-            { title: "Categories", href: "/settings/categories" },
+            { title: "Configuration", href: "/settings", roles: ["admin"] },
+            { title: "User Management", href: "/settings/users", roles: ["admin"] },
+            { title: "Departments", href: "/settings/departments", roles: ["admin"] },
+            { title: "Categories", href: "/settings/categories", roles: ["admin"] },
           ],
         },
         { title: "Help & Support", href: "/settings", icon: HelpCircle },
       ] as NavItem[],
     },
   ];
+
+  // Filter groups and items based on role
+  const navGroups = rawNavGroups.map(group => {
+    const filteredItems = group.items.map(item => {
+      if (item.items) {
+        const filteredSubs = item.items.filter(sub => !sub.roles || sub.roles.includes(user?.role || ""));
+        if (filteredSubs.length === 0) return null;
+        return { ...item, items: filteredSubs };
+      }
+      if (item.roles && !item.roles.includes(user?.role || "")) {
+        return null;
+      }
+      return item;
+    }).filter(Boolean) as NavItem[];
+
+    return { ...group, items: filteredItems };
+  }).filter(group => group.items.length > 0);
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border bg-[#15161D]">
