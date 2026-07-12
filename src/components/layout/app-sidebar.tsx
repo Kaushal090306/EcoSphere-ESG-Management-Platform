@@ -29,6 +29,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuAction,
   SidebarFooter,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
@@ -68,6 +69,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
         {
           title: "Environment",
           icon: Leaf,
+          href: "/environmental",
           items: [
             { title: "Overview", href: "/environmental" },
             { title: "Emission Factors", href: "/environmental/emission-factors", roles: ["admin", "esg_manager", "auditor"] },
@@ -79,6 +81,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
         {
           title: "Social",
           icon: Users,
+          href: "/social",
           items: [
             { title: "Overview", href: "/social" },
             { title: "CSR Activities", href: "/social/csr-activities" },
@@ -88,6 +91,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
         {
           title: "Governance",
           icon: ShieldCheck,
+          href: "/governance",
           items: [
             { title: "Overview", href: "/governance" },
             { title: "ESG Policies", href: "/governance/policies" },
@@ -99,6 +103,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
         {
           title: "Gamification",
           icon: Trophy,
+          href: "/gamification",
           items: [
             { title: "Overview", href: "/gamification" },
             { title: "Challenges", href: "/gamification/challenges" },
@@ -120,6 +125,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
           title: "Settings",
           icon: Settings,
           roles: ["admin"],
+          href: "/settings",
           items: [
             { title: "Configuration", href: "/settings", roles: ["admin"] },
             { title: "User Management", href: "/settings/users", roles: ["admin"] },
@@ -215,20 +221,35 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
                       {hasSubItems ? (
                         <>
                           <SidebarMenuButton
-                            onClick={() => toggleGroup(item.title)}
-                            className="w-full flex items-center justify-between text-sidebar-foreground hover:bg-[#121016] hover:text-white px-3 py-2.5 h-11 rounded-xl cursor-pointer"
+                            isActive={isActive}
+                            className="w-full text-sidebar-foreground hover:bg-[#121016] px-3 py-2.5 h-11 rounded-xl cursor-pointer"
                             tooltip={item.title}
-                          >
-                            <div className="flex items-center gap-3">
-                              <item.icon className="h-4.5 w-4.5 text-muted-foreground" />
-                              <span className="text-sm font-medium">{item.title}</span>
-                            </div>
-                            {isExpanded ? (
-                              <ChevronUp className="h-3.5 w-3.5 text-muted-foreground/60" />
-                            ) : (
-                              <ChevronDown className="h-3.5 w-3.5 text-muted-foreground/60" />
-                            )}
-                          </SidebarMenuButton>
+                            render={
+                              <Link href={item.href || "#"}>
+                                <div className="flex items-center gap-3">
+                                  <item.icon className="h-4.5 w-4.5" />
+                                  <span className="text-sm font-medium">{item.title}</span>
+                                </div>
+                              </Link>
+                            }
+                          />
+                          <SidebarMenuAction
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              toggleGroup(item.title);
+                            }}
+                            className="right-2 top-1/2 -translate-y-1/2 flex items-center justify-center h-6 w-6 text-muted-foreground/70 hover:text-white rounded-md transition-all cursor-pointer"
+                            render={
+                              <button>
+                                {isExpanded ? (
+                                  <ChevronUp className="h-3.5 w-3.5" />
+                                ) : (
+                                  <ChevronDown className="h-3.5 w-3.5" />
+                                )}
+                              </button>
+                            }
+                          />
 
                           {isExpanded && (
                             <div className="pl-6 mt-1 mb-2 space-y-1 border-l border-[#221F2C] ml-5 flex flex-col">
