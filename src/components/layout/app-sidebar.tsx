@@ -116,12 +116,6 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
         { title: "Integrations", href: "/settings", icon: Sparkles, roles: ["admin"] },
       ] as NavItem[],
     },
-    {
-      label: "OTHER",
-      items: [
-        { title: "Tasks", href: "/environmental/goals", icon: ClipboardCheck, badge: 8 },
-      ] as NavItem[],
-    },
   ];
 
   const rawFooterItems = [

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, LineChart, Line,
+  ResponsiveContainer, PieChart, Pie, Cell,
 } from "recharts";
 import {
   Leaf, Users, ShieldCheck, RefreshCw, Save,
@@ -15,25 +15,6 @@ import { getEsgScoringData, type EsgScoringData } from "@/actions/esg-scoring";
 import { updateEsgSettings } from "@/actions/esg-settings";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-
-/* ── circular ring gauge (same as score-card but inline) ── */
-function RingGauge({ score, color, size = 120 }: { score: number; color: string; size?: number }) {
-  const r = size / 2 - 9;
-  const circ = 2 * Math.PI * r;
-  const offset = circ - (Math.min(score, 100) / 100) * circ;
-  return (
-    <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none"
-        stroke="currentColor" strokeWidth={8} className="text-[#ececee] dark:text-[#1c1a24]" />
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none"
-        stroke={color} strokeWidth={8}
-        strokeDasharray={circ} strokeDashoffset={offset}
-        strokeLinecap="round"
-        style={{ transition: "stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)" }} />
-    </svg>
-  );
-}
 
 export default function EsgScoringPage() {
   const [data, setData] = useState<EsgScoringData | null>(null);
@@ -107,18 +88,30 @@ export default function EsgScoringPage() {
   }
   if (!data) return <p className="text-[#71717a]">No data available.</p>;
 
-  const overallGrade = data.scores.overall >= 85 ? "A" : data.scores.overall >= 70 ? "B" : data.scores.overall >= 55 ? "C" : "D";
+  // Sparkline arrays from trend data
+  const overallSparkline = data.trend.map((t) => ({ val: t.overall }));
+  const envSparkline = data.trend.map((t) => ({ val: t.environment }));
+  const socSparkline = data.trend.map((t) => ({ val: t.social }));
+  const govSparkline = data.trend.map((t) => ({ val: t.governance }));
 
   const pillars = [
-    { label: "Environmental", score: data.scores.environment, color: "#14b8a6", icon: Leaf, weight: envW },
-    { label: "Social",        score: data.scores.social,       color: "#8b5cf6", icon: Users, weight: socW },
-    { label: "Governance",    score: data.scores.governance,   color: "#3b82f6", icon: ShieldCheck, weight: govW },
+    { label: "Overall Score", score: data.scores.overall, color: "#ff5a00", icon: Activity, spark: overallSparkline },
+    { label: "Environmental Score", score: data.scores.environment, color: "#14b8a6", icon: Leaf, spark: envSparkline },
+    { label: "Social Score",        score: data.scores.social,       color: "#8b5cf6", icon: Users, spark: socSparkline },
+    { label: "Governance Score",    score: data.scores.governance,   color: "#3b82f6", icon: ShieldCheck, spark: govSparkline },
   ];
 
   const sliders = [
     { label: "Environmental", color: "#14b8a6", val: envW, set: setEnvW },
     { label: "Social",        color: "#8b5cf6", val: socW, set: setSocW },
     { label: "Governance",    color: "#3b82f6", val: govW, set: setGovW },
+  ];
+
+  // Donut chart representation
+  const donutData = [
+    { name: "Environmental Contribution", value: Math.round((data.scores.environment * envW) / 100), color: "#14b8a6" },
+    { name: "Social Contribution", value: Math.round((data.scores.social * socW) / 100), color: "#8b5cf6" },
+    { name: "Governance Contribution", value: Math.round((data.scores.governance * govW) / 100), color: "#3b82f6" },
   ];
 
   return (
@@ -145,138 +138,139 @@ export default function EsgScoringPage() {
         </div>
       </div>
 
-      {/* ── KPI Row: Overall + 3 pillars ── */}
+      {/* ── KPI Row: Bottom-aligned Sparkline Cards ── */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Overall score card */}
-        <div className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl p-6 flex flex-col items-center justify-center gap-3 hover:border-gray-300 dark:hover:border-zinc-800 transition-all shadow-xs">
-          <div className="relative">
-            <RingGauge score={data.scores.overall} color="#ff5a00" size={120} />
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-[28px] font-bold text-[#ff5a00] leading-none">{data.scores.overall}</span>
-              <span className="text-[10px] text-muted-foreground font-medium">/100</span>
-            </div>
-          </div>
-          <div className="text-center">
-            <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Overall ESG Score</p>
-            <span className="inline-flex mt-1.5 items-center rounded-full bg-[#ff5a00]/10 px-3 py-0.5 text-[10px] font-bold text-[#ff5a00]">
-              Grade {overallGrade}
-            </span>
-          </div>
-        </div>
-
-        {/* E / S / G cards */}
-        {pillars.map(({ label, score, color, icon: Icon, weight }) => {
-          const grade = score >= 85 ? "A" : score >= 70 ? "B" : score >= 55 ? "C" : "D";
-          return (
-            <div key={label}
-              className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl p-6 relative overflow-hidden hover:border-gray-300 dark:hover:border-zinc-800 transition-all shadow-xs"
-            >
-              <div className="flex items-start justify-between mb-3">
-                <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">{label}</p>
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#ececee] dark:border-[#221f2c]"
-                  style={{ backgroundColor: `${color}12` }}>
-                  <Icon className="h-4 w-4" style={{ color }} />
-                </div>
+        {pillars.map(({ label, score, color, icon: Icon, spark }) => (
+          <div key={label} className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl overflow-hidden shadow-xs relative flex flex-col justify-between h-[120px] hover:border-gray-300 dark:hover:border-zinc-800 transition-all">
+            <div className="p-5 pb-0">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">{label}</span>
+                <Icon className="h-4 w-4 text-muted-foreground" />
               </div>
-              <div className="flex items-baseline gap-1 mb-2">
-                <span className="text-[40px] font-bold text-foreground leading-none">{score}</span>
-                <span className="text-sm text-muted-foreground">/100</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <span className="font-bold text-xs" style={{ color }}>Grade {grade}</span>
-                <span>·</span>
-                <span>Weight: {weight}%</span>
-              </div>
-              {/* mini progress bar at bottom */}
-              <div className="mt-4 w-full h-1 rounded-full bg-[#e4e4e7]/60 dark:bg-[#1c1a24] overflow-hidden">
-                <div className="h-full rounded-full transition-all duration-1000"
-                  style={{ width: `${score}%`, backgroundColor: color }} />
+              <div className="flex items-baseline gap-1 mt-2">
+                <span className="text-2xl font-bold text-foreground leading-none">{score}</span>
+                <span className="text-[10px] text-muted-foreground">/100</span>
               </div>
             </div>
-          );
-        })}
+            {/* Edge-to-edge Sparkline */}
+            <div className="h-10 w-full mt-2">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={spark} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id={`grad-${label.replace(/\s+/g, "")}`} x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor={color} stopOpacity={0.2}/>
+                      <stop offset="95%" stopColor={color} stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <Area type="monotone" dataKey="val" stroke={color} strokeWidth={1.5} fillOpacity={1} fill={`url(#grad-${label.replace(/\s+/g, "")})`} />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        ))}
       </div>
 
-      {/* ── Charts Row ── */}
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-7">
-        {/* Trend Line Chart */}
-        <div className="lg:col-span-4 bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl p-6 hover:border-gray-300 dark:hover:border-zinc-800 transition-all shadow-xs">
-          <div className="flex items-start justify-between mb-5">
-            <div>
-              <h3 className="text-sm font-bold text-foreground">6-Month Score Trend</h3>
-              <div className="flex flex-wrap gap-4 text-xs mt-2.5">
-                {[
-                  { label: "Overall",     color: "#ff5a00" },
-                  { label: "Environment", color: "#14b8a6" },
-                  { label: "Social",      color: "#8b5cf6" },
-                  { label: "Governance",  color: "#3b82f6" },
-                ].map(({ label, color }) => (
-                  <div key={label} className="flex items-center gap-1.5">
-                    <div className="w-3 h-0.5 rounded-full" style={{ backgroundColor: color }} />
-                    <span className="text-muted-foreground text-[11px]">{label}</span>
-                  </div>
-                ))}
-              </div>
+      {/* ── Row 2: Charts Matching Environmental Overview ── */}
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+        {/* Trend Area Chart (Col 1) */}
+        <div className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl p-5 hover:border-gray-300 dark:hover:border-zinc-800 transition-all shadow-xs flex flex-col justify-between">
+          <div>
+            <h3 className="text-xs text-muted-foreground font-bold uppercase tracking-wider">6-Month Score Trend</h3>
+            <div className="flex flex-wrap gap-3 mt-2.5">
+              {[
+                { label: "Overall",     color: "#ff5a00" },
+                { label: "Environment", color: "#14b8a6" },
+                { label: "Social",      color: "#8b5cf6" },
+                { label: "Governance",  color: "#3b82f6" },
+              ].map(({ label, color }) => (
+                <div key={label} className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                  <div className="w-2.5 h-0.5 rounded-full" style={{ backgroundColor: color }} />
+                  <span>{label}</span>
+                </div>
+              ))}
             </div>
           </div>
-          <div className="w-full h-[240px]">
+          <div className="w-full h-[220px] mt-4">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={data.trend} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
+              <AreaChart data={data.trend} margin={{ top: 10, right: 0, left: -25, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="grad-overall" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#ff5a00" stopOpacity={0.1}/>
+                    <stop offset="95%" stopColor="#ff5a00" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#221f2c" : "#ececee"} vertical={false} />
-                <XAxis dataKey="month" stroke={isDark ? "#71717a" : "#71717a"} fontSize={11}
-                  tickLine={false} axisLine={false} tickMargin={10} />
-                <YAxis stroke={isDark ? "#71717a" : "#71717a"} fontSize={11}
-                  tickLine={false} axisLine={false} domain={[40, 100]}
-                  ticks={[40, 55, 70, 85, 100]} tickMargin={10} />
+                <XAxis dataKey="month" stroke={isDark ? "#71717a" : "#71717a"} fontSize={10} tickLine={false} axisLine={false} tickMargin={5} />
+                <YAxis stroke={isDark ? "#71717a" : "#71717a"} fontSize={10} tickLine={false} axisLine={false} domain={[40, 100]} ticks={[40, 60, 80, 100]} tickMargin={5} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} />
-                <Line type="monotone" dataKey="overall"     stroke="#ff5a00" strokeWidth={2} dot={{ r: 3, strokeWidth: 1.5, fill: isDark ? "#121118" : "#fff" }} activeDot={{ r: 4 }} name="Overall" />
-                <Line type="monotone" dataKey="environment" stroke="#14b8a6" strokeWidth={2} dot={{ r: 3, strokeWidth: 1.5, fill: isDark ? "#121118" : "#fff" }} activeDot={{ r: 4 }} name="Environment" />
-                <Line type="monotone" dataKey="social"      stroke="#8b5cf6" strokeWidth={2} dot={{ r: 3, strokeWidth: 1.5, fill: isDark ? "#121118" : "#fff" }} activeDot={{ r: 4 }} name="Social" />
-                <Line type="monotone" dataKey="governance"  stroke="#3b82f6" strokeWidth={2} dot={{ r: 3, strokeWidth: 1.5, fill: isDark ? "#121118" : "#fff" }} activeDot={{ r: 4 }} name="Governance" />
-              </LineChart>
+                <Area type="monotone" dataKey="overall" stroke="#ff5a00" strokeWidth={2} fillOpacity={1} fill="url(#grad-overall)" dot={{ r: 3, strokeWidth: 1.5, fill: isDark ? "#121118" : "#fff" }} activeDot={{ r: 4 }} name="Overall Score" />
+              </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Weight Configuration */}
-        <div className="lg:col-span-3 bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl p-6 flex flex-col hover:border-gray-300 dark:hover:border-zinc-800 transition-all shadow-xs">
-          <div className="flex items-center gap-2 mb-1">
-            <Activity className="h-4 w-4 text-muted-foreground" />
-            <h3 className="text-sm font-bold text-foreground">Weight Configuration</h3>
+        {/* Donut Score Split (Col 2) */}
+        <div className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl p-5 hover:border-gray-300 dark:hover:border-zinc-800 transition-all shadow-xs flex flex-col justify-between">
+          <div>
+            <h3 className="text-xs text-muted-foreground font-bold uppercase tracking-wider">Weighted Pillar Breakdown</h3>
+            <p className="text-[10px] text-muted-foreground mt-0.5">Contribution of each section towards overall ESG grade</p>
           </div>
-          <p className="text-[11px] text-muted-foreground mb-4">Adjust pillar weights. Must sum to 100%.</p>
-
-          {/* Live formula */}
-          <div className="rounded-lg bg-[#e4e4e7]/60 dark:bg-[#0c0a0e] border border-[#ececee] dark:border-[#221f2c] px-4 py-3 mb-4 font-mono text-[11px] text-muted-foreground">
-            <span>ESG = ({envW}%·E) + ({socW}%·S) + ({govW}%·G)</span>
-            <br />
-            <span className="font-bold text-[#ff5a00]">≈ {liveOverall} / 100</span>
+          <div className="relative flex items-center justify-center h-[180px] mt-2">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie data={donutData} cx="50%" cy="50%" innerRadius={60} outerRadius={75} paddingAngle={3} dataKey="value">
+                  {donutData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip contentStyle={tooltipStyle} />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="absolute flex flex-col items-center justify-center">
+              <span className="text-2xl font-extrabold text-foreground leading-none">{data.scores.overall}</span>
+              <span className="text-[10px] text-muted-foreground uppercase font-bold mt-1 tracking-wider">Rating</span>
+            </div>
           </div>
+          <div className="flex justify-around gap-2 text-[10px] mt-2 border-t border-[#ececee] dark:border-[#221f2c] pt-3">
+            {donutData.map((d) => (
+              <div key={d.name} className="flex flex-col items-center">
+                <span className="font-semibold" style={{ color: d.color }}>{d.value} pts</span>
+                <span className="text-muted-foreground mt-0.5">{d.name.split(" ")[0]}</span>
+              </div>
+            ))}
+          </div>
+        </div>
 
-          <div className="space-y-4 flex-1">
+        {/* Weights & Settings Panel (Col 3) */}
+        <div className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl p-5 hover:border-gray-300 dark:hover:border-zinc-800 transition-all shadow-xs flex flex-col justify-between">
+          <div>
+            <h3 className="text-xs text-muted-foreground font-bold uppercase tracking-wider">Weight Settings</h3>
+            <p className="text-[10px] text-muted-foreground mt-0.5 font-mono">Formula: ({envW}%·E) + ({socW}%·S) + ({govW}%·G)</p>
+          </div>
+          <div className="space-y-3.5 my-3 flex-1 flex flex-col justify-center">
             {sliders.map(({ label, color, val, set }) => (
               <div key={label}>
-                <div className="flex justify-between text-[11px] mb-1.5">
-                  <span className="font-semibold text-xs" style={{ color }}>{label}</span>
+                <div className="flex justify-between text-[11px] mb-1">
+                  <span className="font-bold text-xs" style={{ color }}>{label}</span>
                   <span className="font-bold text-foreground">{val}%</span>
                 </div>
                 <input type="range" min={0} max={100} value={val}
                   onChange={(e) => set(Number(e.target.value))}
-                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-gray-100 dark:bg-[#1c1a24]"
+                  className="w-full h-1 rounded-full appearance-none cursor-pointer bg-gray-100 dark:bg-[#1c1a24]"
                   style={{ accentColor: color }} />
               </div>
             ))}
           </div>
-
-          <div className={`text-[12px] font-semibold mt-4 mb-3 ${isValidWeights ? "text-[#14b8a6]" : "text-red-500"}`}>
-            Total: {totalW}% {!isValidWeights && "· must equal 100%"}
+          <div>
+            <div className={`text-[11px] font-semibold mb-2.5 ${isValidWeights ? "text-[#14b8a6]" : "text-red-500"}`}>
+              Total Weight: {totalW}% {!isValidWeights && "· must sum to 100%"}
+            </div>
+            <Button onClick={handleSaveWeights} disabled={saving || !isValidWeights}
+              className="w-full flex items-center justify-center gap-2 rounded-lg bg-[#09090b] dark:bg-white text-white dark:text-[#09090b] text-xs font-semibold h-8.5 hover:bg-black/90 dark:hover:bg-white/95 transition-all shadow-none disabled:opacity-60">
+              <Save className="h-3.5 w-3.5" />
+              {saving ? "Saving…" : "Save Weights"}
+            </Button>
           </div>
-
-          <Button onClick={handleSaveWeights} disabled={saving || !isValidWeights}
-            className="w-full flex items-center justify-center gap-2 rounded-lg bg-[#09090b] dark:bg-white text-white dark:text-[#09090b] text-xs font-semibold h-9 hover:bg-black/90 dark:hover:bg-white/95 transition-all shadow-none disabled:opacity-60">
-            <Save className="h-3.5 w-3.5" />
-            {saving ? "Saving…" : "Save Weights"}
-          </Button>
         </div>
       </div>
 
