@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ResponsiveContainer, BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Cell } from "recharts";
 import { useTheme } from "next-themes";
+import { formatDate } from "@/lib/utils";
 
 interface Transaction {
   id: string;
@@ -190,7 +191,7 @@ export function OverviewClient({
                     <h3 className="font-semibold text-sm text-foreground">{badge.name}</h3>
                     <p className="text-xs text-muted-foreground mt-0.5">{badge.description}</p>
                     <span className="text-[10px] text-muted-foreground block mt-1.5 font-mono">
-                      Unlocked {new Date(badge.unlockedAt).toLocaleDateString()}
+                      Unlocked {formatDate(badge.unlockedAt)}
                     </span>
                   </div>
                 </div>
@@ -230,7 +231,7 @@ export function OverviewClient({
                       <TableCell className="text-muted-foreground text-sm">
                         <span className="flex items-center gap-1">
                           <Calendar className="h-3.5 w-3.5" />
-                          {new Date(tx.createdAt).toLocaleDateString()}
+                          {formatDate(tx.createdAt)}
                         </span>
                       </TableCell>
                       <TableCell className="text-right pr-6 font-bold font-mono text-[#f59e0b]">

@@ -17,6 +17,7 @@ import {
   approveChallengeParticipationAction,
 } from "@/actions/gamification";
 import type { Challenge, Category } from "@/db/schema";
+import { formatDate } from "@/lib/utils";
 
 interface ChallengesClientProps {
   challenges: Challenge[];
@@ -211,7 +212,7 @@ export function ChallengesClient({
                     </TableCell>
                     <TableCell className="font-bold text-[#f59e0b] font-mono">+{p.challengeXp} XP</TableCell>
                     <TableCell className="text-muted-foreground text-xs">
-                      {new Date(p.createdAt).toLocaleDateString()}
+                      {formatDate(p.createdAt)}
                     </TableCell>
                     <TableCell className="text-right pr-6">
                       <Button

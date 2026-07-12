@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { toast } from "sonner";
@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { EmptyState } from "@/components/shared/empty-state";
 import { createEnvironmentalGoal, updateEnvironmentalGoal, deleteEnvironmentalGoal } from "@/actions/environmental-goals";
 import type { EnvironmentalGoal, Department } from "@/db/schema";
+import { formatDate } from "@/lib/utils";
 
 const statusColors: Record<string, string> = {
   active: "bg-eco-green/10 text-eco-green border-eco-green/20",
@@ -245,7 +246,7 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
                         </div>
                       </TableCell>
                       <TableCell className="text-muted-foreground">
-                        {g.deadline ? new Date(g.deadline).toLocaleDateString() : "—"}
+                        {formatDate(g.deadline)}
                       </TableCell>
                       <TableCell><Badge variant="outline" className={statusColors[g.status]}>{g.status}</Badge></TableCell>
                       <TableCell>

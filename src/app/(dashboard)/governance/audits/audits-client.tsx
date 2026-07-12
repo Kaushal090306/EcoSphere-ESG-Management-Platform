@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ChevronUp, ChevronDown } from "lucide-react";
+import { formatDate } from "@/lib/utils";
 
 type AuditItem = {
   id: string;
@@ -184,7 +185,7 @@ export function AuditsClient({
                     <TableCell className="text-muted-foreground">{deptName(a.departmentId)}</TableCell>
                     <TableCell className="font-mono text-xs text-muted-foreground">{a.auditorId.substring(0, 8)}...</TableCell>
                     <TableCell className="text-muted-foreground">
-                      {a.scheduledDate ? a.scheduledDate.toLocaleDateString() : "—"}
+                      {formatDate(a.scheduledDate)}
                     </TableCell>
                     <TableCell className="text-right pr-4">
                       <Badge variant="outline" className={statusColors[a.status] || "bg-muted text-muted-foreground"}>

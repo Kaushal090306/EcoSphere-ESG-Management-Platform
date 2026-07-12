@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { EmptyState } from "@/components/shared/empty-state";
 import { createCarbonTransaction, updateCarbonTransaction, deleteCarbonTransaction } from "@/actions/carbon-transactions";
 import type { CarbonTransaction, Department } from "@/db/schema";
+import { formatDate } from "@/lib/utils";
 
 interface EmissionFactor {
   id: string;
@@ -274,7 +275,7 @@ export function TransactionsClient({
                 {filteredTransactions.map((t) => (
                   <TableRow key={t.id}>
                     <TableCell className="text-muted-foreground">
-                      {t.date ? new Date(t.date).toLocaleDateString() : "—"}
+                      {formatDate(t.date)}
                     </TableCell>
                     <TableCell className="font-medium text-[#09090b] dark:text-white">
                       {deptName(t.departmentId)}

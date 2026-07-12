@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ChevronUp, ChevronDown } from "lucide-react";
+import { formatDate } from "@/lib/utils";
 
 type ComplianceIssueItem = {
   id: string;
@@ -196,7 +197,7 @@ export function ComplianceClient({
                     </TableCell>
                     <TableCell className="max-w-md truncate text-muted-foreground">{i.description}</TableCell>
                     <TableCell className="text-muted-foreground">
-                      {i.dueDate ? i.dueDate.toLocaleDateString() : "—"}
+                      {formatDate(i.dueDate)}
                     </TableCell>
                     <TableCell>
                       <Badge variant="outline" className={severityColors[i.severity] || "bg-muted text-muted-foreground"}>
