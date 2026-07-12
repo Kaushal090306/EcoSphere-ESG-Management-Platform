@@ -140,15 +140,20 @@
   }
 }
 
-/* Active sidebar item styling matching uitheme.md design */
+/* Active sidebar item styling matching mockup */
 [data-sidebar="menu-button"][data-active="true"] {
-  background-color: #9B5CF6 !important;
+  background-color: rgba(155, 92, 246, 0.12) !important;
   color: #ffffff !important;
+  border: 1px solid rgba(155, 92, 246, 0.25) !important;
   border-radius: 12px;
 }
 
+[data-sidebar="menu-button"][data-active="true"] svg {
+  color: #9B5CF6 !important;
+}
+
 [data-sidebar="menu-button"]:hover:not([data-active="true"]) {
-  background-color: #22242f !important;
+  background-color: #121016 !important;
   color: #ffffff !important;
 }
 
