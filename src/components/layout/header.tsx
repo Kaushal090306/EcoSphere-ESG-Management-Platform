@@ -135,9 +135,9 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
     : "U";
 
   return (
-    <header className="flex h-16 items-center gap-4 px-6 bg-white dark:bg-[#18181b] border-b border-[#ececee] dark:border-[#27272a] sticky top-0 z-50 transition-colors">
-      <SidebarTrigger className="-ml-1 text-[#71717a] hover:text-[#09090b] transition-colors" />
-      <Separator orientation="vertical" className="h-5 bg-[#ececee]" />
+    <header className="flex h-16 items-center gap-4 px-6 bg-white dark:bg-[#0c0a0e] border-b border-[#ececee] dark:border-[#1a1822] sticky top-0 z-50 transition-colors">
+      <SidebarTrigger className="-ml-1 text-[#71717a] hover:text-[#09090b] dark:hover:text-white transition-colors" />
+      <Separator orientation="vertical" className="h-5 bg-[#ececee] dark:bg-[#1a1822]" />
 
       {/* Organization switcher on dashboard, breadcrumbs on subpages */}
       {isDashboard ? (
@@ -147,22 +147,22 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
               render={
                 <Button
                   variant="ghost"
-                  className="flex items-center gap-2 px-3 py-1.5 h-9 rounded-[14px] bg-[#f4f4f5] border border-[#ececee] text-sm text-[#18181b] font-medium hover:bg-white dark:bg-[#18181b] hover:border-[#d4d4d8] transition-all cursor-pointer"
+                  className="flex items-center gap-2 px-3 py-1.5 h-9 rounded-lg bg-[#f4f4f5] dark:bg-[#121016] border border-[#ececee] dark:border-[#1a1822] text-sm text-[#18181b] dark:text-white font-medium hover:bg-white dark:hover:bg-[#121016] transition-all cursor-pointer"
                 >
-                  <Building2 className="h-4 w-4 text-[#52525b]" />
+                  <Building2 className="h-4 w-4 text-[#52525b] dark:text-gray-400" />
                   <span>GreenTech Solutions</span>
-                  <ChevronDown className="h-3.5 w-3.5 text-[#71717a]" />
+                  <ChevronDown className="h-3.5 w-3.5 text-[#71717a] dark:text-gray-400" />
                 </Button>
               }
             />
-            <DropdownMenuContent align="start" className="w-56 bg-white dark:bg-[#18181b] border-[#ececee] dark:border-[#27272a] shadow-md rounded-[14px]">
-              <DropdownMenuItem className="text-sm text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#27272a] rounded-lg font-medium">
+            <DropdownMenuContent align="start" className="w-56 bg-white dark:bg-[#121016] border-[#ececee] dark:border-[#1a1822] shadow-md rounded-lg">
+              <DropdownMenuItem className="text-sm text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#1a1822] rounded-md font-medium">
                 GreenTech Solutions
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-sm text-[#52525b] dark:text-[#a1a1aa] focus:bg-[#f4f4f5] dark:focus:bg-[#27272a] rounded-lg">
+              <DropdownMenuItem className="text-sm text-[#52525b] dark:text-[#a1a1aa] focus:bg-[#f4f4f5] dark:focus:bg-[#1a1822] rounded-md">
                 EcoSphere Corp
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-sm text-[#52525b] dark:text-[#a1a1aa] focus:bg-[#f4f4f5] dark:focus:bg-[#27272a] rounded-lg">
+              <DropdownMenuItem className="text-sm text-[#52525b] dark:text-[#a1a1aa] focus:bg-[#f4f4f5] dark:focus:bg-[#1a1822] rounded-md">
                 Global Industries
               </DropdownMenuItem>
             </DropdownMenuContent>

@@ -1,7 +1,5 @@
 import { getRewards } from "@/actions/rewards";
 import { RewardsClient } from "./rewards-client";
-import { Gift } from "lucide-react";
-import { PageHeader } from "@/components/shared/page-header";
 import { getSessionUser } from "@/lib/auth-utils";
 import { db } from "@/db";
 import { users } from "@/db/schema";
@@ -24,13 +22,10 @@ export default async function RewardsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <PageHeader title="Rewards Catalog" description="Redeem your earned sustainability points for real incentives" icon={Gift} />
-      <RewardsClient
-        rewards={rewardList}
-        userPoints={dbUser?.points || 0}
-        userRole={dbUser?.role || "employee"}
-      />
-    </div>
+    <RewardsClient
+      rewards={rewardList}
+      userPoints={dbUser?.points || 0}
+      userRole={dbUser?.role || "employee"}
+    />
   );
 }

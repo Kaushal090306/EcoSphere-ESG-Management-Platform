@@ -1,8 +1,8 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { Swords, CheckCircle2, AlertCircle, Eye, ShieldAlert, Sparkles, Send, Play } from "lucide-react";
+import { CheckCircle2, AlertCircle, Eye, Sparkles, Send, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -10,7 +10,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { EmptyState } from "@/components/shared/empty-state";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   joinChallengeAction,
@@ -27,9 +26,9 @@ interface ChallengesClientProps {
 }
 
 const difficultyColors: Record<string, string> = {
-  easy: "bg-eco-green/10 text-eco-green border-eco-green/20",
-  medium: "bg-eco-orange/10 text-eco-orange border-eco-orange/20",
-  hard: "bg-eco-red/10 text-eco-red border-eco-red/20 font-semibold",
+  easy: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
+  medium: "bg-amber-500/10 text-amber-500 border-amber-500/20",
+  hard: "bg-red-500/10 text-red-500 border-red-500/20 font-semibold",
 };
 
 export function ChallengesClient({
@@ -50,7 +49,6 @@ export function ChallengesClient({
   const getCategoryName = (id: string) =>
     categories.find((c) => c.id === id)?.name || "General";
 
-  // Check user's participation status for a challenge
   const getParticipation = (challengeId: string) =>
     participations.find((p) => p.challengeId === challengeId || p.id === challengeId);
 
@@ -58,24 +56,10 @@ export function ChallengesClient({
   async function handleJoin(challengeId: string) {
     setLoading(true);
     const result = await joinChallengeAction(challengeId);
-    setLoading(false);
+    setLoading(true);
 
-    if (result.success) {
-      toast.success("Joined challenge! Complete it to earn points. 🚀");
-      // Add fake/local item to state to avoid full reload
-      setParticipations((prev) => [
-        ...prev,
-        {
-          challengeId,
-          approvalStatus: "pending",
-          progressPct: 0,
-          proofUrl: null,
-          createdAt: new Date(),
-        },
-      ]);
-    } else {
-      toast.error(result.error || "Failed to join challenge");
-    }
+    // Fetch session or reload state to update correctly
+    window.location.reload();
   }
 
   async function handleEvidenceSubmit(e: React.FormEvent) {
@@ -131,32 +115,32 @@ export function ChallengesClient({
           const isApproved = part?.approvalStatus === "approved";
 
           return (
-            <Card key={c.id} className="flex flex-col justify-between overflow-hidden border border-[#221F2C] hover:border-purple-500/20 transition duration-300">
-              <CardHeader className="pb-4">
+            <Card key={c.id} className="flex flex-col justify-between overflow-hidden bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] hover:border-gray-300 dark:hover:border-zinc-800 transition duration-300 shadow-xs">
+              <CardHeader className="pb-4 p-5">
                 <div className="flex justify-between items-start">
-                  <Badge variant="outline" className={difficultyColors[c.difficulty]}>
+                  <Badge variant="outline" className={`${difficultyColors[c.difficulty]} rounded text-[10px] font-bold uppercase tracking-wider`}>
                     {c.difficulty}
                   </Badge>
-                  <span className="text-[#f59e0b] font-bold font-mono text-sm">
+                  <span className="text-[#f59e0b] font-bold font-mono text-xs">
                     +{c.xp} XP
                   </span>
                 </div>
-                <CardTitle className="text-lg mt-3 text-[#09090b] dark:text-white">{c.title}</CardTitle>
-                <Badge variant="secondary" className="w-fit mt-1 bg-slate-900 text-slate-300">
+                <CardTitle className="text-sm font-bold text-foreground mt-3 leading-tight">{c.title}</CardTitle>
+                <Badge variant="secondary" className="w-fit mt-1.5 bg-[#f4f4f5] dark:bg-[#1c1a24] text-muted-foreground border-none text-[10px] font-semibold">
                   {getCategoryName(c.categoryId)}
                 </Badge>
-                <CardDescription className="text-sm mt-3 text-muted-foreground">
+                <CardDescription className="text-[12px] mt-3 text-muted-foreground leading-normal">
                   {c.description}
                 </CardDescription>
               </CardHeader>
-              <CardFooter className="pt-2 pb-6 px-6">
+              <CardFooter className="pt-2 pb-5 px-5">
                 {isApproved ? (
-                  <div className="w-full flex items-center justify-center gap-1.5 py-2 bg-eco-green/10 text-eco-green rounded-lg border border-eco-green/20 text-sm font-semibold">
-                    <CheckCircle2 className="h-4 w-4" /> Completed & Claimed
+                  <div className="w-full flex items-center justify-center gap-1.5 py-2 bg-emerald-500/10 text-emerald-500 rounded-md border border-emerald-500/20 text-xs font-semibold">
+                    <CheckCircle2 className="h-3.5 w-3.5" /> Completed & Claimed
                   </div>
                 ) : isPending ? (
-                  <div className="w-full flex items-center justify-center gap-1.5 py-2 bg-eco-orange/10 text-eco-orange rounded-lg border border-eco-orange/20 text-sm font-semibold">
-                    <AlertCircle className="h-4 w-4 animate-pulse" /> Awaiting Approval
+                  <div className="w-full flex items-center justify-center gap-1.5 py-2 bg-amber-500/10 text-amber-500 rounded-md border border-amber-500/20 text-xs font-semibold">
+                    <AlertCircle className="h-3.5 w-3.5 animate-pulse" /> Awaiting Approval
                   </div>
                 ) : hasJoined ? (
                   <Button
@@ -164,17 +148,17 @@ export function ChallengesClient({
                       setSelectedChallenge(c);
                       setEvidenceOpen(true);
                     }}
-                    className="w-full bg-purple-600 hover:bg-purple-700 text-[#09090b] dark:text-white font-semibold flex items-center gap-1.5 justify-center shadow-lg shadow-purple-900/20"
+                    className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold text-xs h-9 rounded-md flex items-center gap-1.5 justify-center shadow-xs"
                   >
-                    <Send className="h-4 w-4" /> Submit Completion Proof
+                    <Send className="h-3.5 w-3.5" /> Submit Completion Proof
                   </Button>
                 ) : (
                   <Button
                     onClick={() => handleJoin(c.id)}
                     disabled={loading}
-                    className="w-full bg-slate-800 hover:bg-slate-700 text-[#09090b] dark:text-white border border-[#221F2C] font-semibold flex items-center gap-1.5 justify-center"
+                    className="w-full bg-[#f4f4f5] dark:bg-[#1c1a24] border border-[#ececee] dark:border-[#2d2f39] text-foreground hover:bg-white dark:hover:bg-zinc-800 font-semibold text-xs h-9 rounded-md flex items-center gap-1.5 justify-center shadow-xs"
                   >
-                    <Play className="h-4 w-4" /> Join Challenge Quest
+                    <Play className="h-3.5 w-3.5" /> Join Challenge Quest
                   </Button>
                 )}
               </CardFooter>
@@ -186,55 +170,55 @@ export function ChallengesClient({
 
   // Review Claims tab view
   const reviewClaimsView = (
-    <Card className="border border-[#221F2C]">
+    <Card className="border border-[#ececee] dark:border-[#221f2c] bg-white dark:bg-[#121118] shadow-xs">
       <CardContent className="p-0">
         {participations.filter((p) => p.employeeName && p.approvalStatus === "pending").length === 0 ? (
-          <div className="p-8 text-center text-muted-foreground">
+          <div className="p-8 text-center text-muted-foreground text-sm">
             No pending challenge claims to review!
           </div>
         ) : (
           <Table>
             <TableHeader>
-              <TableRow className="border-b border-[#221F2C]">
-                <TableHead className="text-muted-foreground">Employee</TableHead>
-                <TableHead className="text-muted-foreground">Quest Title</TableHead>
-                <TableHead className="text-muted-foreground">Evidence URL / Text</TableHead>
-                <TableHead className="text-muted-foreground">XP Reward</TableHead>
-                <TableHead className="text-muted-foreground">Date Submitted</TableHead>
-                <TableHead className="w-32 text-right text-muted-foreground">Actions</TableHead>
+              <TableRow className="border-b border-[#ececee] dark:border-[#221f2c] bg-[#f4f4f5] dark:bg-[#121118]">
+                <TableHead className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider">Employee</TableHead>
+                <TableHead className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider">Quest Title</TableHead>
+                <TableHead className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider">Evidence URL / Text</TableHead>
+                <TableHead className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider">XP Reward</TableHead>
+                <TableHead className="text-foreground font-semibold px-6 py-3 text-left text-[11px] uppercase tracking-wider">Date Submitted</TableHead>
+                <TableHead className="w-32 text-right text-foreground font-semibold px-6 py-3 text-[11px] uppercase tracking-wider pr-6">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {participations
                 .filter((p) => p.employeeName && p.approvalStatus === "pending")
                 .map((p) => (
-                  <TableRow key={p.id} className="border-b border-[#221F2C] hover:bg-slate-900/30">
-                    <TableCell className="font-medium text-[#09090b] dark:text-white">{p.employeeName}</TableCell>
-                    <TableCell className="text-[#09090b] dark:text-white">{p.challengeTitle}</TableCell>
+                  <TableRow key={p.id} className="border-b border-[#ececee] dark:border-[#221f2c] hover:bg-[#f4f4f5] dark:hover:bg-[#16141f]/50 transition-colors">
+                    <TableCell className="font-semibold text-foreground pl-6">{p.employeeName}</TableCell>
+                    <TableCell className="text-foreground font-medium">{p.challengeTitle}</TableCell>
                     <TableCell className="max-w-xs truncate">
                       {p.proofUrl ? (
                         <a
                           href={p.proofUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-purple-400 hover:underline inline-flex items-center gap-1"
+                          className="text-purple-500 dark:text-purple-400 hover:underline inline-flex items-center gap-1 font-semibold text-xs"
                         >
                           View Evidence <Eye className="h-3 w-3" />
                         </a>
                       ) : (
-                        <span className="text-muted-foreground italic">No evidence link</span>
+                        <span className="text-muted-foreground italic text-xs">No evidence link</span>
                       )}
                     </TableCell>
                     <TableCell className="font-bold text-[#f59e0b] font-mono">+{p.challengeXp} XP</TableCell>
-                    <TableCell className="text-muted-foreground text-sm">
+                    <TableCell className="text-muted-foreground text-xs">
                       {new Date(p.createdAt).toLocaleDateString()}
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-right pr-6">
                       <Button
                         size="sm"
                         onClick={() => handleApprove(p.id)}
                         disabled={loading}
-                        className="bg-eco-green hover:bg-emerald-600 text-[#09090b] dark:text-white font-semibold px-3 py-1 text-xs"
+                        className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-3 h-7 rounded text-xs shadow-xs"
                       >
                         Approve
                       </Button>
@@ -252,11 +236,11 @@ export function ChallengesClient({
     <>
       {isManager ? (
         <Tabs defaultValue="quests" className="space-y-6">
-          <TabsList className="bg-[#181524] border border-[#221F2C]">
-            <TabsTrigger value="quests" className="data-[state=active]:bg-purple-600 data-[state=active]:text-[#09090b] dark:text-white">
+          <TabsList className="flex flex-wrap items-center gap-1.5 p-1 bg-[#e4e4e7]/60 dark:bg-[#121118] border border-[#ececee] dark:border-[#2d2f39] rounded-lg w-fit h-auto shadow-none">
+            <TabsTrigger value="quests" className="px-3.5 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 border border-transparent data-[state=active]:bg-white dark:data-[state=active]:bg-[#1c1a24] data-[state=active]:text-[#09090b] dark:data-[state=active]:text-white data-[state=active]:shadow-xs data-[state=active]:border-[#ececee] dark:data-[state=active]:border-[#2d2f39] text-muted-foreground hover:text-[#09090b] dark:hover:text-white">
               Available Quests
             </TabsTrigger>
-            <TabsTrigger value="review" className="data-[state=active]:bg-purple-600 data-[state=active]:text-[#09090b] dark:text-white">
+            <TabsTrigger value="review" className="px-3.5 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 border border-transparent data-[state=active]:bg-white dark:data-[state=active]:bg-[#1c1a24] data-[state=active]:text-[#09090b] dark:data-[state=active]:text-white data-[state=active]:shadow-xs data-[state=active]:border-[#ececee] dark:data-[state=active]:border-[#2d2f39] text-muted-foreground hover:text-[#09090b] dark:hover:text-white">
               Review Claims
             </TabsTrigger>
           </TabsList>
@@ -273,18 +257,18 @@ export function ChallengesClient({
 
       {/* Submission Evidence Dialog */}
       <Dialog open={evidenceOpen} onOpenChange={setEvidenceOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] rounded-xl">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-[#09090b] dark:text-white">
-              <Sparkles className="h-5 w-5 text-purple-400" /> Submit Quest Completion
+            <DialogTitle className="flex items-center gap-2 text-foreground font-bold">
+              <Sparkles className="h-5 w-5 text-purple-500" /> Submit Quest Completion
             </DialogTitle>
-            <DialogDescription className="text-muted-foreground mt-2">
-              Please provide evidence for completing <span className="font-semibold text-[#09090b] dark:text-white">"{selectedChallenge?.title}"</span>.
+            <DialogDescription className="text-muted-foreground text-xs mt-2">
+              Please provide evidence for completing <span className="font-semibold text-foreground">"{selectedChallenge?.title}"</span>.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleEvidenceSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="proof" className="text-slate-300">
+              <Label htmlFor="proof" className="text-muted-foreground text-xs font-medium">
                 Evidence Link / Notes (e.g. link to shared document or action proof)
               </Label>
               <Input
@@ -293,14 +277,14 @@ export function ChallengesClient({
                 value={proofUrl}
                 onChange={(e) => setProofUrl(e.target.value)}
                 required
-                className="bg-[#181524] border border-[#221F2C]"
+                className="bg-[#f4f4f5] dark:bg-[#1c1a24] border border-[#ececee] dark:border-[#2d2f39] text-foreground text-sm rounded-lg"
               />
             </div>
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setEvidenceOpen(false)}>
+            <DialogFooter className="gap-2">
+              <Button type="button" variant="outline" onClick={() => setEvidenceOpen(false)} className="rounded-lg h-9 text-xs">
                 Cancel
               </Button>
-              <Button type="submit" disabled={loading || !proofUrl.trim()} className="bg-purple-600 hover:bg-purple-700 text-[#09090b] dark:text-white font-semibold">
+              <Button type="submit" disabled={loading || !proofUrl.trim()} className="bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg h-9 text-xs">
                 {loading ? "Submitting..." : "Submit Claim"}
               </Button>
             </DialogFooter>
