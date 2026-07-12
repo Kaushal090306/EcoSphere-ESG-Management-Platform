@@ -64,7 +64,7 @@ export function CategoriesClient({ categories }: { categories: Category[] }) {
         </Button>
       </div>
 
-      <Card>
+      <Card className="overflow-hidden">
         <CardContent className="p-0">
           {categories.length === 0 ? (
             <EmptyState title="No categories yet" description="Create categories for CSR activities and challenges." />

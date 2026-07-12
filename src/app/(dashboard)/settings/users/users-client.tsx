@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -173,7 +173,7 @@ export function UsersClient({
         </Button>
       </div>
 
-      <Card className="glass border-[#ececee]">
+      <Card className="glass border-[#ececee] overflow-hidden">
         <CardContent className="p-0">
           {filteredUsers.length === 0 ? (
             <EmptyState

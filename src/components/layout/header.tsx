@@ -266,7 +266,7 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
               </Button>
             }
           />
-          <SheetContent side="right" className="bg-white dark:bg-[#0c0a0e] border-l border-[#ececee] dark:border-[#1a1822] w-full sm:max-w-md p-0 flex flex-col h-full focus:outline-none">
+          <SheetContent side="right" showCloseButton={false} className="bg-white dark:bg-[#0c0a0e] border-l border-[#ececee] dark:border-[#1a1822] w-full sm:max-w-md p-0 flex flex-col h-full focus:outline-none">
             <SheetHeader className="p-5 border-b border-[#ececee] dark:border-[#1a1822] flex flex-row items-center justify-between">
               <div className="space-y-0.5">
                 <SheetTitle className="text-sm font-bold text-foreground">Notifications</SheetTitle>

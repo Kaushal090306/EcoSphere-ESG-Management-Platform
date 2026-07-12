@@ -162,21 +162,6 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
     return item;
   }).filter(Boolean) as NavItem[];
 
-  // Automatically expand group if pathname matches a subitem
-  useEffect(() => {
-    const activeGroup = Object.keys(expanded).find((groupName) => {
-      const navItems = navGroups.flatMap((g) => g.items);
-      const items = [...navItems, ...footerItems];
-      const parent = items.find((item) => item.title === groupName);
-      return parent?.items?.some((sub) => pathname.startsWith(sub.href)) || false;
-    });
-
-    if (activeGroup && !expanded[activeGroup]) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setExpanded((prev) => ({ ...prev, [activeGroup]: true }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
 
   const toggleGroup = (name: string) => {
     setExpanded((prev) => ({ ...prev, [name]: !prev[name] }));

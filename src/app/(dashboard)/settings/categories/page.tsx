@@ -16,11 +16,6 @@ export default async function CategoriesPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="Categories"
-        description="Shared categories for CSR activities and challenges"
-        icon={Tags}
-      />
       <CategoriesClient categories={categories} />
     </div>
   );

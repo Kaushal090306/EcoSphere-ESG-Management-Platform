@@ -352,14 +352,18 @@ export function TransactionsClient({
               <div className="space-y-1.5">
                 <Label className="text-[10px] text-muted-foreground font-bold tracking-wider uppercase">Department</Label>
                 <Select name="departmentId" value={selectedDeptId} onValueChange={(val) => setSelectedDeptId(val || "")}>
-                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:hover:bg-[#1c1a24] transition-all"><SelectValue placeholder="Select department" /></SelectTrigger>
+                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:hover:bg-[#1c1a24] transition-all">
+                    <span>{selectedDeptId ? deptName(selectedDeptId) : "Select department"}</span>
+                  </SelectTrigger>
                   <SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] text-foreground">{departments.map((d) => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
               <div className="space-y-1.5">
                 <Label className="text-[10px] text-muted-foreground font-bold tracking-wider uppercase">Source Type</Label>
                 <Select name="sourceType" value={selectedSourceType} onValueChange={(val) => setSelectedSourceType(val || "purchase")}>
-                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:hover:bg-[#1c1a24] transition-all"><SelectValue /></SelectTrigger>
+                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:hover:bg-[#1c1a24] transition-all">
+                    <span className="capitalize">{selectedSourceType}</span>
+                  </SelectTrigger>
                   <SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] text-foreground">
                     <SelectItem value="purchase">Purchase</SelectItem>
                     <SelectItem value="manufacturing">Manufacturing</SelectItem>
@@ -373,7 +377,9 @@ export function TransactionsClient({
             <div className="space-y-1.5">
               <Label className="text-[10px] text-muted-foreground font-bold tracking-wider uppercase">Emission Factor</Label>
               <Select value={selectedFactorId} onValueChange={(val) => setSelectedFactorId(val || "")}>
-                <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:hover:bg-[#1c1a24] transition-all"><SelectValue placeholder="Select emission factor" /></SelectTrigger>
+                <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:hover:bg-[#1c1a24] transition-all">
+                  <span className="truncate max-w-[340px]">{selectedFactorId ? factorName(selectedFactorId) : "Select emission factor"}</span>
+                </SelectTrigger>
                 <SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] text-foreground">{emissionFactors.map((f) => <SelectItem key={f.id} value={f.id}>{f.name} ({f.factorValue} kgCO₂e/{f.unit})</SelectItem>)}</SelectContent>
               </Select>
             </div>

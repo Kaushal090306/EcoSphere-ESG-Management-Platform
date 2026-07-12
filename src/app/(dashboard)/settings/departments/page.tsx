@@ -16,11 +16,6 @@ export default async function DepartmentsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="Departments"
-        description="Manage organizational departments and ESG ownership"
-        icon={Building2}
-      />
       <DepartmentsClient departments={departments} />
     </div>
   );

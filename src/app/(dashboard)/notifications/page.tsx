@@ -16,11 +16,6 @@ export default async function NotificationsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="Notifications"
-        description="Stay updated with compliance status, challenges, badge unlocks, and policy reminders"
-        icon={Bell}
-      />
       <NotificationsClient initialNotifications={list} />
     </div>
   );

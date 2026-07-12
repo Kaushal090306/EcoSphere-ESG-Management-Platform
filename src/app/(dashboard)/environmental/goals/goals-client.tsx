@@ -290,7 +290,9 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
               <div className="space-y-1.5">
                 <Label className="text-[10px] text-muted-foreground font-bold tracking-wider uppercase">Department</Label>
                 <Select name="departmentId" value={selectedDeptId} onValueChange={(val) => setSelectedDeptId(val || "")}>
-                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:hover:bg-[#1c1a24] transition-all"><SelectValue placeholder="Select department" /></SelectTrigger>
+                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:hover:bg-[#1c1a24] transition-all">
+                    <span>{selectedDeptId ? deptName(selectedDeptId) : "Select department"}</span>
+                  </SelectTrigger>
                   <SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] text-foreground">{departments.map(d => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
@@ -329,7 +331,9 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
               <div className="space-y-1.5">
                 <Label className="text-[10px] text-muted-foreground font-bold tracking-wider uppercase">Status</Label>
                 <Select name="status" value={selectedStatus} onValueChange={(val) => setSelectedStatus(val || "active")}>
-                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:hover:bg-[#1c1a24] transition-all"><SelectValue /></SelectTrigger>
+                  <SelectTrigger className="bg-[#f4f4f5] dark:bg-[#0c0a0e] border-[#ececee] dark:border-[#221f2c] rounded-lg h-10 text-sm text-foreground focus:ring-1 focus:ring-[#9B5CF6] hover:bg-white dark:hover:bg-[#1c1a24] transition-all">
+                    <span className="capitalize">{selectedStatus}</span>
+                  </SelectTrigger>
                   <SelectContent className="bg-white dark:bg-[#121118] border border-[#ececee] dark:border-[#221f2c] text-foreground">
                     <SelectItem value="active">Active</SelectItem>
                     <SelectItem value="achieved">Achieved</SelectItem>

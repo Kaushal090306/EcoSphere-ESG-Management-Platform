@@ -16,11 +16,6 @@ export default async function ProfilePage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="My Profile"
-        description="View and update your personal profile, details, and security settings"
-        icon={User}
-      />
       <ProfileClient initialUser={userProfile} />
     </div>
   );
