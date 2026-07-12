@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import {
@@ -1004,14 +1004,14 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
             </div>
             
             <div className="flex-1 flex items-center justify-center min-h-0 relative">
-              <ResponsiveContainer width="100%" height="80%">
+              <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={currentPieData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={68}
-                    outerRadius={90}
+                    innerRadius={58}
+                    outerRadius={80}
                     paddingAngle={4}
                     dataKey="value"
                   >
