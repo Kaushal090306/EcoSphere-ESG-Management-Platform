@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
@@ -144,14 +144,14 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
                 </Button>
               }
             />
-            <DropdownMenuContent align="start" className="w-56 bg-white dark:bg-[#18181b] border-[#ececee] shadow-md rounded-[14px]">
-              <DropdownMenuItem className="text-sm text-[#09090b] focus:bg-[#f4f4f5] rounded-lg font-medium">
+            <DropdownMenuContent align="start" className="w-56 bg-white dark:bg-[#18181b] border-[#ececee] dark:border-[#27272a] shadow-md rounded-[14px]">
+              <DropdownMenuItem className="text-sm text-[#09090b] dark:text-white focus:bg-[#f4f4f5] dark:focus:bg-[#27272a] rounded-lg font-medium">
                 GreenTech Solutions
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-sm text-[#52525b] focus:bg-[#f4f4f5] rounded-lg">
+              <DropdownMenuItem className="text-sm text-[#52525b] dark:text-[#a1a1aa] focus:bg-[#f4f4f5] dark:focus:bg-[#27272a] rounded-lg">
                 EcoSphere Corp
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-sm text-[#52525b] focus:bg-[#f4f4f5] rounded-lg">
+              <DropdownMenuItem className="text-sm text-[#52525b] dark:text-[#a1a1aa] focus:bg-[#f4f4f5] dark:focus:bg-[#27272a] rounded-lg">
                 Global Industries
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -167,7 +167,7 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
               <span
                 className={
                   i === breadcrumbs.length - 1
-                    ? "font-semibold text-[#09090b] text-sm"
+                    ? "font-semibold text-[#09090b] dark:text-white text-sm"
                     : "text-[#71717a] text-sm"
                 }
               >
@@ -222,7 +222,7 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
                   </AvatarFallback>
                 </Avatar>
                 <div className="hidden md:flex flex-col">
-                  <span className="text-sm font-semibold text-[#09090b] leading-tight">
+                  <span className="text-sm font-semibold text-[#09090b] dark:text-white leading-tight">
                     {currentUser.name}
                   </span>
                   <span className="text-[11px] text-[#71717a]">
@@ -235,7 +235,7 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
           />
           <DropdownMenuContent align="end" className="w-56 bg-white dark:bg-[#18181b] border-[#ececee] shadow-md rounded-[14px]">
             <DropdownMenuGroup>
-              <DropdownMenuLabel className="font-normal text-[#09090b]">
+              <DropdownMenuLabel className="font-normal text-[#09090b] dark:text-white">
                 <div className="flex flex-col space-y-1">
                   <p className="text-sm font-semibold leading-none">{user?.name || currentUser.name}</p>
                   <p className="text-xs leading-none text-[#71717a]">{user?.email || ""}</p>
@@ -246,8 +246,8 @@ export function Header({ user }: { user?: { name?: string | null; email?: string
               </DropdownMenuLabel>
             </DropdownMenuGroup>
             <DropdownMenuSeparator className="bg-[#ececee]" />
-            <DropdownMenuItem className="text-sm text-[#18181b] focus:bg-[#f4f4f5] rounded-lg">
-              <User className="mr-2 h-4 w-4 text-[#52525b]" />
+            <DropdownMenuItem className="text-sm text-[#18181b] dark:text-[#e4e4e7] focus:bg-[#f4f4f5] dark:focus:bg-[#27272a] rounded-lg">
+              <User className="mr-2 h-4 w-4 text-[#52525b] dark:text-[#a1a1aa]" />
               Profile
             </DropdownMenuItem>
             <DropdownMenuSeparator className="bg-[#ececee]" />

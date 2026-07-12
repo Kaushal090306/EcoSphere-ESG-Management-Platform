@@ -141,7 +141,7 @@ export function ChallengesClient({
                     +{c.xp} XP
                   </span>
                 </div>
-                <CardTitle className="text-lg mt-3 text-[#09090b]">{c.title}</CardTitle>
+                <CardTitle className="text-lg mt-3 text-[#09090b] dark:text-white">{c.title}</CardTitle>
                 <Badge variant="secondary" className="w-fit mt-1 bg-slate-900 text-slate-300">
                   {getCategoryName(c.categoryId)}
                 </Badge>
@@ -164,7 +164,7 @@ export function ChallengesClient({
                       setSelectedChallenge(c);
                       setEvidenceOpen(true);
                     }}
-                    className="w-full bg-purple-600 hover:bg-purple-700 text-[#09090b] font-semibold flex items-center gap-1.5 justify-center shadow-lg shadow-purple-900/20"
+                    className="w-full bg-purple-600 hover:bg-purple-700 text-[#09090b] dark:text-white font-semibold flex items-center gap-1.5 justify-center shadow-lg shadow-purple-900/20"
                   >
                     <Send className="h-4 w-4" /> Submit Completion Proof
                   </Button>
@@ -172,7 +172,7 @@ export function ChallengesClient({
                   <Button
                     onClick={() => handleJoin(c.id)}
                     disabled={loading}
-                    className="w-full bg-slate-800 hover:bg-slate-700 text-[#09090b] border border-[#221F2C] font-semibold flex items-center gap-1.5 justify-center"
+                    className="w-full bg-slate-800 hover:bg-slate-700 text-[#09090b] dark:text-white border border-[#221F2C] font-semibold flex items-center gap-1.5 justify-center"
                   >
                     <Play className="h-4 w-4" /> Join Challenge Quest
                   </Button>
@@ -209,8 +209,8 @@ export function ChallengesClient({
                 .filter((p) => p.employeeName && p.approvalStatus === "pending")
                 .map((p) => (
                   <TableRow key={p.id} className="border-b border-[#221F2C] hover:bg-slate-900/30">
-                    <TableCell className="font-medium text-[#09090b]">{p.employeeName}</TableCell>
-                    <TableCell className="text-[#09090b]">{p.challengeTitle}</TableCell>
+                    <TableCell className="font-medium text-[#09090b] dark:text-white">{p.employeeName}</TableCell>
+                    <TableCell className="text-[#09090b] dark:text-white">{p.challengeTitle}</TableCell>
                     <TableCell className="max-w-xs truncate">
                       {p.proofUrl ? (
                         <a
@@ -234,7 +234,7 @@ export function ChallengesClient({
                         size="sm"
                         onClick={() => handleApprove(p.id)}
                         disabled={loading}
-                        className="bg-eco-green hover:bg-emerald-600 text-[#09090b] font-semibold px-3 py-1 text-xs"
+                        className="bg-eco-green hover:bg-emerald-600 text-[#09090b] dark:text-white font-semibold px-3 py-1 text-xs"
                       >
                         Approve
                       </Button>
@@ -253,10 +253,10 @@ export function ChallengesClient({
       {isManager ? (
         <Tabs defaultValue="quests" className="space-y-6">
           <TabsList className="bg-[#181524] border border-[#221F2C]">
-            <TabsTrigger value="quests" className="data-[state=active]:bg-purple-600 data-[state=active]:text-[#09090b]">
+            <TabsTrigger value="quests" className="data-[state=active]:bg-purple-600 data-[state=active]:text-[#09090b] dark:text-white">
               Available Quests
             </TabsTrigger>
-            <TabsTrigger value="review" className="data-[state=active]:bg-purple-600 data-[state=active]:text-[#09090b]">
+            <TabsTrigger value="review" className="data-[state=active]:bg-purple-600 data-[state=active]:text-[#09090b] dark:text-white">
               Review Claims
             </TabsTrigger>
           </TabsList>
@@ -275,11 +275,11 @@ export function ChallengesClient({
       <Dialog open={evidenceOpen} onOpenChange={setEvidenceOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-[#09090b]">
+            <DialogTitle className="flex items-center gap-2 text-[#09090b] dark:text-white">
               <Sparkles className="h-5 w-5 text-purple-400" /> Submit Quest Completion
             </DialogTitle>
             <DialogDescription className="text-muted-foreground mt-2">
-              Please provide evidence for completing <span className="font-semibold text-[#09090b]">"{selectedChallenge?.title}"</span>.
+              Please provide evidence for completing <span className="font-semibold text-[#09090b] dark:text-white">"{selectedChallenge?.title}"</span>.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleEvidenceSubmit} className="space-y-4">
@@ -300,7 +300,7 @@ export function ChallengesClient({
               <Button type="button" variant="outline" onClick={() => setEvidenceOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={loading || !proofUrl.trim()} className="bg-purple-600 hover:bg-purple-700 text-[#09090b] font-semibold">
+              <Button type="submit" disabled={loading || !proofUrl.trim()} className="bg-purple-600 hover:bg-purple-700 text-[#09090b] dark:text-white font-semibold">
                 {loading ? "Submitting..." : "Submit Claim"}
               </Button>
             </DialogFooter>

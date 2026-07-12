@@ -199,7 +199,7 @@ export function UsersClient({
                     <TableRow key={u.id} className="hover:bg-muted/10">
                       <TableCell>
                         <div className="flex flex-col">
-                          <span className="font-semibold text-[#09090b]">{u.name}</span>
+                          <span className="font-semibold text-[#09090b] dark:text-white">{u.name}</span>
                           <span className="text-xs text-muted-foreground">{u.email}</span>
                         </div>
                       </TableCell>
@@ -235,7 +235,7 @@ export function UsersClient({
                             variant="ghost"
                             size="icon"
                             onClick={() => handleOpenEdit(u)}
-                            className="h-8 w-8 hover:bg-[#22242f] text-muted-foreground hover:text-[#09090b]"
+                            className="h-8 w-8 hover:bg-[#22242f] text-muted-foreground hover:text-[#09090b] dark:text-white"
                           >
                             <Pencil className="h-4 w-4" />
                           </Button>
@@ -260,7 +260,7 @@ export function UsersClient({
 
       {/* Create / Edit Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="sm:max-w-md bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b]">
+        <DialogContent className="sm:max-w-md bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b] dark:text-white">
           <DialogHeader>
             <DialogTitle>{editing ? "Edit User Account" : "Register New User"}</DialogTitle>
             <DialogDescription>
@@ -278,7 +278,7 @@ export function UsersClient({
                 defaultValue={editing?.name || ""}
                 required
                 placeholder="John Doe"
-                className="bg-[#15161D] border-[#ececee] text-[#09090b]"
+                className="bg-[#15161D] border-[#ececee] text-[#09090b] dark:text-white"
               />
             </div>
             
@@ -291,7 +291,7 @@ export function UsersClient({
                 defaultValue={editing?.email || ""}
                 required
                 placeholder="john.doe@company.com"
-                className="bg-[#15161D] border-[#ececee] text-[#09090b]"
+                className="bg-[#15161D] border-[#ececee] text-[#09090b] dark:text-white"
               />
             </div>
 
@@ -304,7 +304,7 @@ export function UsersClient({
                 name="password"
                 type="password"
                 placeholder={editing ? "••••••••" : "password123"}
-                className="bg-[#15161D] border-[#ececee] text-[#09090b]"
+                className="bg-[#15161D] border-[#ececee] text-[#09090b] dark:text-white"
               />
             </div>
 
@@ -315,7 +315,7 @@ export function UsersClient({
                   <SelectTrigger id="role" className="bg-[#15161D] border-[#ececee]">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b]">
+                  <SelectContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b] dark:text-white">
                     <SelectItem value="admin">Administrator</SelectItem>
                     <SelectItem value="esg_manager">ESG Manager</SelectItem>
                     <SelectItem value="dept_head">Department Head</SelectItem>
@@ -331,7 +331,7 @@ export function UsersClient({
                   <SelectTrigger id="status" className="bg-[#15161D] border-[#ececee]">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b]">
+                  <SelectContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b] dark:text-white">
                     <SelectItem value="active">Active</SelectItem>
                     <SelectItem value="inactive">Inactive</SelectItem>
                   </SelectContent>
@@ -345,7 +345,7 @@ export function UsersClient({
                 <SelectTrigger id="departmentId" className="bg-[#15161D] border-[#ececee]">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b]">
+                <SelectContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b] dark:text-white">
                   <SelectItem value="none">No Department Assignment</SelectItem>
                   {departments.map((d) => (
                     <SelectItem key={d.id} value={d.id}>
@@ -361,7 +361,7 @@ export function UsersClient({
                 type="button"
                 variant="outline"
                 onClick={() => setDialogOpen(false)}
-                className="bg-transparent border-[#ececee] hover:bg-muted/10 text-[#09090b]"
+                className="bg-transparent border-[#ececee] hover:bg-muted/10 text-[#09090b] dark:text-white"
               >
                 Cancel
               </Button>
@@ -379,7 +379,7 @@ export function UsersClient({
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b]">
+        <DialogContent className="bg-white dark:bg-[#18181b] border-[#ececee] text-[#09090b] dark:text-white">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-destructive">
               <ShieldAlert className="h-5 w-5" /> Delete Access Account
@@ -388,7 +388,7 @@ export function UsersClient({
           <div className="space-y-2 py-2">
             <p className="text-sm text-muted-foreground">
               Are you sure you want to permanently delete the account for{" "}
-              <span className="font-semibold text-[#09090b]">{deleting?.name}</span> (
+              <span className="font-semibold text-[#09090b] dark:text-white">{deleting?.name}</span> (
               {deleting?.email})?
             </p>
             <p className="text-xs text-destructive bg-destructive/10 border border-destructive/20 rounded-md p-2">
@@ -399,7 +399,7 @@ export function UsersClient({
             <Button
               variant="outline"
               onClick={() => setDeleteOpen(false)}
-              className="bg-transparent border-[#ececee] hover:bg-muted/10 text-[#09090b]"
+              className="bg-transparent border-[#ececee] hover:bg-muted/10 text-[#09090b] dark:text-white"
             >
               Cancel
             </Button>
@@ -407,7 +407,7 @@ export function UsersClient({
               variant="destructive"
               onClick={handleDelete}
               disabled={loading}
-              className="bg-red-600 hover:bg-red-700 text-[#09090b]"
+              className="bg-red-600 hover:bg-red-700 text-[#09090b] dark:text-white"
             >
               Delete Account
             </Button>

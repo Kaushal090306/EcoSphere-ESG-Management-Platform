@@ -18,7 +18,7 @@ export default function SocialOverviewPage() {
     <div className="space-y-6">
       {/* Page Title */}
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-[#09090b]">Social Overview</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-[#09090b] dark:text-white">Social Overview</h1>
         <p className="text-muted-foreground">
           Track and manage employee engagement, CSR activities, and diversity performance
         </p>

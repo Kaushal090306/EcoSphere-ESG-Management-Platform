@@ -27,7 +27,7 @@ export default async function LeaderboardPage() {
         {/* Employee Leaderboard */}
         <Card className="border border-[#221F2C]">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-base text-[#09090b]">
+            <CardTitle className="flex items-center gap-2 text-base text-[#09090b] dark:text-white">
               <Trophy className="h-4 w-4 text-[#f59e0b]" /> Top Individual Contributors
             </CardTitle>
             <CardDescription>
@@ -53,7 +53,7 @@ export default async function LeaderboardPage() {
                   {employees.map((user, idx) => (
                     <TableRow key={user.id} className={`border-b border-[#221F2C] hover:bg-slate-900/30 ${idx < 3 ? "bg-purple-950/10 hover:bg-purple-950/20" : ""}`}>
                       <TableCell className="align-middle">{renderRankIcon(idx + 1)}</TableCell>
-                      <TableCell className="font-medium text-[#09090b] align-middle">{user.name}</TableCell>
+                      <TableCell className="font-medium text-[#09090b] dark:text-white align-middle">{user.name}</TableCell>
                       <TableCell className="align-middle text-muted-foreground">{user.departmentName || "General"}</TableCell>
                       <TableCell className="text-right font-bold font-mono text-[#f59e0b] align-middle">
                         {user.xp.toLocaleString()} XP
@@ -69,7 +69,7 @@ export default async function LeaderboardPage() {
         {/* Department Leaderboard */}
         <Card className="border border-[#221F2C]">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-base text-[#09090b]">
+            <CardTitle className="flex items-center gap-2 text-base text-[#09090b] dark:text-white">
               <Building2 className="h-4 w-4 text-teal-400" /> Department Standings
             </CardTitle>
             <CardDescription>
@@ -95,7 +95,7 @@ export default async function LeaderboardPage() {
                   {departments.map((dept, idx) => (
                     <TableRow key={dept.id} className={`border-b border-[#221F2C] hover:bg-slate-900/30 ${idx < 3 ? "bg-teal-950/10 hover:bg-teal-950/20" : ""}`}>
                       <TableCell className="align-middle">{renderRankIcon(idx + 1)}</TableCell>
-                      <TableCell className="font-medium text-[#09090b] align-middle">{dept.name}</TableCell>
+                      <TableCell className="font-medium text-[#09090b] dark:text-white align-middle">{dept.name}</TableCell>
                       <TableCell className="align-middle text-muted-foreground">
                         <span className="flex items-center gap-1">
                           <Users className="h-3.5 w-3.5" /> {dept.employeeCount}

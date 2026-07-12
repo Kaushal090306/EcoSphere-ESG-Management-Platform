@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -191,7 +191,7 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
               </svg>
             </div>
             <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-              <span className="text-lg font-extrabold text-white tracking-tight leading-none">
+              <span className="text-lg font-extrabold text-[#09090b] dark:text-white tracking-tight leading-none">
                 EcoSphere
               </span>
               <span className="text-[10px] text-muted-foreground font-semibold mt-0.5 tracking-wider uppercase">

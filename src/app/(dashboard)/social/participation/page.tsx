@@ -16,7 +16,7 @@ export default async function EmployeeParticipationPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-[#09090b]">Employee Participation</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-[#09090b] dark:text-white">Employee Participation</h1>
         <p className="text-muted-foreground">
           Track employee volunteer sign-ups, submissions, and reward points
         </p>
@@ -53,10 +53,10 @@ export default async function EmployeeParticipationPage() {
                     <TableCell className="text-muted-foreground">
                       {p.createdAt ? new Date(p.createdAt).toLocaleDateString() : "—"}
                     </TableCell>
-                    <TableCell className="font-medium text-[#09090b]">
+                    <TableCell className="font-medium text-[#09090b] dark:text-white">
                       {activityName(p.activityId)}
                     </TableCell>
-                    <TableCell className="font-mono text-[#09090b] font-semibold">
+                    <TableCell className="font-mono text-[#09090b] dark:text-white font-semibold">
                       +{p.pointsEarned} XP
                     </TableCell>
                     <TableCell>

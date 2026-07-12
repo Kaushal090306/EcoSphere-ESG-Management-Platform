@@ -25,7 +25,7 @@ export default async function ReportsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-[#09090b]">ESG Reports</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-[#09090b] dark:text-white">ESG Reports</h1>
         <p className="text-muted-foreground">
           Download and view audit-ready sustainability reports and disclosures
         </p>
@@ -55,7 +55,7 @@ export default async function ReportsPage() {
             <TableBody>
               {reportsList.map((r, idx) => (
                 <TableRow key={idx}>
-                  <TableCell className="font-medium text-[#09090b] flex items-center gap-2">
+                  <TableCell className="font-medium text-[#09090b] dark:text-white flex items-center gap-2">
                     <FileText className="h-4 w-4 text-muted-foreground" />
                     {r.name}
                   </TableCell>

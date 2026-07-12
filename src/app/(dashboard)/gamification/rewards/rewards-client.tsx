@@ -99,12 +99,12 @@ export function RewardsClient({ rewards, userPoints: initialPoints, userRole }: 
             <Coins className="h-6 w-6" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-[#09090b]">Your Redeemable Balance</h2>
+            <h2 className="text-xl font-bold text-[#09090b] dark:text-white">Your Redeemable Balance</h2>
             <p className="text-muted-foreground text-sm">Earn more points by completing challenges & policies</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-3xl font-extrabold text-[#09090b] font-mono">{userPoints.toLocaleString()}</span>
+          <span className="text-3xl font-extrabold text-[#09090b] dark:text-white font-mono">{userPoints.toLocaleString()}</span>
           <span className="text-purple-400 font-semibold text-lg">Points</span>
         </div>
       </div>
@@ -132,7 +132,7 @@ export function RewardsClient({ rewards, userPoints: initialPoints, userRole }: 
                         {r.pointsRequired} Points
                       </Badge>
                     </div>
-                    <CardTitle className="text-lg mt-3 text-[#09090b]">{r.name}</CardTitle>
+                    <CardTitle className="text-lg mt-3 text-[#09090b] dark:text-white">{r.name}</CardTitle>
                     <CardDescription className="text-sm mt-1.5 text-muted-foreground">
                       {r.description}
                     </CardDescription>
@@ -149,7 +149,7 @@ export function RewardsClient({ rewards, userPoints: initialPoints, userRole }: 
                           ? "bg-muted text-muted-foreground cursor-not-allowed"
                           : !canAfford
                           ? "bg-slate-800 text-slate-500 cursor-not-allowed hover:bg-slate-800"
-                          : "bg-purple-600 hover:bg-purple-700 text-[#09090b] shadow-lg shadow-purple-900/20"
+                          : "bg-purple-600 hover:bg-purple-700 text-[#09090b] dark:text-white shadow-lg shadow-purple-900/20"
                       }`}
                     >
                       {outOfStock ? (
@@ -174,7 +174,7 @@ export function RewardsClient({ rewards, userPoints: initialPoints, userRole }: 
   const managementView = (
     <div className="space-y-6">
       <div className="flex justify-end">
-        <Button onClick={() => { setEditing(null); setDialogOpen(true); }} className="gap-2 bg-purple-600 hover:bg-purple-700 text-[#09090b] font-semibold">
+        <Button onClick={() => { setEditing(null); setDialogOpen(true); }} className="gap-2 bg-purple-600 hover:bg-purple-700 text-[#09090b] dark:text-white font-semibold">
           <Plus className="h-4 w-4" /> Add Reward Item
         </Button>
       </div>
@@ -197,10 +197,10 @@ export function RewardsClient({ rewards, userPoints: initialPoints, userRole }: 
               <TableBody>
                 {rewards.map((r) => (
                   <TableRow key={r.id} className="border-b border-[#221F2C] hover:bg-slate-900/30">
-                    <TableCell className="font-medium text-[#09090b]">{r.name}</TableCell>
+                    <TableCell className="font-medium text-[#09090b] dark:text-white">{r.name}</TableCell>
                     <TableCell className="text-muted-foreground max-w-xs truncate">{r.description}</TableCell>
                     <TableCell className="font-mono text-[#f59e0b] font-bold">{r.pointsRequired} pts</TableCell>
-                    <TableCell className="text-[#09090b]">{r.stock ?? "∞"}</TableCell>
+                    <TableCell className="text-[#09090b] dark:text-white">{r.stock ?? "∞"}</TableCell>
                     <TableCell>
                       <Badge variant="outline" className={statusColors[r.status]}>
                         {r.status.replace("_", " ")}
@@ -231,10 +231,10 @@ export function RewardsClient({ rewards, userPoints: initialPoints, userRole }: 
       {isManager ? (
         <Tabs defaultValue="redeem" className="space-y-6">
           <TabsList className="bg-[#181524] border border-[#221F2C]">
-            <TabsTrigger value="redeem" className="data-[state=active]:bg-purple-600 data-[state=active]:text-[#09090b]">
+            <TabsTrigger value="redeem" className="data-[state=active]:bg-purple-600 data-[state=active]:text-[#09090b] dark:text-white">
               Redeem Incentives
             </TabsTrigger>
-            <TabsTrigger value="manage" className="data-[state=active]:bg-purple-600 data-[state=active]:text-[#09090b]">
+            <TabsTrigger value="manage" className="data-[state=active]:bg-purple-600 data-[state=active]:text-[#09090b] dark:text-white">
               Catalog Management
             </TabsTrigger>
           </TabsList>
@@ -253,17 +253,17 @@ export function RewardsClient({ rewards, userPoints: initialPoints, userRole }: 
       <Dialog open={redeemOpen} onOpenChange={setRedeemOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-[#09090b]">
+            <DialogTitle className="flex items-center gap-2 text-[#09090b] dark:text-white">
               <Sparkles className="h-5 w-5 text-purple-400" /> Confirm Redemption
             </DialogTitle>
             <DialogDescription className="text-muted-foreground mt-2">
-              Are you sure you want to redeem <span className="font-semibold text-[#09090b]">"{redeeming?.name}"</span> for{" "}
+              Are you sure you want to redeem <span className="font-semibold text-[#09090b] dark:text-white">"{redeeming?.name}"</span> for{" "}
               <span className="font-bold text-[#f59e0b] font-mono">{redeeming?.pointsRequired} points</span>?
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col items-center justify-center p-6 bg-slate-950/50 rounded-lg border border-purple-500/10 my-4">
             <span className="text-muted-foreground text-xs uppercase tracking-wider mb-1">New Balance</span>
-            <div className="flex items-baseline gap-1 text-2xl font-bold font-mono text-[#09090b]">
+            <div className="flex items-baseline gap-1 text-2xl font-bold font-mono text-[#09090b] dark:text-white">
               {redeeming ? (userPoints - redeeming.pointsRequired).toLocaleString() : userPoints}
               <span className="text-xs text-purple-400 uppercase font-sans">pts</span>
             </div>
@@ -272,7 +272,7 @@ export function RewardsClient({ rewards, userPoints: initialPoints, userRole }: 
             <Button variant="outline" onClick={() => setRedeemOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={handleRedeem} disabled={loading} className="bg-purple-600 hover:bg-purple-700 text-[#09090b] font-semibold">
+            <Button onClick={handleRedeem} disabled={loading} className="bg-purple-600 hover:bg-purple-700 text-[#09090b] dark:text-white font-semibold">
               {loading ? "Processing..." : "Confirm & Redeem"}
             </Button>
           </DialogFooter>

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -264,7 +264,7 @@ export default function EnvironmentDashboard() {
   }));
 
   return (
-    <div className="space-y-6 text-white bg-[#f4f4f5] dark:bg-[#0f1016]">
+    <div className="space-y-6 text-[#09090b] dark:text-white bg-[#f4f4f5] dark:bg-[#0f1016]">
       {/* Row 1: KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         

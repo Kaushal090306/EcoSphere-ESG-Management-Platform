@@ -28,8 +28,8 @@ export default function SettingsLayout({
                 href={tab.href}
                 className={`pb-4 text-sm font-medium border-b-2 transition-all duration-200 ${
                   isActive
-                    ? "border-[#9B5CF6] text-[#09090b] font-semibold"
-                    : "border-transparent text-muted-foreground hover:text-[#09090b]"
+                    ? "border-[#9B5CF6] text-[#09090b] dark:text-white font-semibold"
+                    : "border-transparent text-muted-foreground hover:text-[#09090b] dark:text-white"
                 }`}
               >
                 {tab.name}

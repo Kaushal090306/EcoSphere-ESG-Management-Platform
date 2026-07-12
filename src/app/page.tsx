@@ -8,7 +8,7 @@ export default async function LandingPage() {
   const isLoggedIn = !!session?.user;
 
   return (
-    <div className="min-h-screen bg-[#f4f4f5] text-[#18181b] font-sans antialiased selection:bg-[#ff5a00] selection:text-white">
+    <div className="min-h-screen bg-[#f4f4f5] text-[#18181b] dark:text-[#eeeeef] font-sans antialiased selection:bg-[#ff5a00] selection:text-white">
       {/* Navigation Bar */}
       <header className="sticky top-0 z-50 w-full bg-white dark:bg-[#18181b]/80 backdrop-blur-md border-b border-[#ececee]">
         <div className="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
@@ -22,15 +22,15 @@ export default async function LandingPage() {
                 <rect x="14" y="14" width="7" height="7" rx="2" fill="#ff5a00" />
               </svg>
             </div>
-            <span className="text-lg font-bold text-[#09090b] tracking-tight">EcoSphere</span>
+            <span className="text-lg font-bold text-[#09090b] dark:text-white tracking-tight">EcoSphere</span>
           </Link>
 
           {/* Centered Nav Links */}
           <nav className="hidden md:flex items-center gap-8 text-[14px] font-medium text-[#52525b]">
-            <a href="#pillars" className="hover:text-[#09090b] transition-colors">Pillars</a>
-            <a href="#features" className="hover:text-[#09090b] transition-colors">Features</a>
-            <a href="#impact" className="hover:text-[#09090b] transition-colors">Impact</a>
-            <a href="#about" className="hover:text-[#09090b] transition-colors">Platform</a>
+            <a href="#pillars" className="hover:text-[#09090b] dark:text-white transition-colors">Pillars</a>
+            <a href="#features" className="hover:text-[#09090b] dark:text-white transition-colors">Features</a>
+            <a href="#impact" className="hover:text-[#09090b] dark:text-white transition-colors">Impact</a>
+            <a href="#about" className="hover:text-[#09090b] dark:text-white transition-colors">Platform</a>
           </nav>
 
           {/* Right CTA */}
@@ -44,7 +44,7 @@ export default async function LandingPage() {
               </Link>
             ) : (
               <>
-                <Link href="/login" className="text-[14px] font-medium text-[#52525b] hover:text-[#09090b] transition-colors">
+                <Link href="/login" className="text-[14px] font-medium text-[#52525b] hover:text-[#09090b] dark:text-white transition-colors">
                   Sign In
                 </Link>
                 <Link
@@ -69,7 +69,7 @@ export default async function LandingPage() {
               <span>EcoSphere ESG v2.0</span>
             </div>
 
-            <h1 className="text-4xl md:text-[56px] lg:text-[64px] font-semibold text-[#09090b] leading-[1.12] tracking-tight">
+            <h1 className="text-4xl md:text-[56px] lg:text-[64px] font-semibold text-[#09090b] dark:text-white leading-[1.12] tracking-tight">
               Standardize your ESG Management.
             </h1>
             
@@ -80,7 +80,7 @@ export default async function LandingPage() {
 
           {/* Right Column (CTA Form) */}
           <div className="lg:col-span-5 bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[36px] p-8 shadow-sm">
-            <h3 className="text-xl font-bold text-[#09090b] mb-2">Request Access</h3>
+            <h3 className="text-xl font-bold text-[#09090b] dark:text-white mb-2">Request Access</h3>
             <p className="text-sm text-[#52525b] mb-6">
               Start measuring your ecological, social, and governance metrics with precision.
             </p>
@@ -104,7 +104,7 @@ export default async function LandingPage() {
                     type="email"
                     placeholder="Enter your work email"
                     required
-                    className="w-full bg-[#f4f4f5] text-[#18181b] placeholder-[#a1a1aa] rounded-[14px] px-4 py-3.5 text-[14px] border border-transparent focus:border-[#ececee] outline-none transition-all"
+                    className="w-full bg-[#f4f4f5] text-[#18181b] dark:text-[#eeeeef] placeholder-[#a1a1aa] rounded-[14px] px-4 py-3.5 text-[14px] border border-transparent focus:border-[#ececee] outline-none transition-all"
                   />
                 </div>
                 <button
@@ -142,7 +142,7 @@ export default async function LandingPage() {
       {/* Pillars Section: Category Card Grid */}
       <section id="pillars" className="max-w-[1200px] mx-auto px-6 py-24 space-y-12">
         <div className="text-center space-y-4 max-w-2xl mx-auto">
-          <h2 className="text-3xl md:text-[40px] font-semibold text-[#09090b] tracking-tight leading-tight">
+          <h2 className="text-3xl md:text-[40px] font-semibold text-[#09090b] dark:text-white tracking-tight leading-tight">
             Comprehensive ESG Pillars
           </h2>
           <p className="text-[#52525b] text-[15px]">
@@ -162,10 +162,10 @@ export default async function LandingPage() {
               />
             </div>
             <div className="p-7 space-y-4">
-              <span className="inline-flex rounded-[12px] border border-[#ececee] px-2.5 py-0.5 text-[12px] font-medium text-[#18181b]">
+              <span className="inline-flex rounded-[12px] border border-[#ececee] px-2.5 py-0.5 text-[12px] font-medium text-[#18181b] dark:text-[#eeeeef]">
                 Scope 1, 2 & 3
               </span>
-              <h4 className="text-lg font-bold text-[#09090b] tracking-tight">Environmental</h4>
+              <h4 className="text-lg font-bold text-[#09090b] dark:text-white tracking-tight">Environmental</h4>
               <p className="text-[13px] text-[#52525b] leading-relaxed">
                 Log energy consumption, automate emissions calculation with pre-loaded factors, and manage carbon transactions.
               </p>
@@ -183,10 +183,10 @@ export default async function LandingPage() {
               />
             </div>
             <div className="p-7 space-y-4">
-              <span className="inline-flex rounded-[12px] border border-[#ececee] px-2.5 py-0.5 text-[12px] font-medium text-[#18181b]">
+              <span className="inline-flex rounded-[12px] border border-[#ececee] px-2.5 py-0.5 text-[12px] font-medium text-[#18181b] dark:text-[#eeeeef]">
                 Corporate Responsibility
               </span>
-              <h4 className="text-lg font-bold text-[#09090b] tracking-tight">Social Impact</h4>
+              <h4 className="text-lg font-bold text-[#09090b] dark:text-white tracking-tight">Social Impact</h4>
               <p className="text-[13px] text-[#52525b] leading-relaxed">
                 Monitor CSR activities, track community volunteer participation, and report on corporate diversity and inclusion.
               </p>
@@ -204,10 +204,10 @@ export default async function LandingPage() {
               />
             </div>
             <div className="p-7 space-y-4">
-              <span className="inline-flex rounded-[12px] border border-[#ececee] px-2.5 py-0.5 text-[12px] font-medium text-[#18181b]">
+              <span className="inline-flex rounded-[12px] border border-[#ececee] px-2.5 py-0.5 text-[12px] font-medium text-[#18181b] dark:text-[#eeeeef]">
                 Compliance & Audits
               </span>
-              <h4 className="text-lg font-bold text-[#09090b] tracking-tight">Governance</h4>
+              <h4 className="text-lg font-bold text-[#09090b] dark:text-white tracking-tight">Governance</h4>
               <p className="text-[13px] text-[#52525b] leading-relaxed">
                 Manage board policies, coordinate compliance audits, flag corporate risks, and prepare board-ready ESG documentation.
               </p>
@@ -225,10 +225,10 @@ export default async function LandingPage() {
               />
             </div>
             <div className="p-7 space-y-4">
-              <span className="inline-flex rounded-[12px] border border-[#ececee] px-2.5 py-0.5 text-[12px] font-medium text-[#18181b]">
+              <span className="inline-flex rounded-[12px] border border-[#ececee] px-2.5 py-0.5 text-[12px] font-medium text-[#18181b] dark:text-[#eeeeef]">
                 Eco-Gamification
               </span>
-              <h4 className="text-lg font-bold text-[#09090b] tracking-tight">Engagement</h4>
+              <h4 className="text-lg font-bold text-[#09090b] dark:text-white tracking-tight">Engagement</h4>
               <p className="text-[13px] text-[#52525b] leading-relaxed">
                 Foster sustainability culture with active eco-challenges, leaderboard tracking, and rewarding eco-participation.
               </p>
@@ -290,27 +290,27 @@ export default async function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {/* Stat 1 */}
             <div className="flex flex-col md:flex-row items-baseline gap-4 md:border-r border-[#ececee] last:border-r-0 pr-4">
-              <span className="text-5xl md:text-[56px] font-bold text-[#09090b] tracking-tight font-mono">40%</span>
+              <span className="text-5xl md:text-[56px] font-bold text-[#09090b] dark:text-white tracking-tight font-mono">40%</span>
               <div className="space-y-1">
-                <h5 className="text-[13px] font-semibold text-[#09090b]">Faster Reporting</h5>
+                <h5 className="text-[13px] font-semibold text-[#09090b] dark:text-white">Faster Reporting</h5>
                 <p className="text-[12px] text-[#52525b]">Average reduction in yearly ESG audit compilation cycles.</p>
               </div>
             </div>
 
             {/* Stat 2 */}
             <div className="flex flex-col md:flex-row items-baseline gap-4 md:border-r border-[#ececee] last:border-r-0 pr-4">
-              <span className="text-5xl md:text-[56px] font-bold text-[#09090b] tracking-tight font-mono">1.2k+</span>
+              <span className="text-5xl md:text-[56px] font-bold text-[#09090b] dark:text-white tracking-tight font-mono">1.2k+</span>
               <div className="space-y-1">
-                <h5 className="text-[13px] font-semibold text-[#09090b]">Tons Offset</h5>
+                <h5 className="text-[13px] font-semibold text-[#09090b] dark:text-white">Tons Offset</h5>
                 <p className="text-[12px] text-[#52525b]">Carbon dioxide emissions mitigated through audited offsets.</p>
               </div>
             </div>
 
             {/* Stat 3 */}
             <div className="flex flex-col md:flex-row items-baseline gap-4">
-              <span className="text-5xl md:text-[56px] font-bold text-[#09090b] tracking-tight font-mono">15k+</span>
+              <span className="text-5xl md:text-[56px] font-bold text-[#09090b] dark:text-white tracking-tight font-mono">15k+</span>
               <div className="space-y-1">
-                <h5 className="text-[13px] font-semibold text-[#09090b]">Employees Engaged</h5>
+                <h5 className="text-[13px] font-semibold text-[#09090b] dark:text-white">Employees Engaged</h5>
                 <p className="text-[12px] text-[#52525b]">Active users taking part in organizational eco-challenges.</p>
               </div>
             </div>
@@ -334,11 +334,11 @@ export default async function LandingPage() {
       {/* Testimonial / Final CTA */}
       <section className="max-w-[1200px] mx-auto px-6 pb-32">
         <div className="bg-white dark:bg-[#18181b] border border-[#ececee] rounded-[36px] p-8 md:p-14 text-center max-w-4xl mx-auto space-y-8">
-          <p className="text-xl md:text-2xl font-medium text-[#09090b] leading-relaxed italic">
+          <p className="text-xl md:text-2xl font-medium text-[#09090b] dark:text-white leading-relaxed italic">
             "EcoSphere completely centralized our Scope 1 and 2 carbon ledger. We consolidated data from three subsidiaries and finished our annual compliance review in just one week."
           </p>
           <div className="space-y-1">
-            <h5 className="text-[14px] font-bold text-[#09090b]">Elena Rostova</h5>
+            <h5 className="text-[14px] font-bold text-[#09090b] dark:text-white">Elena Rostova</h5>
             <p className="text-[12px] text-[#71717a]">Director of Sustainability, GreenTech Industries</p>
           </div>
           
@@ -357,14 +357,14 @@ export default async function LandingPage() {
       <footer className="border-t border-[#ececee] bg-white dark:bg-[#18181b] py-12 text-[13px] text-[#71717a]">
         <div className="max-w-[1200px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <span className="font-bold text-[#09090b]">EcoSphere</span>
+            <span className="font-bold text-[#09090b] dark:text-white">EcoSphere</span>
             <span>© {new Date().getFullYear()} EcoSphere. All rights reserved.</span>
           </div>
           
           <div className="flex items-center gap-6">
-            <a href="#" className="hover:text-[#09090b] transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-[#09090b] transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-[#09090b] transition-colors">Security</a>
+            <a href="#" className="hover:text-[#09090b] dark:text-white transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-[#09090b] dark:text-white transition-colors">Terms of Service</a>
+            <a href="#" className="hover:text-[#09090b] dark:text-white transition-colors">Security</a>
           </div>
         </div>
       </footer>

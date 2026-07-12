@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import {
@@ -162,7 +162,7 @@ ${data.pendingTasks.map((t, i) => `${i + 1}. [ ] ${t.title} (${t.dueDate})`).joi
   };
 
   return (
-    <div className="space-y-6 pb-8 bg-[#f4f4f5] dark:bg-[#0f1016] min-h-screen text-white">
+    <div className="space-y-6 pb-8 bg-[#f4f4f5] dark:bg-[#0f1016] min-h-screen text-[#09090b] dark:text-white">
       {/* Top Welcome bar */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
