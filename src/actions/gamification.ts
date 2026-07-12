@@ -525,3 +525,30 @@ export async function getOwnUnlockedBadges() {
     .where(eq(userBadges.userId, sessionUser.id))
     .orderBy(desc(userBadges.unlockedAt));
 }
+
+/**
+ * Reject a challenge participation.
+ */
+export async function rejectChallengeParticipationAction(participationId: string) {
+  try {
+    await checkRole(["admin", "esg_manager", "dept_head"]);
+  } catch (err: any) {
+    return { error: err.message || "Unauthorized" };
+  }
+
+  try {
+    await db
+      .update(challengeParticipations)
+      .set({
+        approvalStatus: "rejected",
+      })
+      .where(eq(challengeParticipations.id, participationId));
+
+    revalidatePath("/gamification/challenges");
+    revalidatePath("/dashboard");
+    return { success: true };
+  } catch (error: any) {
+    console.error("Error rejecting challenge:", error);
+    return { error: error.message || "Failed to reject challenge." };
+  }
+}

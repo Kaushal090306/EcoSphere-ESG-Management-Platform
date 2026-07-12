@@ -9,8 +9,16 @@ import {
   complianceIssues,
   challenges,
   policies,
+  users,
+  userXpTransactions,
+  userBadges,
+  badges,
+  challengeParticipations,
+  employeeParticipations,
+  policyAcknowledgements,
+  audits,
 } from "@/db/schema";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and, sql } from "drizzle-orm";
 import { auth } from "@/auth";
 
 export interface DashboardActivity {
@@ -71,6 +79,87 @@ export interface DashboardData {
   recentActivities: DashboardActivity[];
   topDepartments: DashboardDepartment[];
   pendingTasks: DashboardTask[];
+
+  // Employee Dashboard Data
+  employeeStats?: {
+    xp: number;
+    points: number;
+    level: number;
+    levelProgressPct: number;
+    completedCsrsCount: number;
+    completedChallengesCount: number;
+    activeChallenges: {
+      id: string;
+      title: string;
+      xp: number;
+      progressPct: number;
+      approvalStatus: string;
+      proofUrl: string | null;
+    }[];
+    activeCsrs: {
+      id: string;
+      title: string;
+      date: string;
+      approvalStatus: string;
+      proofUrl: string | null;
+    }[];
+    badges: {
+      id: string;
+      name: string;
+      description: string;
+      icon: string;
+      unlockedAt: Date;
+    }[];
+    xpTransactions: {
+      id: string;
+      amount: number;
+      reason: string;
+      createdAt: Date;
+    }[];
+    policies: {
+      id: string;
+      title: string;
+      acknowledged: boolean;
+      acknowledgedAt: Date | null;
+    }[];
+  };
+
+  // Manager Dashboard Data
+  managerStats?: {
+    departmentName: string;
+    departmentScore: number;
+    departmentRank: number;
+    employeeCount: number;
+    averageXp: number;
+    pendingChallengeApprovals: {
+      id: string;
+      employeeName: string;
+      challengeTitle: string;
+      challengeXp: number;
+      proofUrl: string | null;
+      createdAt: Date;
+    }[];
+    pendingCsrApprovals: {
+      id: string;
+      employeeName: string;
+      csrTitle: string;
+      proofUrl: string | null;
+      createdAt: Date;
+    }[];
+    complianceIssues: {
+      id: string;
+      description: string;
+      severity: string;
+      dueDate: Date;
+      status: string;
+    }[];
+    departmentEmployees: {
+      id: string;
+      name: string;
+      xp: number;
+      points: number;
+    }[];
+  };
 }
 
 export async function getDashboardData(): Promise<DashboardData> {
@@ -330,6 +419,267 @@ export async function getDashboardData(): Promise<DashboardData> {
   // Sort tasks by due date (soonest first)
   pendingTasks.sort((a, b) => a.dueDays - b.dueDays);
 
+  // If the role is employee
+  let employeeStats = undefined;
+  if (userRole.toLowerCase() === "employee" && session?.user?.id) {
+    const userId = session.user.id;
+    // 1. Fetch user data (fresh points, xp)
+    const [userRecord] = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
+
+    const freshXp = userRecord?.xp || 0;
+    const freshPoints = userRecord?.points || 0;
+    const currentLevel = Math.floor(freshXp / 100) + 1;
+    const levelProgressPct = freshXp % 100;
+
+    // 2. Completed CSR activities count
+    const [csrCount] = await db
+      .select({ count: sql<number>`count(${employeeParticipations.id})::int` })
+      .from(employeeParticipations)
+      .where(
+        and(
+          eq(employeeParticipations.employeeId, userId),
+          eq(employeeParticipations.approvalStatus, "approved")
+        )
+      );
+
+    // 3. Completed challenges count
+    const [challengesCount] = await db
+      .select({ count: sql<number>`count(${challengeParticipations.id})::int` })
+      .from(challengeParticipations)
+      .where(
+        and(
+          eq(challengeParticipations.employeeId, userId),
+          eq(challengeParticipations.approvalStatus, "approved")
+        )
+      );
+
+    // 4. Joined challenges (active or pending)
+    const activeChs = await db
+      .select({
+        id: challenges.id,
+        title: challenges.title,
+        xp: challenges.xp,
+        progressPct: challengeParticipations.progressPct,
+        approvalStatus: challengeParticipations.approvalStatus,
+        proofUrl: challengeParticipations.proofUrl,
+      })
+      .from(challengeParticipations)
+      .innerJoin(challenges, eq(challengeParticipations.challengeId, challenges.id))
+      .where(eq(challengeParticipations.employeeId, userId))
+      .orderBy(desc(challengeParticipations.createdAt));
+
+    // 5. Active CSR participations (joined)
+    const activeCsrs = await db
+      .select({
+        id: csrActivities.id,
+        title: csrActivities.title,
+        date: sql<string>`coalesce(${csrActivities.date}::text, '')`,
+        approvalStatus: employeeParticipations.approvalStatus,
+        proofUrl: employeeParticipations.proofUrl,
+      })
+      .from(employeeParticipations)
+      .innerJoin(csrActivities, eq(employeeParticipations.activityId, csrActivities.id))
+      .where(eq(employeeParticipations.employeeId, userId))
+      .orderBy(desc(employeeParticipations.createdAt));
+
+    // 6. Badges unlocked
+    const unlockedBadges = await db
+      .select({
+        id: badges.id,
+        name: badges.name,
+        description: badges.description,
+        icon: badges.icon,
+        unlockedAt: userBadges.unlockedAt,
+      })
+      .from(userBadges)
+      .innerJoin(badges, eq(userBadges.badgeId, badges.id))
+      .where(eq(userBadges.userId, userId))
+      .orderBy(desc(userBadges.unlockedAt));
+
+    // 7. XP Transactions
+    const xpTransactions = await db
+      .select({
+        id: userXpTransactions.id,
+        amount: userXpTransactions.amount,
+        reason: userXpTransactions.reason,
+        createdAt: userXpTransactions.createdAt,
+      })
+      .from(userXpTransactions)
+      .where(eq(userXpTransactions.userId, userId))
+      .orderBy(desc(userXpTransactions.createdAt))
+      .limit(10);
+
+    // 8. Policies and whether acknowledged
+    const allPolicies = await db
+      .select()
+      .from(policies)
+      .where(eq(policies.status, "published"));
+
+    const acks = await db
+      .select()
+      .from(policyAcknowledgements)
+      .where(eq(policyAcknowledgements.employeeId, userId));
+
+    const ackSet = new Set(acks.map((a) => a.policyId));
+    const ackMap = new Map(acks.map((a) => [a.policyId, a.acknowledgedAt]));
+
+    const policiesStatus = allPolicies.map((p) => ({
+      id: p.id,
+      title: p.title,
+      acknowledged: ackSet.has(p.id),
+      acknowledgedAt: ackMap.get(p.id) || null,
+    }));
+
+    employeeStats = {
+      xp: freshXp,
+      points: freshPoints,
+      level: currentLevel,
+      levelProgressPct,
+      completedCsrsCount: csrCount?.count || 0,
+      completedChallengesCount: challengesCount?.count || 0,
+      activeChallenges: activeChs,
+      activeCsrs,
+      badges: unlockedBadges,
+      xpTransactions,
+      policies: policiesStatus,
+    };
+  }
+
+  // If the role is dept_head
+  let managerStats = undefined;
+  if (userRole.toLowerCase() === "dept_head" && session?.user?.id) {
+    const userId = session.user.id;
+    const [managerUser] = await db
+      .select({ departmentId: users.departmentId })
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
+
+    const deptId = managerUser?.departmentId;
+    if (deptId) {
+      const [deptRecord] = await db
+        .select()
+        .from(departments)
+        .where(eq(departments.id, deptId))
+        .limit(1);
+
+      const deptName = deptRecord?.name || "My Department";
+
+      const [scoreRecord] = await db
+        .select()
+        .from(departmentScores)
+        .where(
+          and(
+            eq(departmentScores.departmentId, deptId),
+            eq(departmentScores.period, "2026-Q2")
+          )
+        )
+        .limit(1);
+
+      const departmentScore = scoreRecord ? parseFloat(scoreRecord.totalScore || "0") : 75.0;
+
+      const allQ2Scores = await db
+        .select()
+        .from(departmentScores)
+        .where(eq(departmentScores.period, "2026-Q2"))
+        .orderBy(desc(departmentScores.totalScore));
+
+      const departmentRank = allQ2Scores.findIndex((s) => s.departmentId === deptId) + 1 || 1;
+
+      const deptEmployees = await db
+        .select({
+          id: users.id,
+          name: users.name,
+          xp: users.xp,
+          points: users.points,
+        })
+        .from(users)
+        .where(and(eq(users.departmentId, deptId), eq(users.status, "active")))
+        .orderBy(desc(users.xp));
+
+      const employeeCount = deptEmployees.length;
+      const totalXp = deptEmployees.reduce((sum, e) => sum + e.xp, 0);
+      const averageXp = employeeCount ? Math.round(totalXp / employeeCount) : 0;
+
+      const pendingChallengeApprovals = await db
+        .select({
+          id: challengeParticipations.id,
+          employeeName: users.name,
+          challengeTitle: challenges.title,
+          challengeXp: challenges.xp,
+          proofUrl: challengeParticipations.proofUrl,
+          createdAt: challengeParticipations.createdAt,
+        })
+        .from(challengeParticipations)
+        .innerJoin(challenges, eq(challengeParticipations.challengeId, challenges.id))
+        .innerJoin(users, eq(challengeParticipations.employeeId, users.id))
+        .where(
+          and(
+            eq(users.departmentId, deptId),
+            eq(challengeParticipations.approvalStatus, "pending")
+          )
+        )
+        .orderBy(desc(challengeParticipations.createdAt));
+
+      const pendingCsrApprovals = await db
+        .select({
+          id: employeeParticipations.id,
+          employeeName: users.name,
+          csrTitle: csrActivities.title,
+          proofUrl: employeeParticipations.proofUrl,
+          createdAt: employeeParticipations.createdAt,
+        })
+        .from(employeeParticipations)
+        .innerJoin(csrActivities, eq(employeeParticipations.activityId, csrActivities.id))
+        .innerJoin(users, eq(employeeParticipations.employeeId, users.id))
+        .where(
+          and(
+            eq(users.departmentId, deptId),
+            eq(employeeParticipations.approvalStatus, "pending")
+          )
+        )
+        .orderBy(desc(employeeParticipations.createdAt));
+
+      const deptAudits = await db
+        .select({ id: audits.id })
+        .from(audits)
+        .where(eq(audits.departmentId, deptId));
+
+      const deptAuditIds = deptAudits.map((a) => a.id);
+
+      let complianceList: any[] = [];
+      if (deptAuditIds.length > 0) {
+        complianceList = await db
+          .select({
+            id: complianceIssues.id,
+            description: complianceIssues.description,
+            severity: complianceIssues.severity,
+            dueDate: complianceIssues.dueDate,
+            status: complianceIssues.status,
+          })
+          .from(complianceIssues)
+          .where(sql`${complianceIssues.auditId} IN ${deptAuditIds}`)
+          .orderBy(desc(complianceIssues.createdAt));
+      }
+
+      managerStats = {
+        departmentName: deptName,
+        departmentScore,
+        departmentRank,
+        employeeCount,
+        averageXp,
+        pendingChallengeApprovals,
+        pendingCsrApprovals,
+        complianceIssues: complianceList,
+        departmentEmployees: deptEmployees,
+      };
+    }
+  }
+
   return {
     user: {
       name: userName,
@@ -358,6 +708,8 @@ export async function getDashboardData(): Promise<DashboardData> {
     recentActivities,
     topDepartments,
     pendingTasks,
+    employeeStats,
+    managerStats,
   };
 }
 
