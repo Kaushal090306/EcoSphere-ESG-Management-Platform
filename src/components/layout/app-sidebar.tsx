@@ -117,7 +117,6 @@ export function AppSidebar({ user }: { user?: { role?: string } }) {
       label: "OTHER",
       items: [
         { title: "Tasks", href: "/environmental/goals", icon: ClipboardCheck, badge: 8 },
-        { title: "Notifications", href: "/settings", icon: Bell, badge: 5 },
       ] as NavItem[],
     },
   ];
