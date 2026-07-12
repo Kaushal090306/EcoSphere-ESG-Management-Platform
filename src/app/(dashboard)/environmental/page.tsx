@@ -84,42 +84,6 @@ const sourcePieData = [
 export default function EnvironmentDashboard() {
   return (
     <div className="space-y-6 text-white bg-[#0f1016]">
-      {/* Top Header section */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div className="flex items-center gap-3">
-          {/* Green rounded leaf icon box */}
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-400">
-            <Leaf className="h-6 w-6" />
-          </div>
-          <div>
-            <div className="flex items-center gap-1 text-[11px] text-muted-foreground uppercase font-semibold tracking-wider">
-              <span>Dashboard</span>
-              <ChevronRight className="h-2.5 w-2.5" />
-              <span className="text-muted-foreground/60">Environment</span>
-            </div>
-            <h1 className="text-2xl font-bold tracking-tight mt-0.5">Environment Overview</h1>
-            <p className="text-xs text-muted-foreground">
-              Track and manage your environmental impact
-            </p>
-          </div>
-        </div>
-
-        {/* Date filter & export action */}
-        <div className="flex items-center gap-3 self-end md:self-center">
-          <div className="flex items-center gap-2 bg-[#181922] border border-[#2d2f39] rounded-xl px-3 py-1.5 text-xs text-muted-foreground font-medium">
-            <Calendar className="h-4 w-4 text-muted-foreground/80" />
-            <span>Oct 1 – Oct 31, 2024</span>
-          </div>
-          <Button 
-            onClick={() => window.print()}
-            className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs px-3 py-1.5 h-8.5 rounded-xl font-medium flex items-center gap-2 shadow-[0_0_15px_rgba(124,58,237,0.3)] transition-all cursor-pointer"
-          >
-            <Download className="h-4 w-4" />
-            <span>Export Report</span>
-          </Button>
-        </div>
-      </div>
-
       {/* Row 1: KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         

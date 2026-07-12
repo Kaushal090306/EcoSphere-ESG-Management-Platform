@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, ChevronUp, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -61,6 +61,14 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
     }
   }
 
+  const handleSortClick = (field: string) => {
+    if (sortBy === `${field}-asc`) {
+      setSortBy(`${field}-desc`);
+    } else {
+      setSortBy(`${field}-asc`);
+    }
+  };
+
   // Filtrations & Sorting
   const filteredProfiles = profiles
     .filter((p) => {
@@ -71,9 +79,11 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
     })
     .sort((a, b) => {
       if (sortBy === "name-asc") return a.productName.localeCompare(b.productName);
+      if (sortBy === "name-desc") return b.productName.localeCompare(a.productName);
       if (sortBy === "carbon-desc") return Number(b.carbonIntensity) - Number(a.carbonIntensity);
       if (sortBy === "carbon-asc") return Number(a.carbonIntensity) - Number(b.carbonIntensity);
       if (sortBy === "recyclability-desc") return Number(b.recyclability || 0) - Number(a.recyclability || 0);
+      if (sortBy === "recyclability-asc") return Number(a.recyclability || 0) - Number(b.recyclability || 0);
       return 0;
     });
 
@@ -86,10 +96,10 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
             placeholder="Search products..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs"
+            className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs"
           />
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
+          <Select value={statusFilter} onValueChange={(val) => setStatusFilter(val || "")}>
+            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
               <SelectValue placeholder="All Statuses" />
             </SelectTrigger>
             <SelectContent>
@@ -98,25 +108,14 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
               <SelectItem value="inactive">Inactive</SelectItem>
             </SelectContent>
           </Select>
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-44 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
-              <SelectValue placeholder="Sort By" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="name-asc">Product Name (A-Z)</SelectItem>
-              <SelectItem value="carbon-desc">Carbon Intensity (Highest)</SelectItem>
-              <SelectItem value="carbon-asc">Carbon Intensity (Lowest)</SelectItem>
-              <SelectItem value="recyclability-desc">Recyclability (Highest)</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
 
-        <Button onClick={() => { setEditing(null); setDialogOpen(true); }} className="gap-2">
+        <Button onClick={() => { setEditing(null); setDialogOpen(true); }} className="gap-2 rounded-lg text-xs h-9">
           <Plus className="h-4 w-4" /> Add Profile
         </Button>
       </div>
 
-      <Card className="border-[#2d2f39] bg-[#181922]">
+      <Card className="border-[#2d2f39] bg-[#181922] rounded-md overflow-hidden shadow-none">
         <CardContent className="p-0">
           {filteredProfiles.length === 0 ? (
             <EmptyState title="No product profiles found" description="Adjust search query or filter settings." />
@@ -124,9 +123,36 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-white">Product</TableHead>
-                  <TableHead className="text-white">Carbon Intensity</TableHead>
-                  <TableHead className="text-white">Recyclability</TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("name")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Product</span>
+                      {sortBy === "name-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "name-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("carbon")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Carbon Intensity</span>
+                      {sortBy === "carbon-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "carbon-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("recyclability")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Recyclability</span>
+                      {sortBy === "recyclability-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "recyclability-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
                   <TableHead className="text-white">Certifications</TableHead>
                   <TableHead className="text-white">Status</TableHead>
                   <TableHead className="w-24 text-right pr-4 text-white">Actions</TableHead>
@@ -155,37 +181,53 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
       </Card>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="bg-[#181922] border-[#2d2f39] text-white">
-          <DialogHeader><DialogTitle>{editing ? "Edit Profile" : "New Profile"}</DialogTitle></DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2"><Label>Product Name</Label><Input name="productName" defaultValue={editing?.productName || ""} className="bg-[#0f1016] border-[#2d2f39]" required /></div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2"><Label>Carbon Intensity (CO₂e/unit)</Label><Input name="carbonIntensity" defaultValue={editing?.carbonIntensity || ""} className="bg-[#0f1016] border-[#2d2f39]" required /></div>
-              <div className="space-y-2"><Label>Recyclability (%)</Label><Input name="recyclabilityPercentage" defaultValue={editing?.recyclability || ""} className="bg-[#0f1016] border-[#2d2f39]" required /></div>
+        <DialogContent className="bg-[#14151f] border border-[#2d2f39] text-white rounded-xl p-6 max-w-md">
+          <DialogHeader><DialogTitle className="text-lg font-bold text-white">{editing ? "Edit Profile" : "New Profile"}</DialogTitle></DialogHeader>
+          <form onSubmit={handleSubmit} className="space-y-4 mt-2">
+            <div className="space-y-1.5">
+              <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Product Name</Label>
+              <Input name="productName" defaultValue={editing?.productName || ""} className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
             </div>
-            <div className="space-y-2"><Label>Certifications</Label><Input name="certifications" defaultValue={editing?.certifications?.join(", ") || ""} placeholder="ISO 14001, FSC, etc." className="bg-[#0f1016] border-[#2d2f39]" /></div>
-            <div className="space-y-2">
-              <Label>Status</Label>
+            
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Carbon Intensity (CO₂e/unit)</Label>
+                <Input name="carbonIntensity" defaultValue={editing?.carbonIntensity || ""} className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Recyclability (%)</Label>
+                <Input name="recyclabilityPercentage" defaultValue={editing?.recyclability || ""} className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Certifications</Label>
+              <Input name="certifications" defaultValue={editing?.certifications?.join(", ") || ""} placeholder="ISO 14001, FSC, etc." className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" />
+            </div>
+
+            <div className="space-y-1.5">
+              <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Status</Label>
               <Select name="status" defaultValue={editing?.status || "active"}>
-                <SelectTrigger className="bg-[#0f1016] border-[#2d2f39]"><SelectValue /></SelectTrigger>
-                <SelectContent><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem></SelectContent>
+                <SelectTrigger className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-[#181922] transition-all"><SelectValue /></SelectTrigger>
+                <SelectContent className="bg-[#181922] border-[#2d2f39] text-white"><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem></SelectContent>
               </Select>
             </div>
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button>
-              <Button type="submit" disabled={loading}>{editing ? "Update" : "Create"}</Button>
+
+            <DialogFooter className="pt-2">
+              <Button type="button" variant="outline" onClick={() => setDialogOpen(false)} className="rounded-lg bg-[#222430] hover:bg-[#2c2e3c] border-transparent text-white text-xs h-9 px-4 font-semibold">Cancel</Button>
+              <Button type="submit" disabled={loading} className="rounded-lg bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs h-9 px-4 font-semibold shadow-[0_0_10px_rgba(124,58,237,0.2)]">{editing ? "Update" : "Create"}</Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
 
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-[#181922] border-[#2d2f39] text-white">
-          <DialogHeader><DialogTitle>Delete Profile</DialogTitle></DialogHeader>
-          <p className="text-sm text-muted-foreground">Delete <span className="font-medium text-white">{deleting?.productName}</span>?</p>
+        <DialogContent className="bg-[#14151f] border border-[#2d2f39] text-white rounded-xl p-6">
+          <DialogHeader><DialogTitle className="text-lg font-bold text-white">Delete Profile</DialogTitle></DialogHeader>
+          <p className="text-sm text-muted-foreground py-2">Delete <span className="font-medium text-white">{deleting?.productName}</span>?</p>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteOpen(false)}>Cancel</Button>
-            <Button variant="destructive" onClick={handleDelete} disabled={loading}>Delete</Button>
+            <Button variant="outline" onClick={() => setDeleteOpen(false)} className="rounded-lg bg-[#222430] hover:bg-[#2c2e3c] border-transparent text-white text-xs h-9 px-4 font-semibold">Cancel</Button>
+            <Button variant="destructive" onClick={handleDelete} disabled={loading} className="rounded-lg text-xs h-9 px-4 font-semibold">Delete</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

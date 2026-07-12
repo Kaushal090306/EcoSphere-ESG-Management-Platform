@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, ChevronUp, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -115,6 +115,14 @@ export function TransactionsClient({
     }
   }
 
+  const handleSortClick = (field: string) => {
+    if (sortBy === `${field}-asc`) {
+      setSortBy(`${field}-desc`);
+    } else {
+      setSortBy(`${field}-asc`);
+    }
+  };
+
   // Filtrations & Sorting
   const filteredTransactions = transactions
     .filter((t) => {
@@ -132,6 +140,14 @@ export function TransactionsClient({
       if (sortBy === "date-asc") {
         return new Date(a.date || 0).getTime() - new Date(b.date || 0).getTime();
       }
+      if (sortBy === "dept-asc") return deptName(a.departmentId).localeCompare(deptName(b.departmentId));
+      if (sortBy === "dept-desc") return deptName(b.departmentId).localeCompare(deptName(a.departmentId));
+      if (sortBy === "source-asc") return a.sourceType.localeCompare(b.sourceType);
+      if (sortBy === "source-desc") return b.sourceType.localeCompare(a.sourceType);
+      if (sortBy === "factor-asc") return factorName(a.emissionFactorId).localeCompare(factorName(b.emissionFactorId));
+      if (sortBy === "factor-desc") return factorName(b.emissionFactorId).localeCompare(factorName(a.emissionFactorId));
+      if (sortBy === "quantity-desc") return parseFloat(b.quantity) - parseFloat(a.quantity);
+      if (sortBy === "quantity-asc") return parseFloat(a.quantity) - parseFloat(b.quantity);
       if (sortBy === "co2e-desc") {
         return parseFloat(b.co2eValue) - parseFloat(a.co2eValue);
       }
@@ -150,10 +166,10 @@ export function TransactionsClient({
             placeholder="Search entries..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs"
+            className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs"
           />
-          <Select value={deptFilter} onValueChange={setDeptFilter}>
-            <SelectTrigger className="w-44 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
+          <Select value={deptFilter} onValueChange={(val) => setDeptFilter(val || "")}>
+            <SelectTrigger className="w-44 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
               <SelectValue placeholder="All Departments" />
             </SelectTrigger>
             <SelectContent>
@@ -163,8 +179,8 @@ export function TransactionsClient({
               ))}
             </SelectContent>
           </Select>
-          <Select value={sourceFilter} onValueChange={setSourceFilter}>
-            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
+          <Select value={sourceFilter} onValueChange={(val) => setSourceFilter(val || "")}>
+            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
               <SelectValue placeholder="All Sources" />
             </SelectTrigger>
             <SelectContent>
@@ -175,25 +191,14 @@ export function TransactionsClient({
               <SelectItem value="fleet">Fleet</SelectItem>
             </SelectContent>
           </Select>
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
-              <SelectValue placeholder="Sort By" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="date-desc">Date (Newest)</SelectItem>
-              <SelectItem value="date-asc">Date (Oldest)</SelectItem>
-              <SelectItem value="co2e-desc">CO₂e (Highest)</SelectItem>
-              <SelectItem value="co2e-asc">CO₂e (Lowest)</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
 
-        <Button onClick={() => { setEditing(null); setDialogOpen(true); }} className="gap-2">
+        <Button onClick={() => { setEditing(null); setDialogOpen(true); }} className="gap-2 rounded-lg text-xs h-9">
           <Plus className="h-4 w-4" /> Add Transaction
         </Button>
       </div>
 
-      <Card className="border-[#2d2f39] bg-[#181922]">
+      <Card className="border-[#2d2f39] bg-[#181922] rounded-md overflow-hidden shadow-none">
         <CardContent className="p-0">
           {filteredTransactions.length === 0 ? (
             <EmptyState title="No transactions found" description="Adjust search query or filter settings." />
@@ -201,12 +206,66 @@ export function TransactionsClient({
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-white">Date</TableHead>
-                  <TableHead className="text-white">Department</TableHead>
-                  <TableHead className="text-white">Source Type</TableHead>
-                  <TableHead className="text-white">Emission Factor</TableHead>
-                  <TableHead className="text-white">Quantity</TableHead>
-                  <TableHead className="text-right text-white">CO₂e Value</TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("date")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Date</span>
+                      {sortBy === "date-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "date-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("dept")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Department</span>
+                      {sortBy === "dept-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "dept-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("source")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Source Type</span>
+                      {sortBy === "source-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "source-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("factor")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Emission Factor</span>
+                      {sortBy === "factor-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "factor-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("quantity")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Quantity</span>
+                      {sortBy === "quantity-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "quantity-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="text-right text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("co2e")}
+                  >
+                    <div className="flex items-center gap-1.5 justify-end">
+                      <span>CO₂e Value</span>
+                      {sortBy === "co2e-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "co2e-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
                   <TableHead className="text-right text-white">Calculation</TableHead>
                   <TableHead className="w-24 text-right pr-4 text-white">Actions</TableHead>
                 </TableRow>
@@ -280,34 +339,22 @@ export function TransactionsClient({
       </Card>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-lg bg-[#181922] border-[#2d2f39] text-white">
-          <DialogHeader>
-            <DialogTitle>{editing ? "Edit Transaction" : "New Transaction"}</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <DialogContent className="max-w-lg bg-[#14151f] border border-[#2d2f39] text-white rounded-xl p-6">
+          <DialogHeader><DialogTitle className="text-lg font-bold text-white">{editing ? "Edit Transaction" : "New Transaction"}</DialogTitle></DialogHeader>
+          <form onSubmit={handleSubmit} className="space-y-4 mt-2">
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label>Department</Label>
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Department</Label>
                 <Select name="departmentId" defaultValue={editing?.departmentId || ""}>
-                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39]">
-                    <SelectValue placeholder="Select department" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {departments.map((d) => (
-                      <SelectItem key={d.id} value={d.id}>
-                        {d.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
+                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-[#181922] transition-all"><SelectValue placeholder="Select department" /></SelectTrigger>
+                  <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">{departments.map((d) => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
-              <div className="space-y-2">
-                <Label>Source Type</Label>
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Source Type</Label>
                 <Select name="sourceType" defaultValue={editing?.sourceType || "purchase"}>
-                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39]">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
+                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-[#181922] transition-all"><SelectValue /></SelectTrigger>
+                  <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">
                     <SelectItem value="purchase">Purchase</SelectItem>
                     <SelectItem value="manufacturing">Manufacturing</SelectItem>
                     <SelectItem value="expense">Expense</SelectItem>
@@ -317,105 +364,58 @@ export function TransactionsClient({
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label>Emission Factor</Label>
+            <div className="space-y-1.5">
+              <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Emission Factor</Label>
               <Select value={selectedFactorId} onValueChange={(val) => setSelectedFactorId(val || "")}>
-                <SelectTrigger className="bg-[#0f1016] border-[#2d2f39]">
-                  <SelectValue placeholder="Select emission factor" />
-                </SelectTrigger>
-                <SelectContent>
-                  {emissionFactors.map((f) => (
-                    <SelectItem key={f.id} value={f.id}>
-                      {f.name} ({f.factorValue} kgCO₂e/{f.unit})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
+                <SelectTrigger className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-[#181922] transition-all"><SelectValue placeholder="Select emission factor" /></SelectTrigger>
+                <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">{emissionFactors.map((f) => <SelectItem key={f.id} value={f.id}>{f.name} ({f.factorValue} kgCO₂e/{f.unit})</SelectItem>)}</SelectContent>
               </Select>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label>Quantity {activeFactor ? `(${activeFactor.unit})` : ""}</Label>
-                <Input
-                  type="number"
-                  step="any"
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                  className="bg-[#0f1016] border-[#2d2f39]"
-                  required
-                />
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Quantity {activeFactor ? `(${activeFactor.unit})` : ""}</Label>
+                <Input type="number" step="any" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
               </div>
-              <div className="space-y-2">
-                <Label>Date</Label>
-                <Input
-                  name="date"
-                  type="date"
-                  defaultValue={editing?.date ? new Date(editing.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0]}
-                  className="bg-[#0f1016] border-[#2d2f39]"
-                  required
-                />
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Date</Label>
+                <Input name="date" type="date" defaultValue={editing?.date ? new Date(editing.date).toISOString().split("T")[0] : new Date().toISOString().split("T")[0]} className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6]" required />
               </div>
             </div>
 
-            <div className="bg-[#0f1016] border border-[#2d2f39] rounded-2xl p-4 space-y-4">
+            <div className="bg-[#0f1016] border border-[#2d2f39] rounded-xl p-4 space-y-4">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <Label className="text-sm font-semibold">Auto-calculate CO₂e</Label>
-                  <p className="text-xs text-muted-foreground">
-                    Use factor equation instead of manual override
-                  </p>
+                  <Label className="text-xs font-semibold text-white">Auto-calculate CO₂e</Label>
+                  <p className="text-[11px] text-muted-foreground">Use factor equation instead of manual override</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={autoCalc}
-                    onChange={(e) => setAutoCalc(e.target.checked)}
-                    className="sr-only peer"
-                  />
+                  <input type="checkbox" checked={autoCalc} onChange={(e) => setAutoCalc(e.target.checked)} className="sr-only peer" />
                   <div className="w-9 h-5 bg-[#2d2f39] rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-[#88888b] after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#9B5CF6] peer-checked:after:bg-white"></div>
                 </label>
               </div>
 
-              <div className="space-y-2">
-                <Label>Calculated CO₂e Value (tonnes)</Label>
-                <Input
-                  type="number"
-                  step="any"
-                  value={currentCo2e}
-                  disabled={autoCalc}
-                  onChange={(e) => setCustomCo2e(e.target.value)}
-                  className="bg-[#181922] border-[#2d2f39]"
-                />
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Calculated CO₂e Value (tonnes)</Label>
+                <Input type="number" step="any" value={currentCo2e} disabled={autoCalc} onChange={(e) => setCustomCo2e(e.target.value)} className="bg-[#14151f] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6]" />
               </div>
             </div>
 
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
-                Cancel
-              </Button>
-              <Button type="submit" disabled={loading}>
-                {editing ? "Update" : "Create"}
-              </Button>
+            <DialogFooter className="pt-2">
+              <Button type="button" variant="outline" onClick={() => setDialogOpen(false)} className="rounded-lg bg-[#222430] hover:bg-[#2c2e3c] border-transparent text-white text-xs h-9 px-4 font-semibold">Cancel</Button>
+              <Button type="submit" disabled={loading} className="rounded-lg bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs h-9 px-4 font-semibold shadow-[0_0_10px_rgba(124,58,237,0.2)]">{editing ? "Update" : "Create"}</Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
 
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-[#181922] border-[#2d2f39] text-white">
-          <DialogHeader>
-            <DialogTitle>Delete Transaction</DialogTitle>
-          </DialogHeader>
-          <p className="text-sm text-muted-foreground">
-            Are you sure you want to delete this carbon entry?
-          </p>
+        <DialogContent className="bg-[#14151f] border border-[#2d2f39] text-white rounded-xl p-6">
+          <DialogHeader><DialogTitle className="text-lg font-bold text-white">Delete Transaction</DialogTitle></DialogHeader>
+          <p className="text-sm text-muted-foreground py-2">Are you sure you want to delete this carbon entry?</p>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteOpen(false)}>
-              Cancel
-            </Button>
-            <Button variant="destructive" onClick={handleDelete} disabled={loading}>
-              Delete
-            </Button>
+            <Button variant="outline" onClick={() => setDeleteOpen(false)} className="rounded-lg bg-[#222430] hover:bg-[#2c2e3c] border-transparent text-white text-xs h-9 px-4 font-semibold">Cancel</Button>
+            <Button variant="destructive" onClick={handleDelete} disabled={loading} className="rounded-lg text-xs h-9 px-4 font-semibold">Delete</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

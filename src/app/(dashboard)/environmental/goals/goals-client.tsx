@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, ChevronUp, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -83,6 +83,14 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
     return Math.min(Math.max(progress, 0), 100);
   };
 
+  const handleSortClick = (field: string) => {
+    if (sortBy === `${field}-asc`) {
+      setSortBy(`${field}-desc`);
+    } else {
+      setSortBy(`${field}-asc`);
+    }
+  };
+
   // Perform filtration & sorting
   const filteredGoals = goals
     .filter((g) => {
@@ -94,9 +102,17 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
     })
     .sort((a, b) => {
       if (sortBy === "title-asc") return a.title.localeCompare(b.title);
+      if (sortBy === "title-desc") return b.title.localeCompare(a.title);
+      if (sortBy === "dept-asc") return deptName(a.departmentId).localeCompare(deptName(b.departmentId));
+      if (sortBy === "dept-desc") return deptName(b.departmentId).localeCompare(deptName(a.departmentId));
+      if (sortBy === "metric-asc") return a.metric.localeCompare(b.metric);
+      if (sortBy === "metric-desc") return b.metric.localeCompare(a.metric);
       if (sortBy === "deadline-asc") return a.deadline.localeCompare(b.deadline);
       if (sortBy === "deadline-desc") return b.deadline.localeCompare(a.deadline);
       if (sortBy === "progress-desc") return getProgress(b) - getProgress(a);
+      if (sortBy === "progress-asc") return getProgress(a) - getProgress(b);
+      if (sortBy === "status-asc") return a.status.localeCompare(b.status);
+      if (sortBy === "status-desc") return b.status.localeCompare(a.status);
       return 0;
     });
 
@@ -109,10 +125,10 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
             placeholder="Search goals..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs"
+            className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs"
           />
-          <Select value={deptFilter} onValueChange={setDeptFilter}>
-            <SelectTrigger className="w-44 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
+          <Select value={deptFilter} onValueChange={(val) => setDeptFilter(val || "")}>
+            <SelectTrigger className="w-44 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
               <SelectValue placeholder="All Departments" />
             </SelectTrigger>
             <SelectContent>
@@ -122,8 +138,8 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
               ))}
             </SelectContent>
           </Select>
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
+          <Select value={statusFilter} onValueChange={(val) => setStatusFilter(val || "")}>
+            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
               <SelectValue placeholder="All Statuses" />
             </SelectTrigger>
             <SelectContent>
@@ -134,25 +150,14 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
               <SelectItem value="cancelled">Cancelled</SelectItem>
             </SelectContent>
           </Select>
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
-              <SelectValue placeholder="Sort By" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="deadline-asc">Deadline (Asc)</SelectItem>
-              <SelectItem value="deadline-desc">Deadline (Desc)</SelectItem>
-              <SelectItem value="title-asc">Title (A-Z)</SelectItem>
-              <SelectItem value="progress-desc">Progress (Highest)</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
 
-        <Button onClick={() => { setEditing(null); setDialogOpen(true); }} className="gap-2">
+        <Button onClick={() => { setEditing(null); setDialogOpen(true); }} className="gap-2 rounded-lg text-xs h-9">
           <Plus className="h-4 w-4" /> Add Goal
         </Button>
       </div>
 
-      <Card className="border-[#2d2f39] bg-[#181922]">
+      <Card className="border-[#2d2f39] bg-[#181922] rounded-md overflow-hidden shadow-none">
         <CardContent className="p-0">
           {filteredGoals.length === 0 ? (
             <EmptyState title="No goals found" description="Adjust search query or filter settings." />
@@ -160,12 +165,66 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-white">Title</TableHead>
-                  <TableHead className="text-white">Department</TableHead>
-                  <TableHead className="text-white">Metric</TableHead>
-                  <TableHead className="text-white">Progress</TableHead>
-                  <TableHead className="text-white">Deadline</TableHead>
-                  <TableHead className="text-white">Status</TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("title")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Title</span>
+                      {sortBy === "title-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "title-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("dept")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Department</span>
+                      {sortBy === "dept-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "dept-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("metric")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Metric</span>
+                      {sortBy === "metric-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "metric-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("progress")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Progress</span>
+                      {sortBy === "progress-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "progress-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("deadline")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Deadline</span>
+                      {sortBy === "deadline-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "deadline-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("status")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Status</span>
+                      {sortBy === "status-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "status-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
                   <TableHead className="w-24 text-right pr-4 text-white">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -205,41 +264,59 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
       </Card>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-lg bg-[#181922] border-[#2d2f39] text-white">
-          <DialogHeader><DialogTitle>{editing ? "Edit Goal" : "New Goal"}</DialogTitle></DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2"><Label>Title</Label><Input name="title" defaultValue={editing?.title || ""} className="bg-[#0f1016] border-[#2d2f39]" required /></div>
+        <DialogContent className="max-w-lg bg-[#14151f] border border-[#2d2f39] text-white rounded-xl p-6">
+          <DialogHeader><DialogTitle className="text-lg font-bold text-white">{editing ? "Edit Goal" : "New Goal"}</DialogTitle></DialogHeader>
+          <form onSubmit={handleSubmit} className="space-y-4 mt-2">
+            <div className="space-y-1.5">
+              <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Title</Label>
+              <Input name="title" defaultValue={editing?.title || ""} className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+            </div>
+            
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label>Department</Label>
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Department</Label>
                 <Select name="departmentId" defaultValue={editing?.departmentId || ""}>
-                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39]"><SelectValue placeholder="Select department" /></SelectTrigger>
-                  <SelectContent>{departments.map(d => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent>
+                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-[#181922] transition-all"><SelectValue placeholder="Select department" /></SelectTrigger>
+                  <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">{departments.map(d => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
-              <div className="space-y-2"><Label>Metric</Label><Input name="metric" defaultValue={editing?.metric || ""} placeholder="CO₂e tonnes" className="bg-[#0f1016] border-[#2d2f39]" required /></div>
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Metric</Label>
+                <Input name="metric" defaultValue={editing?.metric || ""} placeholder="CO₂e tonnes" className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+              </div>
             </div>
+
             <div className="grid gap-4 sm:grid-cols-3">
-              <div className="space-y-2"><Label>Baseline</Label><Input name="baselineValue" defaultValue={editing?.baselineValue || ""} className="bg-[#0f1016] border-[#2d2f39]" required /></div>
-              <div className="space-y-2"><Label>Target</Label><Input name="targetValue" defaultValue={editing?.targetValue || ""} className="bg-[#0f1016] border-[#2d2f39]" required /></div>
-              <div className="space-y-2"><Label>Current</Label><Input name="currentValue" defaultValue={editing?.currentValue || "0"} className="bg-[#0f1016] border-[#2d2f39]" /></div>
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Baseline</Label>
+                <Input name="baselineValue" defaultValue={editing?.baselineValue || ""} className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Target</Label>
+                <Input name="targetValue" defaultValue={editing?.targetValue || ""} className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Current</Label>
+                <Input name="currentValue" defaultValue={editing?.currentValue || "0"} className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" />
+              </div>
             </div>
+
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label>Deadline</Label>
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Deadline</Label>
                 <Input 
                   name="deadline" 
                   type="date" 
                   defaultValue={editing?.deadline ? new Date(editing.deadline).toISOString().split("T")[0] : ""} 
-                  className="bg-[#0f1016] border-[#2d2f39]" 
+                  className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6]" 
                   required 
                 />
               </div>
-              <div className="space-y-2">
-                <Label>Status</Label>
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Status</Label>
                 <Select name="status" defaultValue={editing?.status || "active"}>
-                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39]"><SelectValue /></SelectTrigger>
-                  <SelectContent>
+                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-[#181922] transition-all"><SelectValue /></SelectTrigger>
+                  <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">
                     <SelectItem value="active">Active</SelectItem>
                     <SelectItem value="achieved">Achieved</SelectItem>
                     <SelectItem value="missed">Missed</SelectItem>
@@ -248,21 +325,22 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
                 </Select>
               </div>
             </div>
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button>
-              <Button type="submit" disabled={loading}>{editing ? "Update" : "Create"}</Button>
+
+            <DialogFooter className="pt-2">
+              <Button type="button" variant="outline" onClick={() => setDialogOpen(false)} className="rounded-lg bg-[#222430] hover:bg-[#2c2e3c] border-transparent text-white text-xs h-9 px-4 font-semibold">Cancel</Button>
+              <Button type="submit" disabled={loading} className="rounded-lg bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs h-9 px-4 font-semibold shadow-[0_0_10px_rgba(124,58,237,0.2)]">{editing ? "Update" : "Create"}</Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
 
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-[#181922] border-[#2d2f39] text-white">
-          <DialogHeader><DialogTitle>Delete Goal</DialogTitle></DialogHeader>
-          <p className="text-sm text-muted-foreground">Delete <span className="font-medium text-white">{deleting?.title}</span>?</p>
+        <DialogContent className="bg-[#14151f] border border-[#2d2f39] text-white rounded-xl p-6">
+          <DialogHeader><DialogTitle className="text-lg font-bold text-white">Delete Goal</DialogTitle></DialogHeader>
+          <p className="text-sm text-muted-foreground py-2">Delete <span className="font-medium text-white">{deleting?.title}</span>?</p>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteOpen(false)}>Cancel</Button>
-            <Button variant="destructive" onClick={handleDelete} disabled={loading}>Delete</Button>
+            <Button variant="outline" onClick={() => setDeleteOpen(false)} className="rounded-lg bg-[#222430] hover:bg-[#2c2e3c] border-transparent text-white text-xs h-9 px-4 font-semibold">Cancel</Button>
+            <Button variant="destructive" onClick={handleDelete} disabled={loading} className="rounded-lg text-xs h-9 px-4 font-semibold">Delete</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

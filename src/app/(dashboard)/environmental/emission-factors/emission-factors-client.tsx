@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, ChevronUp, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -84,7 +84,15 @@ export function EmissionFactorsClient({ factors }: { factors: EmissionFactor[] }
     }
   }
 
-  // Filtrations & Sorting Math
+  const handleSortClick = (field: string) => {
+    if (sortBy === `${field}-asc`) {
+      setSortBy(`${field}-desc`);
+    } else {
+      setSortBy(`${field}-asc`);
+    }
+  };
+
+  // Filtrations & Sorting
   const filteredFactors = factors
     .filter((f) => {
       const matchSearch = f.name.toLowerCase().includes(search.toLowerCase()) || 
@@ -95,8 +103,15 @@ export function EmissionFactorsClient({ factors }: { factors: EmissionFactor[] }
     })
     .sort((a, b) => {
       if (sortBy === "name-asc") return a.name.localeCompare(b.name);
+      if (sortBy === "name-desc") return b.name.localeCompare(a.name);
+      if (sortBy === "source-asc") return a.sourceType.localeCompare(b.sourceType);
+      if (sortBy === "source-desc") return b.sourceType.localeCompare(a.sourceType);
+      if (sortBy === "unit-asc") return a.unit.localeCompare(b.unit);
+      if (sortBy === "unit-desc") return b.unit.localeCompare(a.unit);
       if (sortBy === "factor-desc") return Number(b.factorValue) - Number(a.factorValue);
       if (sortBy === "factor-asc") return Number(a.factorValue) - Number(b.factorValue);
+      if (sortBy === "scope-asc") return a.scope.localeCompare(b.scope);
+      if (sortBy === "scope-desc") return b.scope.localeCompare(a.scope);
       return 0;
     });
 
@@ -109,10 +124,10 @@ export function EmissionFactorsClient({ factors }: { factors: EmissionFactor[] }
             placeholder="Search factors..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs"
+            className="max-w-xs bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs"
           />
-          <Select value={sourceFilter} onValueChange={setSourceFilter}>
-            <SelectTrigger className="w-40 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
+          <Select value={sourceFilter} onValueChange={(val) => setSourceFilter(val || "")}>
+            <SelectTrigger className="w-40 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
               <SelectValue placeholder="All Sources" />
             </SelectTrigger>
             <SelectContent>
@@ -122,8 +137,8 @@ export function EmissionFactorsClient({ factors }: { factors: EmissionFactor[] }
               ))}
             </SelectContent>
           </Select>
-          <Select value={scopeFilter} onValueChange={setScopeFilter}>
-            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
+          <Select value={scopeFilter} onValueChange={(val) => setScopeFilter(val || "")}>
+            <SelectTrigger className="w-36 bg-[#181922] border-[#2d2f39] text-white rounded-lg h-9 text-xs">
               <SelectValue placeholder="All Scopes" />
             </SelectTrigger>
             <SelectContent>
@@ -133,24 +148,14 @@ export function EmissionFactorsClient({ factors }: { factors: EmissionFactor[] }
               ))}
             </SelectContent>
           </Select>
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-40 bg-[#181922] border-[#2d2f39] text-white rounded-xl h-9 text-xs">
-              <SelectValue placeholder="Sort By" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="name-asc">Name (A-Z)</SelectItem>
-              <SelectItem value="factor-desc">Factor (Highest)</SelectItem>
-              <SelectItem value="factor-asc">Factor (Lowest)</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
 
-        <Button onClick={() => { setEditing(null); setDialogOpen(true); }} className="gap-2">
-          <Plus className="h-4 w-4" /> Add Emission Factor
+        <Button onClick={() => { setEditing(null); setDialogOpen(true); }} className="gap-2 rounded-lg text-xs h-9">
+          <Plus className="h-4 w-4" /> Add Factor
         </Button>
       </div>
 
-      <Card className="border-[#2d2f39] bg-[#181922]">
+      <Card className="border-[#2d2f39] bg-[#181922] rounded-md overflow-hidden shadow-none">
         <CardContent className="p-0">
           {filteredFactors.length === 0 ? (
             <EmptyState title="No emission factors found" description="Adjust search query or filter settings." />
@@ -158,11 +163,56 @@ export function EmissionFactorsClient({ factors }: { factors: EmissionFactor[] }
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-white">Name</TableHead>
-                  <TableHead className="text-white">Source</TableHead>
-                  <TableHead className="text-white">Unit</TableHead>
-                  <TableHead className="text-white">Factor (CO₂e)</TableHead>
-                  <TableHead className="text-white">Scope</TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("name")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Name</span>
+                      {sortBy === "name-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "name-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("source")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Source</span>
+                      {sortBy === "source-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "source-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("unit")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Unit</span>
+                      {sortBy === "unit-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "unit-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("factor")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Factor (CO₂e)</span>
+                      {sortBy === "factor-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "factor-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
+                  <TableHead 
+                    className="text-white cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => handleSortClick("scope")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span>Scope</span>
+                      {sortBy === "scope-asc" && <ChevronUp className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                      {sortBy === "scope-desc" && <ChevronDown className="h-3.5 w-3.5 text-[#9B5CF6]" />}
+                    </div>
+                  </TableHead>
                   <TableHead className="text-white">Status</TableHead>
                   <TableHead className="w-24 text-right pr-4 text-white">Actions</TableHead>
                 </TableRow>
@@ -191,52 +241,65 @@ export function EmissionFactorsClient({ factors }: { factors: EmissionFactor[] }
       </Card>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="bg-[#181922] border-[#2d2f39] text-white">
-          <DialogHeader><DialogTitle>{editing ? "Edit Emission Factor" : "New Emission Factor"}</DialogTitle></DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2"><Label>Name</Label><Input name="name" defaultValue={editing?.name || ""} className="bg-[#0f1016] border-[#2d2f39]" required /></div>
+        <DialogContent className="bg-[#14151f] border border-[#2d2f39] text-white rounded-xl p-6 max-w-md">
+          <DialogHeader><DialogTitle className="text-lg font-bold text-white">{editing ? "Edit Emission Factor" : "New Emission Factor"}</DialogTitle></DialogHeader>
+          <form onSubmit={handleSubmit} className="space-y-4 mt-2">
+            <div className="space-y-1.5">
+              <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Name</Label>
+              <Input name="name" defaultValue={editing?.name || ""} className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+            </div>
+
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label>Source Type</Label>
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Source Type</Label>
                 <Select name="sourceType" defaultValue={editing?.sourceType || "fuel"}>
-                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39]"><SelectValue /></SelectTrigger>
-                  <SelectContent>{sourceTypes.map(s => <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>)}</SelectContent>
+                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-[#181922] transition-all"><SelectValue /></SelectTrigger>
+                  <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">{sourceTypes.map(s => <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
-              <div className="space-y-2">
-                <Label>Scope</Label>
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Scope</Label>
                 <Select name="scope" defaultValue={editing?.scope || "scope_1"}>
-                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39]"><SelectValue /></SelectTrigger>
-                  <SelectContent>{scopes.map(s => <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>)}</SelectContent>
+                  <SelectTrigger className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-[#181922] transition-all"><SelectValue /></SelectTrigger>
+                  <SelectContent className="bg-[#181922] border-[#2d2f39] text-white">{scopes.map(s => <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
             </div>
+
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2"><Label>Unit</Label><Input name="unit" defaultValue={editing?.unit || ""} placeholder="kWh, liters, kg" className="bg-[#0f1016] border-[#2d2f39]" required /></div>
-              <div className="space-y-2"><Label>Factor Value (CO₂e)</Label><Input name="factorValue" defaultValue={editing?.factorValue || ""} placeholder="0.000233" className="bg-[#0f1016] border-[#2d2f39]" required /></div>
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Unit</Label>
+                <Input name="unit" defaultValue={editing?.unit || ""} placeholder="kWh, liters, kg" className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Factor Value (CO₂e)</Label>
+                <Input name="factorValue" defaultValue={editing?.factorValue || ""} placeholder="0.000233" className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus-visible:ring-1 focus-visible:ring-[#9B5CF6] focus-visible:border-[#9B5CF6]" required />
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label>Status</Label>
+
+            <div className="space-y-1.5">
+              <Label className="text-[10px] text-[#8e909a] font-bold tracking-wider uppercase">Status</Label>
               <Select name="status" defaultValue={editing?.status || "active"}>
-                <SelectTrigger className="bg-[#0f1016] border-[#2d2f39]"><SelectValue /></SelectTrigger>
-                <SelectContent><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem></SelectContent>
+                <SelectTrigger className="bg-[#0f1016] border-[#2d2f39] rounded-lg h-10 text-sm text-white focus:ring-1 focus:ring-[#9B5CF6] hover:bg-[#181922] transition-all"><SelectValue /></SelectTrigger>
+                <SelectContent className="bg-[#181922] border-[#2d2f39] text-white"><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem></SelectContent>
               </Select>
             </div>
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button>
-              <Button type="submit" disabled={loading}>{editing ? "Update" : "Create"}</Button>
+
+            <DialogFooter className="pt-2">
+              <Button type="button" variant="outline" onClick={() => setDialogOpen(false)} className="rounded-lg bg-[#222430] hover:bg-[#2c2e3c] border-transparent text-white text-xs h-9 px-4 font-semibold">Cancel</Button>
+              <Button type="submit" disabled={loading} className="rounded-lg bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs h-9 px-4 font-semibold shadow-[0_0_10px_rgba(124,58,237,0.2)]">{editing ? "Update" : "Create"}</Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
 
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-[#181922] border-[#2d2f39] text-white">
-          <DialogHeader><DialogTitle>Delete Emission Factor</DialogTitle></DialogHeader>
-          <p className="text-sm text-muted-foreground">Delete <span className="font-medium text-white">{deleting?.name}</span>?</p>
+        <DialogContent className="bg-[#14151f] border border-[#2d2f39] text-white rounded-xl p-6">
+          <DialogHeader><DialogTitle className="text-lg font-bold text-white">Delete Emission Factor</DialogTitle></DialogHeader>
+          <p className="text-sm text-muted-foreground py-2">Delete <span className="font-medium text-white">{deleting?.name}</span>?</p>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteOpen(false)}>Cancel</Button>
-            <Button variant="destructive" onClick={handleDelete} disabled={loading}>Delete</Button>
+            <Button variant="outline" onClick={() => setDeleteOpen(false)} className="rounded-lg bg-[#222430] hover:bg-[#2c2e3c] border-transparent text-white text-xs h-9 px-4 font-semibold">Cancel</Button>
+            <Button variant="destructive" onClick={handleDelete} disabled={loading} className="rounded-lg text-xs h-9 px-4 font-semibold">Delete</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
