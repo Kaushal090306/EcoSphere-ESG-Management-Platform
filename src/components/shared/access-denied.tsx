@@ -34,7 +34,7 @@ export function AccessDenied() {
             href="/dashboard"
             className={cn(
               buttonVariants({ variant: "default" }),
-              "w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white flex items-center justify-center gap-2"
+              "w-full bg-[#09090b] hover:bg-[#18181b] text-white flex items-center justify-center gap-2"
             )}
           >
             <ArrowLeft className="h-4 w-4" />

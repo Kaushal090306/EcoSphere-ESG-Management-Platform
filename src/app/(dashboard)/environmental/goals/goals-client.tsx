@@ -109,10 +109,10 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
             placeholder="Search goals..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="max-w-xs bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs"
+            className="max-w-xs bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs"
           />
           <Select value={deptFilter} onValueChange={(val) => val && setDeptFilter(val)}>
-            <SelectTrigger className="w-44 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
+            <SelectTrigger className="w-44 bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="All Departments" />
             </SelectTrigger>
             <SelectContent>
@@ -123,7 +123,7 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
             </SelectContent>
           </Select>
           <Select value={statusFilter} onValueChange={(val) => val && setStatusFilter(val)}>
-            <SelectTrigger className="w-36 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
+            <SelectTrigger className="w-36 bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="All Statuses" />
             </SelectTrigger>
             <SelectContent>
@@ -135,7 +135,7 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
             </SelectContent>
           </Select>
           <Select value={sortBy} onValueChange={(val) => val && setSortBy(val)}>
-            <SelectTrigger className="w-36 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
+            <SelectTrigger className="w-36 bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="Sort By" />
             </SelectTrigger>
             <SelectContent>
@@ -160,13 +160,13 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-white">Title</TableHead>
-                  <TableHead className="text-white">Department</TableHead>
-                  <TableHead className="text-white">Metric</TableHead>
-                  <TableHead className="text-white">Progress</TableHead>
-                  <TableHead className="text-white">Deadline</TableHead>
-                  <TableHead className="text-white">Status</TableHead>
-                  <TableHead className="w-24 text-right pr-4 text-white">Actions</TableHead>
+                  <TableHead className="text-[#09090b]">Title</TableHead>
+                  <TableHead className="text-[#09090b]">Department</TableHead>
+                  <TableHead className="text-[#09090b]">Metric</TableHead>
+                  <TableHead className="text-[#09090b]">Progress</TableHead>
+                  <TableHead className="text-[#09090b]">Deadline</TableHead>
+                  <TableHead className="text-[#09090b]">Status</TableHead>
+                  <TableHead className="w-24 text-right pr-4 text-[#09090b]">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -174,7 +174,7 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
                   const progress = getProgress(g);
                   return (
                     <TableRow key={g.id}>
-                      <TableCell className="font-medium text-white">{g.title}</TableCell>
+                      <TableCell className="font-medium text-[#09090b]">{g.title}</TableCell>
                       <TableCell className="text-muted-foreground">{deptName(g.departmentId)}</TableCell>
                       <TableCell className="text-muted-foreground">{g.metric}</TableCell>
                       <TableCell>
@@ -205,7 +205,7 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
       </Card>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-lg bg-white border-[#ececee] text-white">
+        <DialogContent className="max-w-lg bg-white border-[#ececee] text-[#09090b]">
           <DialogHeader><DialogTitle>{editing ? "Edit Goal" : "New Goal"}</DialogTitle></DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2"><Label>Title</Label><Input name="title" defaultValue={editing?.title || ""} className="bg-[#f4f4f5] border-[#ececee]" required /></div>
@@ -257,9 +257,9 @@ export function GoalsClient({ goals, departments }: { goals: EnvironmentalGoal[]
       </Dialog>
 
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-white border-[#ececee] text-white">
+        <DialogContent className="bg-white border-[#ececee] text-[#09090b]">
           <DialogHeader><DialogTitle>Delete Goal</DialogTitle></DialogHeader>
-          <p className="text-sm text-muted-foreground">Delete <span className="font-medium text-white">{deleting?.title}</span>?</p>
+          <p className="text-sm text-muted-foreground">Delete <span className="font-medium text-[#09090b]">{deleting?.title}</span>?</p>
           <DialogFooter>
             <Button variant="outline" onClick={() => setDeleteOpen(false)}>Cancel</Button>
             <Button variant="destructive" onClick={handleDelete} disabled={loading}>Delete</Button>

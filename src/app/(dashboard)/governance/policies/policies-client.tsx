@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { toast } from "sonner";
@@ -143,7 +143,7 @@ export function PoliciesClient({
                 <Button
                   onClick={() => handleAcknowledge(viewing.id)}
                   disabled={loading}
-                  className="bg-[#9B5CF6] hover:bg-[#8545e0] text-white font-semibold py-1.5 px-4 rounded-md shadow-lg transition duration-200"
+                  className="bg-[#9B5CF6] hover:bg-[#8545e0] text-[#09090b] font-semibold py-1.5 px-4 rounded-md shadow-lg transition duration-200"
                 >
                   {loading ? "Acknowledging..." : "Acknowledge Policy (+5 XP)"}
                 </Button>

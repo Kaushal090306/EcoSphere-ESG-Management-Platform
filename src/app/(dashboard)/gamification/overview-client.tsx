@@ -63,7 +63,7 @@ export function OverviewClient({
           <span className="text-purple-400 text-xs font-semibold tracking-wider uppercase flex items-center gap-1">
             <Sparkles className="h-3 w-3" /> ESG Gamification Profile
           </span>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-white">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-[#09090b]">
             Welcome back, {user.name}!
           </h1>
           <p className="text-muted-foreground text-sm max-w-md">
@@ -131,7 +131,7 @@ export function OverviewClient({
         {/* Unlocked Badges Panel */}
         <Card className="border border-[#ececee] lg:col-span-1 flex flex-col">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-base text-white">
+            <CardTitle className="flex items-center gap-2 text-base text-[#09090b]">
               <Award className="h-4.5 w-4.5 text-purple-400" /> Unlocked Badges
             </CardTitle>
             <CardDescription>Milestone rewards you have collected</CardDescription>
@@ -148,7 +148,7 @@ export function OverviewClient({
                     <Star className="h-5 w-5 fill-purple-400" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-sm text-white">{badge.name}</h3>
+                    <h3 className="font-semibold text-sm text-[#09090b]">{badge.name}</h3>
                     <p className="text-xs text-muted-foreground mt-0.5">{badge.description}</p>
                     <span className="text-[10px] text-muted-foreground block mt-1.5 font-mono">
                       Unlocked {new Date(badge.unlockedAt).toLocaleDateString()}
@@ -163,7 +163,7 @@ export function OverviewClient({
         {/* XP Ledger History */}
         <Card className="border border-[#ececee] lg:col-span-2">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-base text-white">
+            <CardTitle className="flex items-center gap-2 text-base text-[#09090b]">
               <ShieldCheck className="h-4.5 w-4.5 text-eco-green" /> Transaction Ledger
             </CardTitle>
             <CardDescription>A history of your earned points and XP updates for auditing transparency</CardDescription>
@@ -185,7 +185,7 @@ export function OverviewClient({
                 <TableBody>
                   {recentTransactions.map((tx) => (
                     <TableRow key={tx.id} className="border-b border-[#ececee] hover:bg-slate-900/20">
-                      <TableCell className="font-medium text-white pl-6">
+                      <TableCell className="font-medium text-[#09090b] pl-6">
                         {reasonLabels[tx.reason] || tx.reason}
                       </TableCell>
                       <TableCell className="text-muted-foreground text-sm">
@@ -209,7 +209,7 @@ export function OverviewClient({
       {/* Chart Section */}
       <Card className="border border-[#ececee]">
         <CardHeader>
-          <CardTitle className="text-white">Quest Activity</CardTitle>
+          <CardTitle className="text-[#09090b]">Quest Activity</CardTitle>
           <CardDescription>Overview of challenge participation trends</CardDescription>
         </CardHeader>
         <CardContent>
@@ -219,7 +219,7 @@ export function OverviewClient({
               <XAxis dataKey="name" stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} />
               <YAxis stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} />
               <Tooltip
-                contentStyle={{ backgroundColor: "#181922", border: "1px solid #ececee", borderRadius: "12px", color: "#09090b" }}
+                contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #ececee", borderRadius: "12px", color: "#09090b" }}
               />
               <Bar dataKey="completedCount" radius={[4, 4, 0, 0]} barSize={35}>
                 {chartData.map((entry, index) => (

@@ -1,4 +1,4 @@
-import { getCsrActivities } from "@/actions/csr-activities";
+﻿import { getCsrActivities } from "@/actions/csr-activities";
 import { getDepartments } from "@/actions/departments";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -17,7 +17,7 @@ export default async function CsrActivitiesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-white">CSR Activities</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-[#09090b]">CSR Activities</h1>
         <p className="text-muted-foreground">
           Corporate Social Responsibility events and volunteer opportunities
         </p>
@@ -53,7 +53,7 @@ export default async function CsrActivitiesPage() {
               <TableBody>
                 {activities.map((a) => (
                   <TableRow key={a.id}>
-                    <TableCell className="font-medium text-white">{a.title}</TableCell>
+                    <TableCell className="font-medium text-[#09090b]">{a.title}</TableCell>
                     <TableCell>{deptName(a.departmentId)}</TableCell>
                     <TableCell>{a.location || "—"}</TableCell>
                     <TableCell className="text-muted-foreground">

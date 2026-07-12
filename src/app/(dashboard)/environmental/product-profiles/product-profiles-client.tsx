@@ -86,10 +86,10 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
             placeholder="Search products..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="max-w-xs bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs"
+            className="max-w-xs bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs"
           />
           <Select value={statusFilter} onValueChange={(val) => val && setStatusFilter(val)}>
-            <SelectTrigger className="w-36 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
+            <SelectTrigger className="w-36 bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="All Statuses" />
             </SelectTrigger>
             <SelectContent>
@@ -99,7 +99,7 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
             </SelectContent>
           </Select>
           <Select value={sortBy} onValueChange={(val) => val && setSortBy(val)}>
-            <SelectTrigger className="w-44 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
+            <SelectTrigger className="w-44 bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="Sort By" />
             </SelectTrigger>
             <SelectContent>
@@ -124,19 +124,19 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-white">Product</TableHead>
-                  <TableHead className="text-white">Carbon Intensity</TableHead>
-                  <TableHead className="text-white">Recyclability</TableHead>
-                  <TableHead className="text-white">Certifications</TableHead>
-                  <TableHead className="text-white">Status</TableHead>
-                  <TableHead className="w-24 text-right pr-4 text-white">Actions</TableHead>
+                  <TableHead className="text-[#09090b]">Product</TableHead>
+                  <TableHead className="text-[#09090b]">Carbon Intensity</TableHead>
+                  <TableHead className="text-[#09090b]">Recyclability</TableHead>
+                  <TableHead className="text-[#09090b]">Certifications</TableHead>
+                  <TableHead className="text-[#09090b]">Status</TableHead>
+                  <TableHead className="w-24 text-right pr-4 text-[#09090b]">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredProfiles.map(p => (
                   <TableRow key={p.id}>
-                    <TableCell className="font-medium text-white">{p.productName}</TableCell>
-                    <TableCell className="font-mono text-white">{p.carbonIntensity} CO₂e/unit</TableCell>
+                    <TableCell className="font-medium text-[#09090b]">{p.productName}</TableCell>
+                    <TableCell className="font-mono text-[#09090b]">{p.carbonIntensity} CO₂e/unit</TableCell>
                     <TableCell className="text-muted-foreground">{p.recyclability || "0"}%</TableCell>
                     <TableCell className="text-muted-foreground">{p.certifications?.join(", ") || "—"}</TableCell>
                     <TableCell><Badge variant={p.status === "active" ? "default" : "secondary"} className={p.status === "active" ? "bg-eco-green/10 text-eco-green border-eco-green/20" : ""}>{p.status}</Badge></TableCell>
@@ -155,7 +155,7 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
       </Card>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="bg-white border-[#ececee] text-white">
+        <DialogContent className="bg-white border-[#ececee] text-[#09090b]">
           <DialogHeader><DialogTitle>{editing ? "Edit Profile" : "New Profile"}</DialogTitle></DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2"><Label>Product Name</Label><Input name="productName" defaultValue={editing?.productName || ""} className="bg-[#f4f4f5] border-[#ececee]" required /></div>
@@ -180,9 +180,9 @@ export function ProductProfilesClient({ profiles }: { profiles: ProductEsgProfil
       </Dialog>
 
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-white border-[#ececee] text-white">
+        <DialogContent className="bg-white border-[#ececee] text-[#09090b]">
           <DialogHeader><DialogTitle>Delete Profile</DialogTitle></DialogHeader>
-          <p className="text-sm text-muted-foreground">Delete <span className="font-medium text-white">{deleting?.productName}</span>?</p>
+          <p className="text-sm text-muted-foreground">Delete <span className="font-medium text-[#09090b]">{deleting?.productName}</span>?</p>
           <DialogFooter>
             <Button variant="outline" onClick={() => setDeleteOpen(false)}>Cancel</Button>
             <Button variant="destructive" onClick={handleDelete} disabled={loading}>Delete</Button>

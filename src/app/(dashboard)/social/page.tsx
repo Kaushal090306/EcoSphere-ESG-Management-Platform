@@ -18,7 +18,7 @@ export default function SocialOverviewPage() {
     <div className="space-y-6">
       {/* Page Title */}
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-white">Social Overview</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-[#09090b]">Social Overview</h1>
         <p className="text-muted-foreground">
           Track and manage employee engagement, CSR activities, and diversity performance
         </p>
@@ -73,7 +73,7 @@ export default function SocialOverviewPage() {
               <XAxis dataKey="department" stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} />
               <YAxis stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} domain={[0, 100]} />
               <Tooltip
-                contentStyle={{ backgroundColor: "#181922", border: "1px solid #2A2D38", borderRadius: "12px", color: "#09090b" }}
+                contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #2A2D38", borderRadius: "12px", color: "#09090b" }}
               />
               <Bar dataKey="participation" radius={[4, 4, 0, 0]} barSize={35}>
                 {socialTrendData.map((entry, index) => (

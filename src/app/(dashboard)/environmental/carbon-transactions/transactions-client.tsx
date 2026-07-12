@@ -150,10 +150,10 @@ export function TransactionsClient({
             placeholder="Search entries..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="max-w-xs bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs"
+            className="max-w-xs bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs"
           />
           <Select value={deptFilter} onValueChange={(val) => val && setDeptFilter(val)}>
-            <SelectTrigger className="w-44 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
+            <SelectTrigger className="w-44 bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="All Departments" />
             </SelectTrigger>
             <SelectContent>
@@ -164,7 +164,7 @@ export function TransactionsClient({
             </SelectContent>
           </Select>
           <Select value={sourceFilter} onValueChange={(val) => val && setSourceFilter(val)}>
-            <SelectTrigger className="w-36 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
+            <SelectTrigger className="w-36 bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="All Sources" />
             </SelectTrigger>
             <SelectContent>
@@ -176,7 +176,7 @@ export function TransactionsClient({
             </SelectContent>
           </Select>
           <Select value={sortBy} onValueChange={(val) => val && setSortBy(val)}>
-            <SelectTrigger className="w-36 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
+            <SelectTrigger className="w-36 bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="Sort By" />
             </SelectTrigger>
             <SelectContent>
@@ -201,14 +201,14 @@ export function TransactionsClient({
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-white">Date</TableHead>
-                  <TableHead className="text-white">Department</TableHead>
-                  <TableHead className="text-white">Source Type</TableHead>
-                  <TableHead className="text-white">Emission Factor</TableHead>
-                  <TableHead className="text-white">Quantity</TableHead>
-                  <TableHead className="text-right text-white">CO₂e Value</TableHead>
-                  <TableHead className="text-right text-white">Calculation</TableHead>
-                  <TableHead className="w-24 text-right pr-4 text-white">Actions</TableHead>
+                  <TableHead className="text-[#09090b]">Date</TableHead>
+                  <TableHead className="text-[#09090b]">Department</TableHead>
+                  <TableHead className="text-[#09090b]">Source Type</TableHead>
+                  <TableHead className="text-[#09090b]">Emission Factor</TableHead>
+                  <TableHead className="text-[#09090b]">Quantity</TableHead>
+                  <TableHead className="text-right text-[#09090b]">CO₂e Value</TableHead>
+                  <TableHead className="text-right text-[#09090b]">Calculation</TableHead>
+                  <TableHead className="w-24 text-right pr-4 text-[#09090b]">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -217,7 +217,7 @@ export function TransactionsClient({
                     <TableCell className="text-muted-foreground">
                       {t.date ? new Date(t.date).toLocaleDateString() : "—"}
                     </TableCell>
-                    <TableCell className="font-medium text-white">
+                    <TableCell className="font-medium text-[#09090b]">
                       {deptName(t.departmentId)}
                     </TableCell>
                     <TableCell>
@@ -231,7 +231,7 @@ export function TransactionsClient({
                     <TableCell className="font-mono text-muted-foreground">
                       {t.quantity} {emissionFactors.find((f) => f.id === t.emissionFactorId)?.unit || ""}
                     </TableCell>
-                    <TableCell className="text-right font-mono text-white font-semibold">
+                    <TableCell className="text-right font-mono text-[#09090b] font-semibold">
                       {parseFloat(t.co2eValue).toFixed(2)} t
                     </TableCell>
                     <TableCell className="text-right">
@@ -280,7 +280,7 @@ export function TransactionsClient({
       </Card>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-lg bg-white border-[#ececee] text-white">
+        <DialogContent className="max-w-lg bg-white border-[#ececee] text-[#09090b]">
           <DialogHeader>
             <DialogTitle>{editing ? "Edit Transaction" : "New Transaction"}</DialogTitle>
           </DialogHeader>
@@ -402,7 +402,7 @@ export function TransactionsClient({
       </Dialog>
 
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-white border-[#ececee] text-white">
+        <DialogContent className="bg-white border-[#ececee] text-[#09090b]">
           <DialogHeader>
             <DialogTitle>Delete Transaction</DialogTitle>
           </DialogHeader>

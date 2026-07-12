@@ -1,4 +1,4 @@
-import { getAudits } from "@/actions/governance-items";
+﻿import { getAudits } from "@/actions/governance-items";
 import { getDepartments } from "@/actions/departments";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -27,7 +27,7 @@ export default async function AuditsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-white">Compliance Audits</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-[#09090b]">Compliance Audits</h1>
         <p className="text-muted-foreground">
           Schedule, review, and audit internal governance and ESG compliance
         </p>
@@ -62,7 +62,7 @@ export default async function AuditsPage() {
               <TableBody>
                 {audits.map((a) => (
                   <TableRow key={a.id}>
-                    <TableCell className="font-medium text-white">{a.title}</TableCell>
+                    <TableCell className="font-medium text-[#09090b]">{a.title}</TableCell>
                     <TableCell>{deptName(a.departmentId)}</TableCell>
                     <TableCell className="font-mono text-xs">{a.auditorId.substring(0, 8)}...</TableCell>
                     <TableCell className="text-muted-foreground">

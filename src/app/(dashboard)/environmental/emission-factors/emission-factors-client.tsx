@@ -110,10 +110,10 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
             placeholder="Search factors..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="max-w-xs bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs"
+            className="max-w-xs bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs"
           />
           <Select value={sourceFilter} onValueChange={(val) => val && setSourceFilter(val)}>
-            <SelectTrigger className="w-40 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
+            <SelectTrigger className="w-40 bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="All Sources" />
             </SelectTrigger>
             <SelectContent>
@@ -124,7 +124,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
             </SelectContent>
           </Select>
           <Select value={scopeFilter} onValueChange={(val) => val && setScopeFilter(val)}>
-            <SelectTrigger className="w-36 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
+            <SelectTrigger className="w-36 bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="All Scopes" />
             </SelectTrigger>
             <SelectContent>
@@ -135,7 +135,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
             </SelectContent>
           </Select>
           <Select value={sortBy} onValueChange={(val) => val && setSortBy(val)}>
-            <SelectTrigger className="w-40 bg-white border-[#ececee] text-white rounded-[14px] h-9 text-xs">
+            <SelectTrigger className="w-40 bg-white border-[#ececee] text-[#09090b] rounded-[14px] h-9 text-xs">
               <SelectValue placeholder="Sort By" />
             </SelectTrigger>
             <SelectContent>
@@ -161,22 +161,22 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-white">Name</TableHead>
-                  <TableHead className="text-white">Source</TableHead>
-                  <TableHead className="text-white">Unit</TableHead>
-                  <TableHead className="text-white">Factor (CO₂e)</TableHead>
-                  <TableHead className="text-white">Scope</TableHead>
-                  <TableHead className="text-white">Status</TableHead>
-                  {!isReadOnly && <TableHead className="w-24 text-right pr-4 text-white">Actions</TableHead>}
+                  <TableHead className="text-[#09090b]">Name</TableHead>
+                  <TableHead className="text-[#09090b]">Source</TableHead>
+                  <TableHead className="text-[#09090b]">Unit</TableHead>
+                  <TableHead className="text-[#09090b]">Factor (CO₂e)</TableHead>
+                  <TableHead className="text-[#09090b]">Scope</TableHead>
+                  <TableHead className="text-[#09090b]">Status</TableHead>
+                  {!isReadOnly && <TableHead className="w-24 text-right pr-4 text-[#09090b]">Actions</TableHead>}
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredFactors.map((f) => (
                   <TableRow key={f.id}>
-                    <TableCell className="font-medium text-white">{f.name}</TableCell>
+                    <TableCell className="font-medium text-[#09090b]">{f.name}</TableCell>
                     <TableCell className="capitalize text-muted-foreground">{f.sourceType}</TableCell>
                     <TableCell className="text-muted-foreground">{f.unit}</TableCell>
-                    <TableCell className="font-mono text-white">{f.factorValue}</TableCell>
+                    <TableCell className="font-mono text-[#09090b]">{f.factorValue}</TableCell>
                     <TableCell><Badge variant="outline" className={scopeColors[f.scope]}>{f.scope.replace("_", " ")}</Badge></TableCell>
                     <TableCell><Badge variant={f.status === "active" ? "default" : "secondary"} className={f.status === "active" ? "bg-eco-green/10 text-eco-green border-eco-green/20" : ""}>{f.status}</Badge></TableCell>
                     {!isReadOnly && (
@@ -196,7 +196,7 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
       </Card>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="bg-white border-[#ececee] text-white">
+        <DialogContent className="bg-white border-[#ececee] text-[#09090b]">
           <DialogHeader><DialogTitle>{editing ? "Edit Emission Factor" : "New Emission Factor"}</DialogTitle></DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2"><Label>Name</Label><Input name="name" defaultValue={editing?.name || ""} className="bg-[#f4f4f5] border-[#ececee]" required /></div>
@@ -236,9 +236,9 @@ export function EmissionFactorsClient({ factors, userRole }: { factors: Emission
       </Dialog>
 
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="bg-white border-[#ececee] text-white">
+        <DialogContent className="bg-white border-[#ececee] text-[#09090b]">
           <DialogHeader><DialogTitle>Delete Emission Factor</DialogTitle></DialogHeader>
-          <p className="text-sm text-muted-foreground">Delete <span className="font-medium text-white">{deleting?.name}</span>?</p>
+          <p className="text-sm text-muted-foreground">Delete <span className="font-medium text-[#09090b]">{deleting?.name}</span>?</p>
           <DialogFooter>
             <Button variant="outline" onClick={() => setDeleteOpen(false)}>Cancel</Button>
             <Button variant="destructive" onClick={handleDelete} disabled={loading}>Delete</Button>

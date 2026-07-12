@@ -1,4 +1,4 @@
-import { getComplianceIssues, getAudits } from "@/actions/governance-items";
+﻿import { getComplianceIssues, getAudits } from "@/actions/governance-items";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +16,7 @@ export default async function ComplianceIssuesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-white">Compliance Issues</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-[#09090b]">Compliance Issues</h1>
         <p className="text-muted-foreground">
           Track and resolve environmental regulations and corporate policy violations
         </p>
@@ -51,7 +51,7 @@ export default async function ComplianceIssuesPage() {
               <TableBody>
                 {issues.map((i) => (
                   <TableRow key={i.id}>
-                    <TableCell className="font-medium text-white">
+                    <TableCell className="font-medium text-[#09090b]">
                       {auditName(i.auditId)}
                     </TableCell>
                     <TableCell className="max-w-md truncate">{i.description}</TableCell>

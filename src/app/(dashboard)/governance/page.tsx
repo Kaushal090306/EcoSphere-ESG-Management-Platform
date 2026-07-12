@@ -17,7 +17,7 @@ export default function GovernanceOverviewPage() {
     <div className="space-y-6">
       {/* Page Title */}
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-white">Governance Overview</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-[#09090b]">Governance Overview</h1>
         <p className="text-muted-foreground">
           Track and manage your policy audits, compliance logs, and risk controls
         </p>
@@ -72,7 +72,7 @@ export default function GovernanceOverviewPage() {
               <XAxis dataKey="category" stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} />
               <YAxis stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} domain={[0, 100]} />
               <Tooltip
-                contentStyle={{ backgroundColor: "#181922", border: "1px solid #2A2D38", borderRadius: "12px", color: "#09090b" }}
+                contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #2A2D38", borderRadius: "12px", color: "#09090b" }}
               />
               <Bar dataKey="compliance" radius={[4, 4, 0, 0]} barSize={35}>
                 {govChartData.map((entry, index) => (
