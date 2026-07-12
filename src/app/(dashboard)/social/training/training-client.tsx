@@ -61,9 +61,9 @@ export function TrainingClient({ records, users, userRole }: any) {
   const userName = (id: string) => users.find((u: any) => u.id === id)?.name || "Unknown";
 
   return (
-    <div className="space-y-4">
+    <div className="relative space-y-4">
       {canManage && (
-        <div className="flex justify-end">
+        <div className="sm:absolute sm:-top-[49px] sm:right-0 flex justify-end">
           <Button onClick={() => { setEditing(null); setIsOpen(true); }} className="gap-2 rounded-lg text-xs h-9">
             <Plus className="h-4 w-4" /> Log Training
           </Button>
